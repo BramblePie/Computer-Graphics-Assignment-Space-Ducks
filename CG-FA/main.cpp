@@ -1,0 +1,85 @@
+#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include "glsl.h"
+
+#include "Scene.h"
+
+constexpr int WIDTH = 800, HEIGHT = 600;
+
+void RenderLoop(const float delta);
+
+GLFWwindow* CreateWindow();
+
+Scene* LoadScene();
+
+int main()
+{
+	GLFWwindow* window = CreateWindow();
+
+	Scene* scene = LoadScene();
+
+	float time = 0.0f;
+	float lastFrame = 0.0f;
+	float delta = 0.0f;
+	/* Loop until the user closes the window */
+	while (!glfwWindowShouldClose(window))
+	{
+		time = (float)glfwGetTime();
+		delta = time - lastFrame;
+		lastFrame = time;
+
+		/* Render here */
+		glClear(GL_COLOR_BUFFER_BIT);
+		scene->RenderLoop(delta);
+
+		/* Swap front and back buffers */
+		glfwSwapBuffers(window);
+
+		/* Poll for and process events */
+		glfwPollEvents();
+	}
+
+	delete scene;
+	glfwTerminate();
+	return 0;
+}
+
+GLFWwindow* CreateWindow()
+{
+	GLFWwindow* window;
+
+	/* Initialize the library */
+	if (!glfwInit())
+		return 0;
+
+	/* Create a windowed mode window and its OpenGL context */
+	window = glfwCreateWindow(WIDTH, HEIGHT, "Welcome to OpenGL", NULL, NULL);
+	if (!window)
+	{
+		glfwTerminate();
+		return 0;
+	}
+
+	// First make the window's context current
+	glfwMakeContextCurrent(window);
+	// then initialize glew
+	// Initialize glew, close program if it fails
+	if (GLEW_OK != glewInit())
+	{
+		glfwTerminate();
+		return 0;
+	}
+
+	return window;
+}
+
+Scene* LoadScene()
+{
+	Scene* scene = new Scene();
+
+	scene->entities.emplace_back();
+
+	return scene;
+}
