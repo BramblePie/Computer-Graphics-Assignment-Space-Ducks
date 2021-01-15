@@ -12,10 +12,7 @@ struct VertexArray
 	// All vertex buffer objects in this VAO
 	std::vector<unsigned int> VBOs;
 
-	// Index buffer object
-	unsigned int IBO;
-
-	size_t IndexCount;
+	size_t VertexCount;
 };
 
 class BasicEntity

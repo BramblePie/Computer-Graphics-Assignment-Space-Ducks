@@ -26,42 +26,55 @@ BasicEntity::BasicEntity()
 	std::vector<glm::vec3> vertices =
 	{
 		{ -0.5f, 0.0f, 0.0f },
+		{ 0.5f, 0.0f, 0.0f },
 		{ 0.0f, 0.5f, 0.0f },
-		{ 0.5f, 0.0f, 0.0f }
 	};
-	std::vector<unsigned int> indices = { 0, 2, 1 };
+	std::vector<glm::vec3> colors =
+	{
+		{ 1.0f, 0.0f, 0.0f },
+		{ 0.0f, 1.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f },
+	};
 	// END TODO
 
-	// Genetate 1 vertex array
+	// Generate 1 vertex array
 	glGenVertexArrays(1, &vao.ID);
 	glBindVertexArray(vao.ID);
+	vao.VertexCount = vertices.size();
 
 	// Generate new vertex buffer
 	GLuint vbo;
 	glGenBuffers(1, &vbo);
-	vao.VBOs.emplace_back(vbo);
 	// Bind position data
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER,
 				 vertices.size() * sizeof(decltype(vertices[0])),
 				 &vertices[0], GL_STATIC_DRAW);
+	vao.VBOs.emplace_back(vbo);
 
 	// Set vertex attribute position
-	int attribLoc = glGetAttribLocation(material.shader, material.POS_ATTRIB_NAME);
+	int attribLoc;
+	attribLoc = glGetAttribLocation(material.shader, material.POS_ATTRIB_NAME);
 	glEnableVertexAttribArray(attribLoc);
 	glVertexAttribPointer(attribLoc, vertices[0].length(), GL_FLOAT, GL_FALSE, 0, 0);
 
-	// Generate index buffer
-	glGenBuffers(1, &vao.IBO);
-	vao.IndexCount = indices.size();
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vao.IBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-				 indices.size() * sizeof(decltype(indices[0])),
-				 &indices[0], GL_STATIC_DRAW);
+	// Generate 1 vertex array for color
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER,
+				 colors.size() * sizeof(decltype(colors[0])),
+				 &colors[0], GL_STATIC_DRAW);
+	vao.VBOs.emplace_back(vbo);
+
+	// Set vertex color attribute
+	attribLoc = glGetAttribLocation(material.shader, material.CLR_ATTRIB_NAME);
+	glEnableVertexAttribArray(attribLoc);
+	glVertexAttribPointer(attribLoc, colors[0].length(), GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 void BasicEntity::Draw()
 {
+	glUseProgram(material.shader);
 	glBindVertexArray(vao.ID);
-	glDrawElements(GL_TRIANGLES, vao.IndexCount, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, vao.VertexCount);
 }

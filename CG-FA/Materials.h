@@ -11,6 +11,7 @@ static std::unordered_map<std::string, GLuint> SHADER_CACHE;
 struct DebugMaterial
 {
 	static constexpr const char* POS_ATTRIB_NAME = "v_pos";
+	static constexpr const char* CLR_ATTRIB_NAME = "v_color";
 
 	// Shader intended to use with this material
 	GLuint shader = 0;

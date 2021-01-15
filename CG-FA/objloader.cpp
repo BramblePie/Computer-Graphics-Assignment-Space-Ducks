@@ -26,6 +26,10 @@ bool loadOBJ(
 {
 	printf("Loading OBJ file %s...\n", path);
 
+	out_vertices.clear();
+	out_uvs.clear();
+	out_normals.clear();
+
 	std::vector<unsigned int> vertexIndices, uvIndices, normalIndices;
 	std::vector<glm::vec3> temp_vertices;
 	std::vector<glm::vec2> temp_uvs;
@@ -99,6 +103,9 @@ bool loadOBJ(
 		}
 	}
 
+	out_vertices.reserve(vertexIndices.size());
+	out_uvs.reserve(vertexIndices.size());
+	out_normals.reserve(vertexIndices.size());
 	// For each vertex of each triangle
 	for (unsigned int i = 0; i < vertexIndices.size(); i++)
 	{
