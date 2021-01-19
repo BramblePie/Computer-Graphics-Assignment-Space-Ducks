@@ -8,7 +8,7 @@ BasicEntity::BasicEntity()
 {
 	// Setup material
 	material.color = glm::vec3(0.7f, 0.1f, 0.7f);
-	if (material.shader = SHADER_CACHE["basic_entity"];
+	if (material.shader = BaseMaterial::SHADER_CACHE["basic_entity"];
 		material.shader == 0)
 	{	// Create shader if needed
 		char* vertexshader = glsl::readFile(R"(Shaders\BasicVertex.shader)");
@@ -19,7 +19,7 @@ BasicEntity::BasicEntity()
 			glsl::makeFragmentShader(fragshader));
 
 		// Cache new shader
-		SHADER_CACHE["basic_entity"] = material.shader;
+		BaseMaterial::SHADER_CACHE["basic_entity"] = material.shader;
 	}
 
 	// TODO :: parameters needed

@@ -93,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicEntity.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="glsl.h" />
     <ClInclude Include="Materials.h" />
     <ClInclude Include="objloader.h" />

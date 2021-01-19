@@ -5,10 +5,9 @@
 #include "glsl.h"
 
 #include "Scene.h"
+#include "Camera.h"
 
 constexpr int WIDTH = 800, HEIGHT = 600;
-
-void RenderLoop(const float delta);
 
 GLFWwindow* CreateWindow();
 
@@ -19,6 +18,28 @@ int main()
 	GLFWwindow* window = CreateWindow();
 
 	Scene* scene = LoadScene();
+
+	Camera cam = Camera(window);
+	cam.position.z = -1.0f;
+	cam.position.x = -1.0f;
+	cam.orientation = glm::rotate(cam.orientation, glm::radians(45.0f), { 0.0f, 1.0f, 0.0f });
+
+	glm::mat4 view = cam.GetView();
+	glm::mat4 proj = cam.GetProjection();
+
+	GLuint s = BaseMaterial::SHADER_CACHE["basic_entity"];
+	glUseProgram(s);
+	glUniformMatrix4fv(glGetUniformLocation(s, "view"), 1, GL_FALSE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(s, "projection"), 1, GL_FALSE, &proj[0][0]);
+
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR)
+	{
+		std::cout << (void*)err << std::endl;
+		throw err;
+	}
+
+	auto cam_front = cam.Front();
 
 	float time = 0.0f;
 	float lastFrame = 0.0f;

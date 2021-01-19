@@ -6,9 +6,12 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
-static std::unordered_map<std::string, GLuint> SHADER_CACHE;
+struct BaseMaterial
+{
+	static inline std::unordered_map<std::string, GLuint> SHADER_CACHE;
+};
 
-struct DebugMaterial
+struct DebugMaterial : public BaseMaterial
 {
 	static constexpr const char* POS_ATTRIB_NAME = "v_pos";
 	static constexpr const char* CLR_ATTRIB_NAME = "v_color";
