@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "BasicEntity.h"
+#include "Entities.h"
 #include "Camera.h"
 
 class Scene
@@ -18,8 +18,6 @@ public:
 	}
 
 	~Scene() = default;
-
-	std::vector<BasicEntity> entitiesold;
 
 	using ShaderEntityMap = std::unordered_map<GLuint, std::vector<BaseEntity*>>;
 	ShaderEntityMap entities;

@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include <glm/gtc/quaternion.hpp>
+
 #include "Materials.h"
 
 struct VertexArray
@@ -20,8 +22,17 @@ class BaseEntity
 public:
 	DebugMaterial material;
 
+	glm::vec3 position = glm::vec3(0.0f);
+	glm::quat orientation = glm::identity<glm::quat>();
+	glm::vec3 scale = glm::vec3(1.0f);
+
 	BaseEntity() = default;
 	virtual ~BaseEntity() {}
+
+	glm::mat4 GetModel() const
+	{
+		return glm::translate(glm::mat4(1.0f), position) * glm::mat4_cast(orientation) * glm::scale(glm::mat4(1.0f), scale);
+	}
 
 	virtual void Draw() = 0;
 
@@ -39,4 +50,13 @@ public:
 
 private:
 	VertexArray vao;
+};
+
+class DuckEntity : public BaseEntity
+{
+public:
+	DuckEntity();
+	~DuckEntity() = default;
+
+private:
 };
