@@ -8,19 +8,6 @@ BasicEntity::BasicEntity()
 {
 	// Setup material
 	material.color = glm::vec3(0.7f, 0.1f, 0.7f);
-	if (material.shader = BaseMaterial::SHADER_CACHE["debugging"];
-		material.shader == 0)
-	{	// Create shader if needed
-		char* vertexshader = glsl::readFile(R"(Shaders\BasicVertex.shader)");
-		char* fragshader = glsl::readFile(R"(Shaders\BasicFragment.shader)");
-
-		material.shader = glsl::makeShaderProgram(
-			glsl::makeVertexShader(vertexshader),
-			glsl::makeFragmentShader(fragshader));
-
-		// Cache new shader
-		BaseMaterial::SHADER_CACHE["debugging"] = material.shader;
-	}
 
 	// TODO :: parameters needed
 	std::vector<glm::vec3> vertices =
@@ -50,7 +37,7 @@ BasicEntity::BasicEntity()
 	glBufferData(GL_ARRAY_BUFFER,
 				 vertices.size() * sizeof(decltype(vertices[0])),
 				 &vertices[0], GL_STATIC_DRAW);
-	vao.VBOs.emplace_back(vbo);
+	vao.buffers.position = vbo;
 
 	// Set vertex attribute position
 	int attribLoc;
@@ -58,23 +45,23 @@ BasicEntity::BasicEntity()
 	glEnableVertexAttribArray(attribLoc);
 	glVertexAttribPointer(attribLoc, vertices[0].length(), GL_FLOAT, GL_FALSE, 0, 0);
 
-	// Generate 1 vertex array for color
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER,
-				 colors.size() * sizeof(decltype(colors[0])),
-				 &colors[0], GL_STATIC_DRAW);
-	vao.VBOs.emplace_back(vbo);
+	//// Generate 1 vertex array for color
+	//glGenBuffers(1, &vbo);
+	//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	//glBufferData(GL_ARRAY_BUFFER,
+	//			 colors.size() * sizeof(decltype(colors[0])),
+	//			 &colors[0], GL_STATIC_DRAW);
+	//vao.buffers.(vbo);
 
-	// Set vertex color attribute
-	attribLoc = glGetAttribLocation(material.shader, material.CLR_ATTRIB_NAME);
-	glEnableVertexAttribArray(attribLoc);
-	glVertexAttribPointer(attribLoc, colors[0].length(), GL_FLOAT, GL_FALSE, 0, 0);
+	//// Set vertex color attribute
+	//attribLoc = glGetAttribLocation(material.shader, material.CLR_ATTRIB_NAME);
+	//glEnableVertexAttribArray(attribLoc);
+	//glVertexAttribPointer(attribLoc, colors[0].length(), GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 void BasicEntity::Draw()
 {
-	glUseProgram(material.shader);
+	glUniform3fv(1, 1, &material.color[0]);
 	glBindVertexArray(vao.ID);
 	glDrawArrays(GL_TRIANGLES, 0, vao.VertexCount);
 }

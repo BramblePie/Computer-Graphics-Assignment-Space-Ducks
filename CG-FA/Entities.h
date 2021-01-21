@@ -6,15 +6,30 @@
 
 #include "Materials.h"
 
+struct VertexBuffers
+{
+	unsigned int position, uv, normal;
+};
+
 struct VertexArray
 {
 	// Vertex array object ID
 	unsigned int ID = 0;
 
 	// All vertex buffer objects in this VAO
-	std::vector<unsigned int> VBOs;
+	union
+	{
+		VertexBuffers buffers;
+		unsigned int vbos[3];
+	};
 
 	size_t VertexCount = 0;
+
+	~VertexArray()
+	{
+		glDeleteBuffers(3, vbos);
+		glDeleteVertexArrays(1, &ID);
+	}
 };
 
 class BaseEntity
@@ -36,6 +51,9 @@ public:
 
 	virtual void Draw() = 0;
 
+protected:
+	VertexArray vao;
+
 private:
 };
 
@@ -47,16 +65,6 @@ public:
 
 	// Inherited via BaseEntity
 	virtual void Draw() override;
-
-private:
-	VertexArray vao;
-};
-
-class DuckEntity : public BaseEntity
-{
-public:
-	DuckEntity();
-	~DuckEntity() = default;
 
 private:
 };

@@ -6,6 +6,7 @@
 
 #include "Scene.h"
 #include "Camera.h"
+#include "DuckEntity.h"
 
 constexpr int WIDTH = 800, HEIGHT = 600;
 
@@ -22,13 +23,6 @@ int main()
 
 	Scene* scene = LoadScene();
 
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR)
-	{
-		std::cout << (void*)err << std::endl;
-		throw err;
-	}
-
 	//auto cam_front = cam.Front();
 
 	float time = 0.0f;
@@ -44,6 +38,13 @@ int main()
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 		scene->RenderLoop(delta);
+
+		GLenum err;
+		while ((err = glGetError()) != GL_NO_ERROR)
+		{
+			std::cout << (void*)err << std::endl;
+			//throw err;
+		}
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
@@ -90,9 +91,10 @@ Scene* LoadScene()
 {
 	Scene* scene = new Scene(window);
 
-	BasicEntity* basic = new BasicEntity();
-
-	scene->entities[basic->material.shader].push_back(basic);
+	//BasicEntity* basic = new BasicEntity();
+	//scene->entities[basic->material.shader].push_back(basic);
+	DuckEntity* duck = new DuckEntity();
+	scene->entities[duck->material.shader].push_back(duck);
 
 	return scene;
 }

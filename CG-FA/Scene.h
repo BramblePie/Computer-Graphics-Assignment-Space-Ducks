@@ -17,7 +17,12 @@ public:
 		camera.orientation = glm::rotate(camera.orientation, glm::radians(45.0f), WORLD::UP);
 	}
 
-	~Scene() = default;
+	~Scene()
+	{
+		for (auto& s : entities)
+			for (BaseEntity* e : s.second)
+				delete e;
+	}
 
 	using ShaderEntityMap = std::unordered_map<GLuint, std::vector<BaseEntity*>>;
 	ShaderEntityMap entities;

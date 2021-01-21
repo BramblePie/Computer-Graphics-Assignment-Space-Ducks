@@ -5,6 +5,7 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+#include "glsl.h"
 
 struct BaseMaterial
 {
@@ -14,6 +15,8 @@ struct BaseMaterial
 struct DebugMaterial : public BaseMaterial
 {
 	static constexpr const char* POS_ATTRIB_NAME = "v_pos";
+	static constexpr const char* NORMAL_ATTRIB_NAME = "v_normal";
+	static constexpr const char* UV_ATTRIB_NAME = "v_uv";
 	static constexpr const char* CLR_ATTRIB_NAME = "v_color";
 
 	// Shader intended to use with this material
@@ -22,5 +25,20 @@ struct DebugMaterial : public BaseMaterial
 	static constexpr const char* MAT_COLOR = "u_color";
 	glm::vec3 color = glm::vec3(1.0f);
 
-	DebugMaterial() = default;
+	DebugMaterial()
+	{
+		if (shader = BaseMaterial::SHADER_CACHE["debugging"];
+			shader == 0)
+		{	// Create shader if needed
+			char* vertexshader = glsl::readFile(R"(Shaders\BasicVertex.shader)");
+			char* fragshader = glsl::readFile(R"(Shaders\BasicFragment.shader)");
+
+			shader = glsl::makeShaderProgram(
+				glsl::makeVertexShader(vertexshader),
+				glsl::makeFragmentShader(fragshader));
+
+			// Cache new shader
+			BaseMaterial::SHADER_CACHE["debugging"] = shader;
+		}
+	}
 };
