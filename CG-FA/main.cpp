@@ -9,28 +9,18 @@
 
 constexpr int WIDTH = 800, HEIGHT = 600;
 
+// Main window
+GLFWwindow* window = 0;
+
 GLFWwindow* CreateWindow();
 
 Scene* LoadScene();
 
 int main()
 {
-	GLFWwindow* window = CreateWindow();
+	window = CreateWindow();
 
 	Scene* scene = LoadScene();
-
-	Camera cam = Camera(window);
-	cam.position.z = -1.0f;
-	cam.position.x = -1.0f;
-	cam.orientation = glm::rotate(cam.orientation, glm::radians(45.0f), { 0.0f, 1.0f, 0.0f });
-
-	glm::mat4 view = cam.GetView();
-	glm::mat4 proj = cam.GetProjection();
-
-	GLuint s = BaseMaterial::SHADER_CACHE["basic_entity"];
-	glUseProgram(s);
-	glUniformMatrix4fv(glGetUniformLocation(s, "view"), 1, GL_FALSE, &view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(s, "projection"), 1, GL_FALSE, &proj[0][0]);
 
 	GLenum err;
 	while ((err = glGetError()) != GL_NO_ERROR)
@@ -39,7 +29,7 @@ int main()
 		throw err;
 	}
 
-	auto cam_front = cam.Front();
+	//auto cam_front = cam.Front();
 
 	float time = 0.0f;
 	float lastFrame = 0.0f;
@@ -69,22 +59,22 @@ int main()
 
 GLFWwindow* CreateWindow()
 {
-	GLFWwindow* window;
+	GLFWwindow* win;
 
 	/* Initialize the library */
 	if (!glfwInit())
 		return 0;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(WIDTH, HEIGHT, "Welcome to OpenGL", NULL, NULL);
-	if (!window)
+	win = glfwCreateWindow(WIDTH, HEIGHT, "Welcome to OpenGL", NULL, NULL);
+	if (!win)
 	{
 		glfwTerminate();
 		return 0;
 	}
 
 	// First make the window's context current
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(win);
 	// then initialize glew
 	// Initialize glew, close program if it fails
 	if (GLEW_OK != glewInit())
@@ -93,14 +83,16 @@ GLFWwindow* CreateWindow()
 		return 0;
 	}
 
-	return window;
+	return win;
 }
 
 Scene* LoadScene()
 {
-	Scene* scene = new Scene();
+	Scene* scene = new Scene(window);
 
-	scene->entities.emplace_back();
+	BasicEntity* basic = new BasicEntity();
+
+	scene->entities[basic->material.shader].push_back(basic);
 
 	return scene;
 }

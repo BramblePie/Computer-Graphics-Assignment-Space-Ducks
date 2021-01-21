@@ -24,14 +24,16 @@ public:
 	{
 		int width, heigth;
 		glfwGetWindowSize(window, &width, &heigth);
-		return glm::perspective(GetFOV(), static_cast<float>(width) / static_cast<float>(heigth), 0.01f, 100.0f);
+		return glm::perspective(fov, static_cast<float>(width) / static_cast<float>(heigth), 0.01f, 100.0f);
 	}
 
+	// Gets field of view in degrees
 	float GetFOV() const
 	{
-		return fov;
+		return glm::degrees(fov);
 	}
 
+	// Sets field of view in degrees
 	void SetFOV(float degrees)
 	{
 		fov = glm::radians(degrees);
@@ -56,5 +58,5 @@ private:
 	GLFWwindow* window;
 
 	// Field of view in radians
-	float fov = glm::radians(60.0f);
+	float fov;
 };
