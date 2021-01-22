@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Entities.h"
+#include "BaseEntity.h"
 
 class DuckEntity : public BaseEntity
 {

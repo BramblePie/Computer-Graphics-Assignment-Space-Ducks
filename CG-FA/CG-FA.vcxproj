@@ -86,15 +86,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="DuckEntity.cpp" />
-    <ClCompile Include="Entities.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="DuckEntity.h" />
-    <ClInclude Include="Entities.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="glsl.h" />

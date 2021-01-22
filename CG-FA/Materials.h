@@ -14,10 +14,13 @@ struct BaseMaterial
 	// Shader intended to use with this material
 	GLuint shader = 0;
 
+	// Bind all properties of this material to the currently bound shader
 	void Bind() const
 	{
+		// Check if this material is already bound
 		if (CURR_MAT == this)
 			return;
+		// Only bind unbound material
 		bind();
 		CURR_MAT = this;
 	}

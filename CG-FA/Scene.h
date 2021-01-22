@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "Entities.h"
+#include "BaseEntity.h"
 #include "Camera.h"
 
 class Scene

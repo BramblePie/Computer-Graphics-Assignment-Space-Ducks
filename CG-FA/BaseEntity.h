@@ -1,7 +1,6 @@
 #pragma once
 
-#include <vector>
-
+#include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
 #include "Materials.h"
@@ -25,11 +24,7 @@ struct VertexArray
 
 	size_t VertexCount = 0;
 
-	~VertexArray()
-	{
-		glDeleteBuffers(3, vbos);
-		glDeleteVertexArrays(1, &ID);
-	}
+	~VertexArray();
 };
 
 class BaseEntity
@@ -45,10 +40,14 @@ public:
 	glm::quat orientation = glm::identity<glm::quat>();
 	glm::vec3 scale = glm::vec3(1.0f);
 
-	BaseEntity() = default;
+	/// <summary>
+	/// Base constructor for an Entity object
+	/// </summary>
+	/// <param name="uniqueStr">Either file path to 3D model or a unique name</param>
+	BaseEntity(const char* uniqueStr);
 	virtual ~BaseEntity() {}
 
-	glm::mat4 GetModel() const
+	inline glm::mat4 GetModel() const
 	{
 		return glm::translate(glm::mat4(1.0f), position) * glm::mat4_cast(orientation) * glm::scale(glm::mat4(1.0f), scale);
 	}
@@ -57,18 +56,6 @@ public:
 
 protected:
 	VertexArray vao;
-
-private:
-};
-
-class BasicEntity : public BaseEntity
-{
-public:
-	BasicEntity();
-	~BasicEntity() = default;
-
-	// Inherited via BaseEntity
-	virtual void Draw() override;
 
 private:
 };
