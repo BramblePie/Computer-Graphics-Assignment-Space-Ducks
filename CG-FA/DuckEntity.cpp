@@ -5,7 +5,7 @@
 DuckEntity::DuckEntity()
 	: BaseEntity(R"(C:\Users\bramp\Desktop\duck\duck.obj)", init_material()), material(default_mat)
 {
-	material->color = { 0.7f, 0.1f, 0.7f };
+	material->color = { 0.9f, 0.2f, 0.8f };
 }
 
 const BaseMaterial* DuckEntity::init_material()
