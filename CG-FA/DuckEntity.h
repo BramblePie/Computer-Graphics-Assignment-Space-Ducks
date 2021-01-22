@@ -5,10 +5,16 @@
 class DuckEntity : public BaseEntity
 {
 public:
+	using DuckMaterial = DebugMaterial;
+
 	DuckEntity();
-	~DuckEntity() = default;
+
+	std::shared_ptr<DuckMaterial> material = default_mat;
 
 private:
+	static inline std::shared_ptr<DuckMaterial> default_mat;
+
+	const BaseMaterial* init_material();
 
 	// Inherited via BaseEntity
 	virtual void draw() override;

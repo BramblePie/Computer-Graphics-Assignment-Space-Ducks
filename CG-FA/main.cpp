@@ -93,13 +93,13 @@ Scene* LoadScene()
 	Scene* scene = new Scene(window);
 
 	DuckEntity* duck = new DuckEntity();
-	scene->entities[duck->material.shader].emplace_back(duck);
+	scene->entities[duck->material->shader].emplace_back(duck);
 
 	DuckEntity* right_duck = new DuckEntity();
-	scene->entities[right_duck->material.shader].emplace_back(right_duck);
+	scene->entities[right_duck->material->shader].emplace_back(right_duck);
 
-	right_duck->material = DebugMaterial(right_duck->material);
-	right_duck->material.color = glm::vec3(0.2f, 0.2f, 0.8f);
+	right_duck->material = std::make_shared<DuckEntity::DuckMaterial>(*duck->material);
+	right_duck->material->color = glm::vec3(0.2f, 0.2f, 0.8f);
 	right_duck->position.x += 0.5f;
 
 	return scene;
