@@ -17,14 +17,7 @@ public:
 		camera.orientation = glm::rotate(camera.orientation, glm::radians(180.0f), WORLD::UP);
 	}
 
-	~Scene()
-	{
-		for (auto& s : entities)
-			for (BaseEntity* e : s.second)
-				delete e;
-	}
-
-	using ShaderEntityMap = std::unordered_map<GLuint, std::vector<BaseEntity*>>;
+	using ShaderEntityMap = std::unordered_map<GLuint, std::vector<std::unique_ptr<BaseEntity>>>;
 	ShaderEntityMap entities;
 
 	Camera camera;
@@ -42,7 +35,7 @@ public:
 			glUniformMatrix4fv(glGetUniformLocation(shader_slot.first, "u_projection"),
 							   1, GL_FALSE, &camera.GetProjection()[0][0]);
 			// Draw each entity belonging to this shader
-			for (BaseEntity* entity : shader_slot.second)
+			for (auto& entity : shader_slot.second)
 				entity->Draw();
 		}
 	}

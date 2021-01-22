@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
@@ -48,7 +50,9 @@ public:
 	BaseEntity(const char* uniqueStr);
 	virtual ~BaseEntity()
 	{
-		BUFFER_CACHE.erase(unique_key);
+		// Only remove vertex array it isnt going to be used anymore
+		if (BUFFER_CACHE[unique_key].use_count() <= 2)
+			BUFFER_CACHE.erase(unique_key);
 	}
 
 	inline glm::mat4 GetModel() const
@@ -56,18 +60,13 @@ public:
 		return glm::translate(glm::mat4(1.0f), position) * glm::mat4_cast(orientation) * glm::scale(glm::mat4(1.0f), scale);
 	}
 
-	void Draw()
-	{
-		glUniformMatrix4fv(glGetUniformLocation(material.shader, MODEL_UNIFORM_NAME),
-						   1, GL_FALSE, &GetModel()[0][0]);
-		draw();
-	}
+	void Draw();
 
 protected:
-	static inline std::unordered_map<std::string, const VertexArray*> BUFFER_CACHE;
+	static inline std::unordered_map<std::string, std::shared_ptr<VertexArray>> BUFFER_CACHE;
 
 	const std::string unique_key;
-	VertexArray vao;
+	std::shared_ptr<VertexArray> vao;
 
 	virtual void draw() = 0;
 private:

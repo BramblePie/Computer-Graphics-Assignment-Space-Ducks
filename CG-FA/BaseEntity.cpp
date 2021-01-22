@@ -15,17 +15,18 @@ BaseEntity::BaseEntity(const char* uniqueStr)
 		std::vector<glm::vec3> normals;
 		loadOBJ(uniqueStr, vertices, uvs, normals);
 
-		glGenVertexArrays(1, &vao.ID);
-		glBindVertexArray(vao.ID);
+		vao = std::make_shared<VertexArray>();
+		glGenVertexArrays(1, &vao->ID);
+		glBindVertexArray(vao->ID);
 
-		vao.VertexCount = vertices.size();
+		vao->VertexCount = vertices.size();
 		int attribLoc;
 
 		// Generate 3 buffers for position, uv and normal
-		glGenBuffers(3, vao.vbos);
+		glGenBuffers(3, vao->vbos);
 
 		// Bind position buffer
-		glBindBuffer(GL_ARRAY_BUFFER, vao.buffers.position);
+		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.position);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
 		// Set vertex attribute for position
 		attribLoc = glGetAttribLocation(material.shader, POS_ATTRIB_NAME);
@@ -36,7 +37,7 @@ BaseEntity::BaseEntity(const char* uniqueStr)
 		}
 
 		// Bind normal buffer
-		glBindBuffer(GL_ARRAY_BUFFER, vao.buffers.normal);
+		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.normal);
 		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 		// Set vertex attribute for normal
 		attribLoc = glGetAttribLocation(material.shader, NORMAL_ATTRIB_NAME);
@@ -47,7 +48,7 @@ BaseEntity::BaseEntity(const char* uniqueStr)
 		}
 
 		// Bind uv buffer
-		glBindBuffer(GL_ARRAY_BUFFER, vao.buffers.uv);
+		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.uv);
 		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 		// Set vertex attribe for uv
 		attribLoc = glGetAttribLocation(material.shader, UV_ATTRIB_NAME);
@@ -57,12 +58,19 @@ BaseEntity::BaseEntity(const char* uniqueStr)
 			glVertexAttribPointer(attribLoc, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		}
 
-		BUFFER_CACHE[unique_key] = &vao;
+		BUFFER_CACHE[unique_key] = vao;
 	}
 	else
-		vao = *BUFFER_CACHE[unique_key];
+		vao = BUFFER_CACHE[unique_key];
 
 	std::cout << "Entity constructed from " << uniqueStr;
+}
+
+void BaseEntity::Draw()
+{
+	glUniformMatrix4fv(glGetUniformLocation(material.shader, MODEL_UNIFORM_NAME),
+					   1, GL_FALSE, &GetModel()[0][0]);
+	draw();
 }
 
 inline VertexArray::~VertexArray()

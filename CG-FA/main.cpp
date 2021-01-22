@@ -55,7 +55,7 @@ int main()
 	glfwTerminate();
 
 	// Wait before exiting
-	system("pause");
+	//system("pause");
 	return 0;
 }
 
@@ -93,11 +93,14 @@ Scene* LoadScene()
 	Scene* scene = new Scene(window);
 
 	DuckEntity* duck = new DuckEntity();
-	DuckEntity* another_duck = new DuckEntity();
-	scene->entities[duck->material.shader].push_back(duck);
-	scene->entities[another_duck->material.shader].push_back(another_duck);
+	scene->entities[duck->material.shader].emplace_back(duck);
 
-	another_duck->position.x += 0.5f;
+	DuckEntity* right_duck = new DuckEntity();
+	scene->entities[right_duck->material.shader].emplace_back(right_duck);
+
+	right_duck->material = DebugMaterial(right_duck->material);
+	right_duck->material.color = glm::vec3(0.2f, 0.2f, 0.8f);
+	right_duck->position.x += 0.5f;
 
 	return scene;
 }
