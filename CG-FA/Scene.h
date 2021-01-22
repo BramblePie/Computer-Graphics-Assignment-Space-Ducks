@@ -12,9 +12,9 @@ class Scene
 public:
 	Scene(GLFWwindow* window) : camera(window)
 	{
-		camera.position.z = -1.0f;
-		camera.position.x = -1.0f;
-		camera.orientation = glm::rotate(camera.orientation, glm::radians(45.0f), WORLD::UP);
+		camera.position.z = 1.0f;
+		camera.position.y = .5f;
+		camera.orientation = glm::rotate(camera.orientation, glm::radians(180.0f), WORLD::UP);
 	}
 
 	~Scene()

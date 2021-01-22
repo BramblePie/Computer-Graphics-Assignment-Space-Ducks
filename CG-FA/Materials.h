@@ -10,26 +10,36 @@
 struct BaseMaterial
 {
 	static inline std::unordered_map<std::string, GLuint> SHADER_CACHE;
-};
-
-struct DebugMaterial : public BaseMaterial
-{
-	static constexpr const char* POS_ATTRIB_NAME = "v_pos";
-	static constexpr const char* NORMAL_ATTRIB_NAME = "v_normal";
-	static constexpr const char* UV_ATTRIB_NAME = "v_uv";
-	static constexpr const char* CLR_ATTRIB_NAME = "v_color";
 
 	// Shader intended to use with this material
 	GLuint shader = 0;
 
+	void Bind() const
+	{
+		if (CURR_MAT == this)
+			return;
+		bind();
+		CURR_MAT = this;
+	}
+
+protected:
+	virtual void bind() const = 0;
+
+private:
+	// Currently bound material
+	static inline const BaseMaterial* CURR_MAT = 0;
+};
+
+struct DebugMaterial : public BaseMaterial
+{
 	static constexpr const char* MAT_COLOR = "u_color";
-	glm::vec3 color = glm::vec3(1.0f);
+	glm::vec3 color = { 0.7f, 0.1f, 0.7f };
 
 	DebugMaterial()
 	{
 		if (shader = BaseMaterial::SHADER_CACHE["debugging"];
 			shader == 0)
-		{	// Create shader if needed
+		{	// Create debug shader if needed
 			char* vertexshader = glsl::readFile(R"(Shaders\BasicVertex.shader)");
 			char* fragshader = glsl::readFile(R"(Shaders\BasicFragment.shader)");
 
@@ -37,8 +47,15 @@ struct DebugMaterial : public BaseMaterial
 				glsl::makeVertexShader(vertexshader),
 				glsl::makeFragmentShader(fragshader));
 
-			// Cache new shader
+			// Cache new debug shader
 			BaseMaterial::SHADER_CACHE["debugging"] = shader;
 		}
+	}
+
+private:
+	// Inherited via BaseMaterial
+	virtual void bind() const override
+	{
+		glUniform3fv(glGetUniformLocation(shader, MAT_COLOR), 1, &color[0]);
 	}
 };

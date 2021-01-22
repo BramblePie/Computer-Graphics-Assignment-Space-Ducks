@@ -41,7 +41,7 @@ BasicEntity::BasicEntity()
 
 	// Set vertex attribute position
 	int attribLoc;
-	attribLoc = glGetAttribLocation(material.shader, material.POS_ATTRIB_NAME);
+	attribLoc = glGetAttribLocation(material.shader, POS_ATTRIB_NAME);
 	glEnableVertexAttribArray(attribLoc);
 	glVertexAttribPointer(attribLoc, vertices[0].length(), GL_FLOAT, GL_FALSE, 0, 0);
 
@@ -61,7 +61,7 @@ BasicEntity::BasicEntity()
 
 void BasicEntity::Draw()
 {
-	glUniform3fv(1, 1, &material.color[0]);
+	material.Bind();
 	glBindVertexArray(vao.ID);
 	glDrawArrays(GL_TRIANGLES, 0, vao.VertexCount);
 }

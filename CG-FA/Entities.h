@@ -35,6 +35,10 @@ struct VertexArray
 class BaseEntity
 {
 public:
+	static constexpr const char* POS_ATTRIB_NAME = "v_pos";
+	static constexpr const char* NORMAL_ATTRIB_NAME = "v_normal";
+	static constexpr const char* UV_ATTRIB_NAME = "v_uv";
+
 	DebugMaterial material;
 
 	glm::vec3 position = glm::vec3(0.0f);
