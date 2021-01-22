@@ -23,8 +23,6 @@ int main()
 
 	Scene* scene = LoadScene();
 
-	//auto cam_front = cam.Front();
-
 	float time = 0.0f;
 	float lastFrame = 0.0f;
 	float delta = 0.0f;
@@ -43,7 +41,7 @@ int main()
 		while ((err = glGetError()) != GL_NO_ERROR)
 		{
 			std::cout << (void*)err << std::endl;
-			//throw err;
+			throw err;
 		}
 
 		/* Swap front and back buffers */
@@ -55,6 +53,9 @@ int main()
 
 	delete scene;
 	glfwTerminate();
+
+	// Wait before exiting
+	system("pause");
 	return 0;
 }
 
@@ -91,10 +92,12 @@ Scene* LoadScene()
 {
 	Scene* scene = new Scene(window);
 
-	//BasicEntity* basic = new BasicEntity();
-	//scene->entities[basic->material.shader].push_back(basic);
 	DuckEntity* duck = new DuckEntity();
+	DuckEntity* another_duck = new DuckEntity();
 	scene->entities[duck->material.shader].push_back(duck);
+	scene->entities[another_duck->material.shader].push_back(another_duck);
+
+	another_duck->position.x += 0.5f;
 
 	return scene;
 }

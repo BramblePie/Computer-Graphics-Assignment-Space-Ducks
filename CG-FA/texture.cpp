@@ -21,7 +21,12 @@ GLuint loadBMP(const char* imagepath)
 	// Open the file
 	FILE* file;
 	fopen_s(&file, imagepath, "rb");
-	if (!file) { printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar(); return 0; }
+	if (!file)
+	{
+		printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath);
+		//getchar();
+		return 0;
+	}
 
 	// Read the header, i.e. the 54 first bytes
 
@@ -119,12 +124,13 @@ GLuint loadDDS(const char* imagepath)
 	fopen_s(&fp, imagepath, "rb");
 	if (fp == NULL)
 	{
-		printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath); getchar();
+		printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", imagepath);
+		//getchar();
 		return 0;
 	}
 
 	/* verify the type of file */
-	char filecode[4];
+	char filecode[4]{};
 	fread(filecode, 1, 4, fp);
 	if (strncmp(filecode, "DDS ", 4) != 0)
 	{

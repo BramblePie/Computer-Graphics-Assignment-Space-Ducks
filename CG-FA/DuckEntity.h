@@ -11,5 +11,5 @@ public:
 private:
 
 	// Inherited via BaseEntity
-	virtual void Draw() override;
+	virtual void draw() override;
 };

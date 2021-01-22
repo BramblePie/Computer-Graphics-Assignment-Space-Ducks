@@ -7,7 +7,7 @@ DuckEntity::DuckEntity()
 {
 }
 
-void DuckEntity::Draw()
+void DuckEntity::draw()
 {
 	material.Bind();
 	glBindVertexArray(vao.ID);
