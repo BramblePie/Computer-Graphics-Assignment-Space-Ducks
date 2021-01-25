@@ -9,7 +9,7 @@ public:
 
 	DuckEntity();
 
-	std::shared_ptr<DuckMaterial> material = default_mat;
+	std::shared_ptr<DuckMaterial> material;
 
 private:
 	static inline std::shared_ptr<DuckMaterial> default_mat;

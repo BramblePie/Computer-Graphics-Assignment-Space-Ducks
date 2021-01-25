@@ -34,7 +34,7 @@ int main()
 		lastFrame = time;
 
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		scene->RenderLoop(delta);
 
 		GLenum err;
@@ -92,11 +92,9 @@ Scene* LoadScene()
 {
 	Scene* scene = new Scene(window);
 
-	DuckEntity* duck = new DuckEntity();
-	scene->entities[duck->material->shader].emplace_back(duck);
+	DuckEntity* duck = scene->AddEntity(new DuckEntity());
 
-	DuckEntity* right_duck = new DuckEntity();
-	scene->entities[right_duck->material->shader].emplace_back(right_duck);
+	DuckEntity* right_duck = scene->AddEntity(new DuckEntity());
 
 	right_duck->material = std::make_shared<DuckEntity::DuckMaterial>(*duck->material);
 	right_duck->material->color = glm::vec3(0.3f, 0.2f, 0.99f);

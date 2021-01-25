@@ -22,6 +22,13 @@ public:
 
 	Camera camera;
 
+	// Add an entity to the scene, and echo the added entity
+	template<class EntityType>
+	EntityType* AddEntity(EntityType* entity)
+	{
+		return static_cast<EntityType*>(entities[entity->GetMaterial()->shader].emplace_back(entity).get());
+	}
+
 	void RenderLoop(const float delta)
 	{
 		// Draw all entities per shader

@@ -49,7 +49,9 @@ public:
 
 	virtual ~BaseEntity();
 
-	inline glm::mat4 GetModel() const;
+	glm::mat4 GetModel() const;
+
+	const BaseMaterial* GetMaterial() const;
 
 	void Draw();
 

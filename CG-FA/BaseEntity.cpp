@@ -66,16 +66,21 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 	std::cout << "Entity constructed from " << uniqueStr;
 }
 
-inline BaseEntity::~BaseEntity()
+BaseEntity::~BaseEntity()
 {
 	// Only remove vertex array it isnt going to be used anymore
 	if (BUFFER_CACHE[unique_key].use_count() <= 2)
 		BUFFER_CACHE.erase(unique_key);
 }
 
-inline glm::mat4 BaseEntity::GetModel() const
+glm::mat4 BaseEntity::GetModel() const
 {
 	return glm::translate(glm::mat4(1.0f), position) * glm::mat4_cast(orientation) * glm::scale(glm::mat4(1.0f), scale);
+}
+
+const BaseMaterial* BaseEntity::GetMaterial() const
+{
+	return material;
 }
 
 void BaseEntity::Draw()
@@ -85,7 +90,7 @@ void BaseEntity::Draw()
 	draw();
 }
 
-inline VertexArray::~VertexArray()
+VertexArray::~VertexArray()
 {
 	glDeleteBuffers(3, vbos);
 	glDeleteVertexArrays(1, &ID);
