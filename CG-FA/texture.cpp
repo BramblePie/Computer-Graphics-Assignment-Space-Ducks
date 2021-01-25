@@ -1,4 +1,4 @@
-#include "texture.h"
+#include "util_texture.h"
 
 #include <stdio.h>
 #include <stdlib.h>

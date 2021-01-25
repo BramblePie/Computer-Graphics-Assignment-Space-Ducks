@@ -44,9 +44,6 @@
     <ClInclude Include="glsl.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
     <ClInclude Include="objloader.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
@@ -67,6 +64,12 @@
     </ClInclude>
     <ClInclude Include="BaseMaterial.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="util_texture.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

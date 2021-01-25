@@ -104,7 +104,8 @@
     <ClInclude Include="Materials.h" />
     <ClInclude Include="objloader.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="texture.h" />
+    <ClInclude Include="stb_image.h" />
+    <ClInclude Include="util_texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BasicFragment.shader" />
