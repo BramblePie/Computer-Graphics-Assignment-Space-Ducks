@@ -86,6 +86,9 @@ GLFWwindow* CreateWindow()
 		return 0;
 	}
 
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
 	return win;
 }
 
@@ -97,7 +100,7 @@ Scene* LoadScene()
 
 	DuckEntity* right_duck = scene->AddEntity(new DuckEntity());
 
-	right_duck->material = std::make_shared<DuckEntity::DuckMaterial>(*duck->material);
+	right_duck->material = std::make_shared<DuckMaterial>(*duck->material);
 	right_duck->material->color = glm::vec3(0.3f, 0.2f, 0.99f);
 	right_duck->position.x += 0.5f;
 

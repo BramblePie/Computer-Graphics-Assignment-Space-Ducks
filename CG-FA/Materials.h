@@ -9,6 +9,7 @@
 struct DebugMaterial : public BaseMaterial
 {
 	static constexpr const char* MAT_COLOR = "u_color";
+
 	glm::vec3 color{};
 
 	DebugMaterial()
