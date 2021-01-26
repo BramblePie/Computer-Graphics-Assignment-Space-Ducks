@@ -6,7 +6,7 @@
 #include "objloader.h"
 
 BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
-	: unique_key(uniqueStr), material(material)
+	: unique_key(uniqueStr)
 {
 	if (BUFFER_CACHE[unique_key] == 0)
 	{
@@ -78,16 +78,16 @@ glm::mat4 BaseEntity::GetModel() const
 	return glm::translate(glm::mat4(1.0f), position) * glm::mat4_cast(orientation) * glm::scale(glm::mat4(1.0f), scale);
 }
 
-const BaseMaterial* BaseEntity::GetMaterial() const
-{
-	return material;
-}
-
 void BaseEntity::Draw()
 {
-	glUniformMatrix4fv(glGetUniformLocation(material->shader, MODEL_UNIFORM_NAME),
+	glUniformMatrix4fv(glGetUniformLocation(GetMaterial()->shader, MODEL_UNIFORM_NAME),
 					   1, GL_FALSE, &GetModel()[0][0]);
 	draw();
+	// Bind material and VAO
+	GetMaterial()->Bind();
+	glBindVertexArray(vao->ID);
+	// Draw all vertices in VAO
+	glDrawArrays(GL_TRIANGLES, 0, vao->VertexCount);
 }
 
 VertexArray::~VertexArray()

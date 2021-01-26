@@ -28,7 +28,7 @@ struct DebugMaterial : public BaseMaterial
 		}
 	}
 
-private:
+protected:
 	// Inherited via BaseMaterial
 	virtual void bind() const override
 	{

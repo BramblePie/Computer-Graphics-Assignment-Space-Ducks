@@ -37,9 +37,13 @@ public:
 	static constexpr const char* UV_ATTRIB_NAME = "v_uv";
 	static constexpr const char* MODEL_UNIFORM_NAME = "u_model";
 
+	// Basic properties for every entity
+
 	glm::vec3 position = glm::vec3(0.0f);
 	glm::quat orientation = glm::identity<glm::quat>();
 	glm::vec3 scale = glm::vec3(1.0f);
+
+	//----------------------------------
 
 	/// <summary>
 	/// Base constructor for an Entity object
@@ -51,19 +55,19 @@ public:
 
 	glm::mat4 GetModel() const;
 
-	const BaseMaterial* GetMaterial() const;
+	virtual const BaseMaterial* GetMaterial() const = 0;
 
 	void Draw();
 
 protected:
 	using BufferMap = std::unordered_map<std::string, std::shared_ptr<VertexArray>>;
+	// Cache for all vertex array objects to prevent loading the same object multiple times
 	static inline BufferMap BUFFER_CACHE;
 
+	// A unique string to identify VAOs by entity, e.g. file path
 	const std::string unique_key;
 	std::shared_ptr<VertexArray> vao;
 
+	// Additional specialised draw method
 	virtual void draw() = 0;
-
-private:
-	const BaseMaterial* material;
 };

@@ -17,9 +17,7 @@ const BaseMaterial* DuckEntity::init_material()
 	return material.get();
 }
 
-void DuckEntity::draw()
+const BaseMaterial* DuckEntity::GetMaterial() const
 {
-	material->Bind();
-	glBindVertexArray(vao->ID);
-	glDrawArrays(GL_TRIANGLES, 0, vao->VertexCount);
+	return material.get();
 }
