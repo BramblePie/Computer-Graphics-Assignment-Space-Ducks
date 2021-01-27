@@ -68,7 +68,7 @@ GLFWwindow* CreateWindow()
 	if (!glfwInit())
 		return 0;
 
-	//glfwWindowHint(GLFW_SAMPLES, 8);
+	glfwWindowHint(GLFW_SAMPLES, 8);
 
 	/* Create a windowed mode window and its OpenGL context */
 	win = glfwCreateWindow(WIDTH, HEIGHT, "Welcome to OpenGL", NULL, NULL);
@@ -90,7 +90,7 @@ GLFWwindow* CreateWindow()
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_MULTISAMPLE);
+	glEnable(GL_MULTISAMPLE);
 
 	return win;
 }
