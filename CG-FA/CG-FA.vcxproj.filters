@@ -36,6 +36,9 @@
     <ClCompile Include="BaseEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -77,6 +80,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Shaders\BasicFragment.shader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="BFDR_textured_vertex.shader">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

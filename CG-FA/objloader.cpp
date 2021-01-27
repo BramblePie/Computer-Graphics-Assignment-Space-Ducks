@@ -43,7 +43,7 @@ bool loadOBJ(
 		//getchar();
 		return false;
 	}
-
+	size_t faces = 0;
 	while (1)
 	{
 		const size_t line_length = 128;
@@ -94,6 +94,7 @@ bool loadOBJ(
 			normalIndices.push_back(normalIndex[0]);
 			normalIndices.push_back(normalIndex[1]);
 			normalIndices.push_back(normalIndex[2]);
+			faces++;
 		}
 		else
 		{

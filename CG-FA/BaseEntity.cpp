@@ -5,6 +5,10 @@
 #include <GL/glew.h>
 #include "objloader.h"
 
+// Local function to calculate additional tangents
+void calcTangents(std::vector<glm::vec2>& uvs, std::vector<glm::vec3>& pos,
+				  std::vector<glm::vec3>& tangents, std::vector<glm::vec3>& bitangents);
+
 BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 	: unique_key(uniqueStr)
 {
@@ -22,8 +26,8 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		vao->VertexCount = vertices.size();
 		int attribLoc;
 
-		// Generate 3 buffers for position, uv and normal
-		glGenBuffers(3, vao->vbos);
+		// Generate 5 buffers for position, uv and normal
+		glGenBuffers(5, vao->vbos);
 
 		// Bind position buffer
 		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.position);
@@ -56,6 +60,34 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		{
 			glEnableVertexAttribArray(attribLoc);
 			glVertexAttribPointer(attribLoc, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		}
+
+		// Prep list of vectors
+		std::vector<glm::vec3> tangents;
+		std::vector<glm::vec3> bitangents;
+		calcTangents(uvs, vertices, tangents, bitangents);
+
+		// Bind tangent buffer
+		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.tangent);
+		glBufferData(GL_ARRAY_BUFFER, tangents.size() * sizeof(glm::vec3), &tangents[0], GL_STATIC_DRAW);
+
+		// Set vertex attribe for tangent
+		attribLoc = glGetAttribLocation(material->shader, TANG_ATTRIB_NAME);
+		if (attribLoc > -1)
+		{
+			glEnableVertexAttribArray(attribLoc);
+			glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		}
+
+		// Bind bitangent buffer
+		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.bitangent);
+		glBufferData(GL_ARRAY_BUFFER, bitangents.size() * sizeof(glm::vec3), &bitangents[0], GL_STATIC_DRAW);
+		// Set vertex attribe for tangent
+		attribLoc = glGetAttribLocation(material->shader, BITANG_ATTRIB_NAME);
+		if (attribLoc > -1)
+		{
+			glEnableVertexAttribArray(attribLoc);
+			glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		}
 
 		BUFFER_CACHE[unique_key] = vao;
@@ -94,4 +126,27 @@ VertexArray::~VertexArray()
 {
 	glDeleteBuffers(3, vbos);
 	glDeleteVertexArrays(1, &ID);
+}
+
+void calcTangents(std::vector<glm::vec2>& uvs, std::vector<glm::vec3>& pos, std::vector<glm::vec3>& tangents, std::vector<glm::vec3>& bitangents)
+{
+	tangents.reserve(pos.size());
+	bitangents.reserve(pos.size());
+	// Take steps of 3 vertices to get whole faces
+	for (size_t i = 0; i < pos.size(); i += 3)
+	{
+		glm::mat2x3 BT = glm::mat2x3(
+			(pos[i + 1] - pos[i]),
+			(pos[i + 2] - pos[i])
+		) * glm::inverse(glm::mat2(
+			(uvs[i + 1] - uvs[i]),
+			(uvs[i + 2] - uvs[i])
+		));
+
+		tangents.insert(std::end(tangents), 3, (BT[0]));
+		bitangents.insert(std::end(bitangents), 3, (BT[1]));
+		//auto t = glm::dot(BT[0], BT[1]);
+		//float l0 = glm::length(BT[0]);
+		//float l1 = glm::length(BT[1]);
+	}
 }

@@ -9,7 +9,7 @@
 
 struct VertexBuffers
 {
-	unsigned int position, uv, normal;
+	unsigned int position, uv, normal, tangent, bitangent;
 };
 
 struct VertexArray
@@ -21,7 +21,7 @@ struct VertexArray
 	union
 	{
 		VertexBuffers buffers;
-		unsigned int vbos[3]{};
+		unsigned int vbos[5]{};
 	};
 
 	size_t VertexCount = 0;
@@ -35,6 +35,8 @@ public:
 	static constexpr const char* POS_ATTRIB_NAME = "v_pos";
 	static constexpr const char* NORMAL_ATTRIB_NAME = "v_normal";
 	static constexpr const char* UV_ATTRIB_NAME = "v_uv";
+	static constexpr const char* TANG_ATTRIB_NAME = "v_tangent";
+	static constexpr const char* BITANG_ATTRIB_NAME = "v_bitangent";
 	static constexpr const char* MODEL_UNIFORM_NAME = "u_model";
 
 	// Basic properties for every entity

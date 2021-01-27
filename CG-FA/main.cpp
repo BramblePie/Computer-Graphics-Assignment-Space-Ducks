@@ -68,7 +68,7 @@ GLFWwindow* CreateWindow()
 	if (!glfwInit())
 		return 0;
 
-	glfwWindowHint(GLFW_SAMPLES, 8);
+	//glfwWindowHint(GLFW_SAMPLES, 8);
 
 	/* Create a windowed mode window and its OpenGL context */
 	win = glfwCreateWindow(WIDTH, HEIGHT, "Welcome to OpenGL", NULL, NULL);
@@ -90,7 +90,7 @@ GLFWwindow* CreateWindow()
 
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
+	//glEnable(GL_MULTISAMPLE);
 
 	return win;
 }
@@ -99,13 +99,13 @@ Scene* LoadScene()
 {
 	Scene* scene = new Scene(window);
 
-	DuckEntity* duck = scene->AddEntity(new DuckEntity());
+	auto& duck = scene->AddEntity(new DuckEntity());
 
-	DuckEntity* right_duck = scene->AddEntity(new DuckEntity());
+	auto& right_duck = scene->AddEntity(new DuckEntity());
 
-	right_duck->material = std::make_shared<DuckMaterial>(*duck->material);
-	right_duck->material->color = glm::vec3(0.3f, 0.2f, 0.99f);
-	right_duck->position.x += 0.5f;
+	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
+	right_duck.material->color = glm::vec3(0.3f, 0.2f, 0.99f);
+	right_duck.position.x += 0.5f;
 
 	return scene;
 }
