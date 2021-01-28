@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseEntity.cpp" />
+    <ClCompile Include="BaseMaterial.cpp" />
     <ClCompile Include="DuckEntity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objloader.cpp" />
