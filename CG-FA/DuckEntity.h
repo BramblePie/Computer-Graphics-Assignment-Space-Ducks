@@ -30,9 +30,7 @@ protected:
 	// Inherited via BaseMaterial
 	virtual void bind() const override
 	{
-		//glUniform3fv(glGetUniformLocation(shader, MAT_COLOR), 1, &color[0]);
 		SetUniform(color, MAT_COLOR);
-		//glUniform1i(glGetUniformLocation(shader, TEX_DIFFUSE), diffuse.unit);
 		SetUniform(diffuse.unit, TEX_DIFFUSE);
 	}
 };

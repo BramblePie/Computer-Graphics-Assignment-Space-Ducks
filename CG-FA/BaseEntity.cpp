@@ -112,8 +112,9 @@ glm::mat4 BaseEntity::GetModel() const
 
 void BaseEntity::Draw()
 {
-	glUniformMatrix4fv(glGetUniformLocation(GetMaterial()->shader, MODEL_UNIFORM_NAME),
-					   1, GL_FALSE, &GetModel()[0][0]);
+	GetMaterial()->SetUniform(GetModel(), MODEL_UNIFORM_NAME);
+	//glUniformMatrix4fv(glGetUniformLocation(GetMaterial()->shader, MODEL_UNIFORM_NAME),
+	//				   1, GL_FALSE, &GetModel()[0][0]);
 	draw();
 	// Bind material and VAO
 	GetMaterial()->Bind();

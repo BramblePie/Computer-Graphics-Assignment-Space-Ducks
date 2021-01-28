@@ -45,6 +45,12 @@ struct BaseMaterial
 		glUniform1i(GetUniformLocation(name), v);
 	}
 
+	template<>
+	void SetUniform<glm::mat4>(const glm::mat4& v, const char* name) const
+	{
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &v[0][0]);
+	}
+
 #pragma endregion
 
 protected:
@@ -71,7 +77,7 @@ struct Texture
 	{
 		// Generate and bind new texture
 		glGenTextures(1, &ID);
-		glActiveTexture(unit);
+		glActiveTexture(GL_TEXTURE0 + unit);
 		glBindTexture(GL_TEXTURE_2D, ID);
 
 		// Setup parameters and try loading image data
@@ -104,5 +110,5 @@ struct Texture
 	}
 
 private:
-	static inline GLenum unit_count = GL_TEXTURE0;
+	static inline GLenum unit_count = 0;
 };

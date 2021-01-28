@@ -8,11 +8,11 @@ in vec3 v_tangent;
 in vec3 v_bitangent;
 
 // MVP matrices
-uniform mat4 u_view;
-uniform mat4 u_projection;
+layout(location = 0) uniform mat4 u_view;
+layout(location = 1) uniform mat4 u_projection;
 uniform mat4 u_model;
 
-uniform vec3 camera_pos;
+layout(location = 2) uniform vec3 camera_pos;
 uniform vec3 light_pos;
 
 // All output data from vertex shader
