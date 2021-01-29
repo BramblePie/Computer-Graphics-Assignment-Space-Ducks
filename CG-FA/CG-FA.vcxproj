@@ -94,6 +94,7 @@
     <ClCompile Include="DuckEntity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objloader.cpp" />
+    <ClCompile Include="PedestalEntity.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
@@ -106,6 +107,7 @@
     <ClInclude Include="glsl.h" />
     <ClInclude Include="Materials.h" />
     <ClInclude Include="objloader.h" />
+    <ClInclude Include="PedestalEntity.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="util_texture.h" />

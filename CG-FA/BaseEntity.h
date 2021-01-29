@@ -72,4 +72,7 @@ protected:
 
 	// Additional specialised draw method
 	virtual void draw() = 0;
+
+	// Specialised method to initialize entity material
+	virtual const BaseMaterial* init_material() = 0;
 };

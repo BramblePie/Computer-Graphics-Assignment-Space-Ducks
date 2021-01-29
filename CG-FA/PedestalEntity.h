@@ -1,27 +1,25 @@
 #pragma once
-
 #include "BaseEntity.h"
 
-struct DuckMaterial : public BaseMaterial
+struct PedestalMaterial : public BaseMaterial
 {
-	static constexpr const char* MAT_COLOR = "u_color";
 	static constexpr const char* TEX_DIFFUSE = "tex_diffuse";
+	static constexpr const char* TEX_OTHER = "tex_other";
 
-	glm::vec3 color{};
 	Texture diffuse;
 
-	DuckMaterial();
+	PedestalMaterial();
 protected:
 	// Inherited via BaseMaterial
 	virtual void bind() const override;
 };
 
-class DuckEntity : public BaseEntity
+class PedestalEntity : public BaseEntity
 {
 public:
-	DuckEntity();
+	PedestalEntity(const glm::vec3& position);
 
-	std::shared_ptr<DuckMaterial> material;
+	std::shared_ptr<PedestalMaterial> material;
 
 	// Inherited via BaseEntity
 	virtual const BaseMaterial* GetMaterial() const override;
@@ -29,9 +27,9 @@ public:
 protected:
 
 private:
-	static inline std::shared_ptr<DuckMaterial> default_mat;
+	static inline std::shared_ptr<PedestalMaterial> default_mat;
 
 	// Inherited via BaseEntity
-	virtual void draw() override {};
+	virtual void draw() override {}
 	virtual const BaseMaterial* init_material() override;
 };

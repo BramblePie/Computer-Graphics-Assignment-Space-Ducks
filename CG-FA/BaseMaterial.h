@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <unordered_map>
 
 #include <GL/glew.h>
@@ -9,7 +8,7 @@
 struct BaseMaterial
 {
 	// Cache to track all different shaders
-	static inline std::unordered_map<std::string, GLuint> SHADER_CACHE;
+	static inline std::unordered_map<const char*, GLuint> SHADER_CACHE;
 
 	// Shader intended to use with this material
 	GLuint shader = 0;
