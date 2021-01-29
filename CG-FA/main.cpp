@@ -4,7 +4,6 @@
 
 #include "glsl.h"
 
-#define STB_IMAGE_IMPLEMENTATION
 #include "Scene.h"
 #include "Camera.h"
 #include "DuckEntity.h"

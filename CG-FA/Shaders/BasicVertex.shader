@@ -5,7 +5,7 @@ in vec3 v_pos;
 in vec3 v_normal;
 in vec2 v_uv;
 in vec3 v_tangent;
-in vec3 v_bitangent;
+//in vec3 v_bitangent;
 
 // MVP matrices
 layout(location = 0) uniform mat4 u_view;

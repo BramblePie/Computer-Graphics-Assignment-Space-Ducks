@@ -10,29 +10,10 @@ struct DuckMaterial : public BaseMaterial
 	glm::vec3 color{};
 	Texture diffuse;
 
-	DuckMaterial() : diffuse(R"(C:\Users\bramp\Desktop\duck\duck_diffuse.png)")
-	{
-		if (shader = BaseMaterial::SHADER_CACHE["duck"];
-			shader == 0)
-		{	// Create debug shader if needed
-			char* vertexshader = glsl::readFile(R"(Shaders\BasicVertex.shader)");
-			char* fragshader = glsl::readFile(R"(Shaders\BasicFragment.shader)");
-
-			shader = glsl::makeShaderProgram(
-				glsl::makeVertexShader(vertexshader),
-				glsl::makeFragmentShader(fragshader));
-
-			// Cache new debug shader
-			BaseMaterial::SHADER_CACHE["duck"] = shader;
-		}
-	}
+	DuckMaterial();
 protected:
 	// Inherited via BaseMaterial
-	virtual void bind() const override
-	{
-		SetUniform(color, MAT_COLOR);
-		SetUniform(diffuse.unit, TEX_DIFFUSE);
-	}
+	virtual void bind() const override;
 };
 
 class DuckEntity : public BaseEntity

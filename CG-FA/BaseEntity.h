@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-#include "Materials.h"
+#include "BaseMaterial.h"
 
 struct VertexBuffers
 {

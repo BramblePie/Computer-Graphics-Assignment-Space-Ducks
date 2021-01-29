@@ -15,44 +15,21 @@ public:
 
 	Camera(GLFWwindow* window, float fov_degree = 60.0f) : window(window), fov(glm::radians(fov_degree)) {};
 
-	glm::mat4 GetView() const
-	{
-		return glm::lookAt(position, position + Front(), WORLD::UP);
-	}
+	glm::mat4 GetView() const;
 
-	glm::mat4 GetProjection() const
-	{
-		int width, heigth;
-		glfwGetWindowSize(window, &width, &heigth);
-		return glm::perspective(fov, static_cast<float>(width) / static_cast<float>(heigth), 0.01f, 100.0f);
-	}
+	glm::mat4 GetProjection() const;
 
 	// Gets field of view in degrees
-	float GetFOV() const
-	{
-		return glm::degrees(fov);
-	}
+	float GetFOV() const;
 
 	// Sets field of view in degrees
-	void SetFOV(float degrees)
-	{
-		fov = glm::radians(degrees);
-	}
+	void SetFOV(float degrees);
 
-	glm::vec3 Front() const
-	{
-		return orientation * WORLD::FRONT;
-	}
+	glm::vec3 Front() const;
 
-	glm::vec3 Up() const
-	{
-		return orientation * WORLD::UP;
-	}
+	glm::vec3 Up() const;
 
-	glm::vec3 Left() const
-	{
-		return orientation * WORLD::LEFT;
-	}
+	glm::vec3 Left() const;
 
 private:
 	GLFWwindow* window;

@@ -24,7 +24,7 @@ bool loadOBJ(
 	std::vector<glm::vec3>& out_normals
 )
 {
-	printf("Loading OBJ file %s...\n", path);
+	printf("[INFO] Loading OBJ file %s...\n", path);
 
 	out_vertices.clear();
 	out_uvs.clear();

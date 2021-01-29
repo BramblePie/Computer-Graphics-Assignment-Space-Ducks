@@ -23,6 +23,7 @@ public:
 	template<class EntityType>
 	EntityType& AddEntity(EntityType* entity)
 	{
+		// Add entity to the map of entities sorted by shader, polymorph to a BaseEntity, and echo added entity back
 		return *static_cast<EntityType*>(entities[entity->GetMaterial()->shader].emplace_back(entity).get());
 	}
 
