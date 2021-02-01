@@ -9,6 +9,10 @@ struct PedestalMaterial : public BaseMaterial
 	Texture diffuse;
 
 	PedestalMaterial();
+
+	// Inherited via BaseMaterial
+	virtual const char* GetShaderName() const override { return "pedestal"; }
+
 protected:
 	// Inherited via BaseMaterial
 	virtual void bind() const override;

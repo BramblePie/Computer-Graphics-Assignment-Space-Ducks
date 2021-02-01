@@ -11,6 +11,10 @@ struct DuckMaterial : public BaseMaterial
 	Texture diffuse;
 
 	DuckMaterial();
+
+	// Inherited via BaseMaterial
+	virtual const char* GetShaderName() const override { return "duck"; }
+
 protected:
 	// Inherited via BaseMaterial
 	virtual void bind() const override;
@@ -19,7 +23,7 @@ protected:
 class DuckEntity : public BaseEntity
 {
 public:
-	DuckEntity();
+	DuckEntity(const glm::vec3& position);
 
 	std::shared_ptr<DuckMaterial> material;
 

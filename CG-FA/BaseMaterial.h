@@ -7,11 +7,13 @@
 
 struct BaseMaterial
 {
-	// Cache to track all different shaders
-	static inline std::unordered_map<const char*, GLuint> SHADER_CACHE;
-
 	// Shader intended to use with this material
 	GLuint shader = 0;
+
+	// Needs to be called inside material constuctor to initialize and set shader
+	void InitShaderProgram(const char* vertexFile, const char* fragmentFile);
+
+	virtual const char* GetShaderName() const = 0;
 
 	// Bind all properties of this material to the currently bound shader
 	void Bind() const;
@@ -51,6 +53,9 @@ private:
 
 	// Cache to store all uniform locations of this material
 	mutable std::unordered_map<const char*, GLint> UNIFORM_CACHE;
+
+	// Cache to track all different shaders
+	static inline std::unordered_map<const char*, GLuint> SHADER_CACHE;
 
 	// Get cached uniform location inside the shader of this material
 	int GetUniformLocation(const char* name) const;

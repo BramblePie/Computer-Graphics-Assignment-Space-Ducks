@@ -4,6 +4,31 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "glsl.h"
+
+// Needs to be called inside material constuctor to initialize and set shader
+
+void BaseMaterial::InitShaderProgram(const char* vertexFile, const char* fragmentFile)
+{
+	const char* const name = GetShaderName();
+	if (shader = BaseMaterial::SHADER_CACHE[name];
+		shader == 0)
+	{	// Create shader if needed
+		char* vertexshader = glsl::readFile(vertexFile);
+		char* fragshader = glsl::readFile(fragmentFile);
+
+		shader = glsl::makeShaderProgram(
+			glsl::makeVertexShader(vertexshader),
+			glsl::makeFragmentShader(fragshader));
+
+		printf("[INFO] Created new shader program named \"%s\"\n", name);
+
+		// Cache new debug shader
+		BaseMaterial::SHADER_CACHE[name] = shader;
+	}
+	else
+		printf("[INFO] Cache hit for shader program \"%s\"\n", name);
+}
 
 void BaseMaterial::Bind() const
 {
@@ -51,6 +76,8 @@ Texture::Texture(const char* path) : unit(unit_count++)
 		else if (nrChannels == 3)
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 
+		printf("[INFO] Texture %s loaded on unit %d\n", path, unit);
+
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -58,7 +85,7 @@ Texture::Texture(const char* path) : unit(unit_count++)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 	else
-		printf("[ERROR] Failed to load texture %s", path);
+		printf("[ERROR] Failed to load texture %s\n", path);
 
 	// Free data from RAM
 	stbi_image_free(data);

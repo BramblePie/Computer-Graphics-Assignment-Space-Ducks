@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "DuckEntity.h"
+#include "PedestalEntity.h"
 
 constexpr int WIDTH = 1200, HEIGHT = 800;
 
@@ -22,6 +23,8 @@ int main()
 	window = CreateWindow();
 
 	Scene* scene = LoadScene();
+
+	Camera& cam = scene->camera;
 
 	float time = 0.0f;
 	float lastFrame = 0.0f;
@@ -98,13 +101,14 @@ Scene* LoadScene()
 {
 	Scene* scene = new Scene(window);
 
-	auto& duck = scene->AddEntity(new DuckEntity());
+	auto& duck = scene->AddEntity(new DuckEntity(glm::vec3(.0f, .0f, .0f)));
 
-	auto& right_duck = scene->AddEntity(new DuckEntity());
+	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, .0f, .0f)));
+
+	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, -1.2f, -.0f)));
 
 	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
 	right_duck.material->color = glm::vec3(0.3f, 0.2f, 0.99f);
-	right_duck.position.x += 0.5f;
 
 	return scene;
 }

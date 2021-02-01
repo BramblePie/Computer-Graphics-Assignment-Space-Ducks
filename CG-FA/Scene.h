@@ -14,7 +14,7 @@ public:
 
 	Scene(GLFWwindow* window) : camera(window)
 	{
-		camera.position.z = .8f;
+		camera.position.z = 1.4f;
 		camera.position.y = .4f;
 		camera.orientation = glm::rotate(camera.orientation, glm::radians(180.0f), WORLD::UP);
 	}
