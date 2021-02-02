@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include "Constants.h"
 
@@ -25,6 +26,12 @@ public:
 	// Sets field of view in degrees
 	void SetFOV(float degrees);
 
+	// Make the camera point at a point in space
+	void PointAt(glm::vec3 focus)
+	{
+		orientation = glm::rotation(Front(), glm::normalize(focus - position));
+	}
+
 	glm::vec3 Front() const;
 
 	glm::vec3 Up() const;
@@ -33,6 +40,7 @@ public:
 
 private:
 	GLFWwindow* window;
+	mutable int _width = 0, _heigth = 0;
 
 	// Field of view in radians
 	float fov;

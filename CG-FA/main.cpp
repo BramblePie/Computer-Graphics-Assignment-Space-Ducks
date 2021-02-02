@@ -1,6 +1,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/gtx/quaternion.hpp>
 
 #include "glsl.h"
 
@@ -25,6 +26,8 @@ int main()
 	Scene* scene = LoadScene();
 
 	Camera& cam = scene->camera;
+	cam.position = glm::vec3(.0f, 1.8f, 1.0f);
+	cam.PointAt(glm::vec3(.0f, 1.2f, .0f));
 
 	float time = 0.0f;
 	float lastFrame = 0.0f;
@@ -101,11 +104,14 @@ Scene* LoadScene()
 {
 	Scene* scene = new Scene(window);
 
-	auto& duck = scene->AddEntity(new DuckEntity(glm::vec3(.0f, .0f, .0f)));
+	auto& duck = scene->AddEntity(new DuckEntity(glm::vec3(.0f, 1.2f, .0f)));
+	duck.Animate = [&](const float d) {
+		duck.orientation = glm::rotate(duck.orientation, d * 1.0f, WORLD::UP);
+	};
 
-	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, .0f, .0f)));
+	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, 1.2f, .0f)));
 
-	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, -1.2f, -.0f)));
+	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
 
 	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
 	right_duck.material->color = glm::vec3(0.3f, 0.2f, 0.99f);

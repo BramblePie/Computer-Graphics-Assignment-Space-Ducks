@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <functional>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -55,10 +56,16 @@ public:
 
 	virtual ~BaseEntity();
 
+	// Get mvp model from position, orientation and scale
 	glm::mat4 GetModel() const;
 
+	// Get base material
 	virtual const BaseMaterial* GetMaterial() const = 0;
 
+	// Animation function can be defined by a lambda and will be called before drawing
+	std::function<void(const float)> Animate;
+
+	// Start drawing this entity
 	void Draw();
 
 protected:

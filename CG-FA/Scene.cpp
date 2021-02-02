@@ -16,6 +16,10 @@ void Scene::RenderLoop(const float delta)
 		glUniform3fv(2, 1, &camera.position[0]);
 		// Draw each entity belonging to this shader
 		for (auto& entity : shader_slot.second)
+		{
+			if (entity->Animate)
+				entity->Animate(delta);
 			entity->Draw();
+		}
 	}
 }

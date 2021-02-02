@@ -14,9 +14,6 @@ public:
 
 	Scene(GLFWwindow* window) : camera(window)
 	{
-		camera.position.z = 1.4f;
-		camera.position.y = .4f;
-		camera.orientation = glm::rotate(camera.orientation, glm::radians(180.0f), WORLD::UP);
 	}
 
 	// Add an entity to the scene, and return the added entity
@@ -27,6 +24,7 @@ public:
 		return *static_cast<EntityType*>(entities[entity->GetMaterial()->shader].emplace_back(entity).get());
 	}
 
+	// Renderloop of scene to be called each frame
 	void RenderLoop(const float delta);
 
 private:
