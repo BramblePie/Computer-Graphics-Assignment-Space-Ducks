@@ -1,9 +1,10 @@
-#version 430 core
+# version 430 core
 
 in Vertex
 {
-	vec3 pos;
+	vec3 position;
 	vec2 uv;
+	vec3 normal;
 
 	vec3 tan_pos;
 	vec3 tan_camera;

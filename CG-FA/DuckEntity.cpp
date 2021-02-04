@@ -2,7 +2,7 @@
 
 DuckMaterial::DuckMaterial() : diffuse(R"(C:\Users\bramp\Desktop\duck\duck_diffuse.png)")
 {
-	InitShaderProgram(R"(Shaders\BasicVertex.shader)", R"(Shaders\BasicFragment.shader)");
+	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
 }
 
 void DuckMaterial::bind() const

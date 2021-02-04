@@ -1,4 +1,4 @@
-#version 430 core
+# version 430 core
 
 // Vertex attributes
 in vec3 v_pos;
@@ -18,8 +18,9 @@ uniform vec3 light_pos;
 // All output data from vertex shader
 out Vertex
 {
-	vec3 pos;
+	vec3 position;
 	vec2 uv;
+	vec3 normal;
 
 	vec3 tan_pos;
 	vec3 tan_camera;
@@ -30,7 +31,7 @@ void main()
 {
 	vec4 pos = u_model * vec4(v_pos, 1.0);
 	// Set vertex position and uv for fragment shader
-	v_out.pos = pos.xyz;
+	v_out.position = pos.xyz;
 	v_out.uv = v_uv;
 
 	// Inverse model for normal and tangent transform
@@ -43,7 +44,8 @@ void main()
 	mat3 TBN = transpose(mat3(T, B, N));
 	v_out.tan_light = TBN * light_pos;
 	v_out.tan_camera = TBN * camera_pos;
-	v_out.tan_pos = TBN * v_out.pos;
+	v_out.tan_pos = TBN * v_out.position;
+	v_out.normal = mat3(transpose(inverse(u_model))) * v_normal;
 
 	gl_Position = u_projection * u_view * pos;
 }

@@ -47,7 +47,7 @@ int main()
 		while ((err = glGetError()) != GL_NO_ERROR)
 		{
 			std::cout << (void*)err << std::endl;
-			throw err;
+			//throw err;
 		}
 
 		/* Swap front and back buffers */

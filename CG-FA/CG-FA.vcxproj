@@ -112,9 +112,9 @@
     <ClInclude Include="util_texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="BFDR_textured_vertex.shader" />
-    <None Include="Shaders\BasicFragment.shader" />
-    <None Include="Shaders\BasicVertex.shader" />
+    <None Include="Shaders\PBRFragment.frag" />
+    <None Include="Shaders\BasicFragment.frag" />
+    <None Include="Shaders\BasicVertex.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

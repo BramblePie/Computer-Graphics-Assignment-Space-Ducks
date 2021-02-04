@@ -3,7 +3,7 @@
 PedestalMaterial::PedestalMaterial()
 	: diffuse(R"(C:\Users\bramp\Desktop\Pedestal\MarbleDiffTex2K.png)")
 {
-	InitShaderProgram(R"(Shaders\BasicVertex.shader)", R"(Shaders\BasicFragment.shader)");
+	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\BasicFragment.frag)");
 }
 
 void PedestalMaterial::bind() const

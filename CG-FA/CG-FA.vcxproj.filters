@@ -88,13 +88,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\BasicVertex.shader">
+    <None Include="Shaders\BasicFragment.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Shaders\BasicFragment.shader">
+    <None Include="Shaders\BasicVertex.vert">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="BFDR_textured_vertex.shader">
+    <None Include="Shaders\PBRFragment.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
