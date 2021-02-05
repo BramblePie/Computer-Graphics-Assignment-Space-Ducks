@@ -17,19 +17,23 @@ in Vertex
 	vec3 tan_light;
 } f_in;
 
-uniform Material
+struct Material
 {
 	vec3 color;
 	float metallic;
 	float roughness;
-} material;
+};
 
-uniform Light
+uniform Material material;
+
+struct Light
 {
 	// World space 
 	vec3 position;
 	vec3 color;
-} lights[8];
+};
+
+uniform Light lights[8];
 
 // World space
 layout(location = 2) uniform vec3 camera_pos;
@@ -97,7 +101,7 @@ void main()
 	}
 
 	// Adding ambient light
-	color.rgb = vec3(0.04) * albedo + lum;
+	color.rgb = vec3(0.02) * albedo + lum;
 	color.a = 1.0;
 
 	// Tone mapping and gamma

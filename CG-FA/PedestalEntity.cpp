@@ -1,14 +1,14 @@
 #include "PedestalEntity.h"
 
 PedestalMaterial::PedestalMaterial()
-	: diffuse(R"(C:\Users\bramp\Desktop\Pedestal\MarbleDiffTex2K.png)")
 {
+	diffuse = { R"(C:\Users\bramp\Desktop\Pedestal\MarbleDiffTex2K.png)" };
 	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\BasicFragment.frag)");
 }
 
 void PedestalMaterial::bind() const
 {
-	SetUniform(diffuse.unit, TEX_DIFFUSE);
+	SetUniform(diffuse, TEX_DIFFUSE);
 }
 
 PedestalEntity::PedestalEntity(const glm::vec3& position)

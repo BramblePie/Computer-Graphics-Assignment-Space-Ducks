@@ -1,18 +1,40 @@
 #pragma once
 
 #include <unordered_map>
+#include <optional>
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
+struct Texture
+{
+	GLuint ID;
+	GLenum unit;
+
+	Texture() = default;
+	Texture(const char* path);
+
+private:
+	static inline GLenum unit_count = 0;
+};
+
 struct BaseMaterial
 {
+	static constexpr const char* MAT_COLOR = "material.color";
+	static constexpr const char* MAT_METALLIC = "material.metallic";
+	static constexpr const char* MAT_ROUGHNESS = "material.roughness";
+
+	glm::vec3 color = glm::vec3(0.0f);
+	float metallic = 0.0f;
+	float roughness = 1.0f;
+
 	// Shader intended to use with this material
 	GLuint shader = 0;
 
 	// Needs to be called inside material constuctor to initialize and set shader
 	void InitShaderProgram(const char* vertexFile, const char* fragmentFile);
 
+	// Materials can share the same shader if the shader name is the same
 	virtual const char* GetShaderName() const = 0;
 
 	// Bind all properties of this material to the currently bound shader
@@ -22,6 +44,12 @@ struct BaseMaterial
 
 	template<class UniType>
 	void SetUniform(const UniType& v, const char* name)  const { static_assert(false, "Uniform type not supported"); }
+
+	template<>
+	void SetUniform<float>(const float& v, const char* name) const
+	{
+		glUniform1f(GetUniformLocation(name), v);
+	}
 
 	template<>
 	void SetUniform<glm::vec3>(const glm::vec3& v, const char* name) const
@@ -39,6 +67,13 @@ struct BaseMaterial
 	void SetUniform<glm::mat4>(const glm::mat4& v, const char* name) const
 	{
 		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &v[0][0]);
+	}
+
+	template<>
+	void SetUniform<std::optional<Texture>>(const std::optional<Texture>& texture, const char* name) const
+	{
+		if (texture)
+			glUniform1i(GetUniformLocation(name), texture.value().unit);
 	}
 
 #pragma endregion
@@ -61,18 +96,25 @@ private:
 	int GetUniformLocation(const char* name) const;
 };
 
-struct Texture
+struct TexturedMaterialExtension
 {
-	GLuint ID;
-	GLenum unit;
+	static constexpr const char* TEX_DIFFUSE = "tex_diffuse";
+	static constexpr const char* TEX_SPECULAR = "tex_specular";
+	static constexpr const char* TEX_NORMAL = "tex_normal";
 
-	Texture(const char* path);
+	std::optional<Texture> diffuse;
+	std::optional<Texture> specular;
+	std::optional<Texture> normal;
 
-	~Texture()
+	TexturedMaterialExtension() = default;
+
+	virtual ~TexturedMaterialExtension()
 	{
-		glDeleteTextures(1, &ID);
+		if (diffuse)
+			glDeleteTextures(1, &diffuse.value().ID);
+		if (specular)
+			glDeleteTextures(1, &specular.value().ID);
+		if (normal)
+			glDeleteTextures(1, &normal.value().ID);
 	}
-
-private:
-	static inline GLenum unit_count = 0;
 };

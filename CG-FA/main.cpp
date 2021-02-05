@@ -114,7 +114,9 @@ Scene* LoadScene()
 	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
 
 	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
-	right_duck.material->color = glm::vec3(0.3f, 0.2f, 0.99f);
+	right_duck.material->roughness = 0.6f;
+	duck.material->metallic = 1.0f;
+	duck.material->roughness = 0.3f;
 
 	return scene;
 }

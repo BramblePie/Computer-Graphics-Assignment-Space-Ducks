@@ -2,14 +2,8 @@
 
 #include "BaseEntity.h"
 
-struct DuckMaterial : public BaseMaterial
+struct DuckMaterial : public BaseMaterial, TexturedMaterialExtension
 {
-	static constexpr const char* MAT_COLOR = "u_color";
-	static constexpr const char* TEX_DIFFUSE = "tex_diffuse";
-
-	glm::vec3 color{};
-	Texture diffuse;
-
 	DuckMaterial();
 
 	// Inherited via BaseMaterial

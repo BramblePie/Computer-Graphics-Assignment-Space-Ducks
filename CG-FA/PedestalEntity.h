@@ -1,13 +1,9 @@
 #pragma once
+
 #include "BaseEntity.h"
 
-struct PedestalMaterial : public BaseMaterial
+struct PedestalMaterial : public BaseMaterial, TexturedMaterialExtension
 {
-	static constexpr const char* TEX_DIFFUSE = "tex_diffuse";
-	static constexpr const char* TEX_OTHER = "tex_other";
-
-	Texture diffuse;
-
 	PedestalMaterial();
 
 	// Inherited via BaseMaterial
@@ -34,6 +30,6 @@ private:
 	static inline std::shared_ptr<PedestalMaterial> default_mat;
 
 	// Inherited via BaseEntity
-	virtual void draw() override {}
+	virtual void draw() override {};
 	virtual const BaseMaterial* init_material() override;
 };
