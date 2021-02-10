@@ -7,13 +7,24 @@
 #include "BaseEntity.h"
 #include "Camera.h"
 
+struct Light
+{
+	glm::vec3 color;
+	glm::vec3 position;
+
+	Light(const glm::vec3& position, const glm::vec3& color) : position(position), color(color) {}
+};
+
 class Scene
 {
 public:
 	Camera camera;
 
+	std::vector<Light> lights;
+
 	Scene(GLFWwindow* window) : camera(window)
 	{
+		lights.emplace_back(glm::vec3(1.0f, 2.0f, .4f), glm::vec3(1.0f));
 	}
 
 	// Add an entity to the scene, and return the added entity
@@ -30,4 +41,6 @@ public:
 private:
 	using ShaderEntityMap = std::unordered_map<GLuint, std::vector<std::unique_ptr<BaseEntity>>>;
 	ShaderEntityMap entities;
+
+	void setLights(const GLuint shader);
 };

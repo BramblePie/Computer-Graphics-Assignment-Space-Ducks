@@ -29,8 +29,8 @@ uniform Material material;
 struct Light
 {
 	// World space 
-	vec3 position;
 	vec3 color;
+	vec3 position;
 };
 
 uniform Light lights[8];
@@ -101,7 +101,7 @@ void main()
 	}
 
 	// Adding ambient light
-	color.rgb = vec3(0.02) * albedo + lum;
+	color.rgb = vec3(0.005) * albedo + lum;
 	color.a = 1.0;
 
 	// Tone mapping and gamma

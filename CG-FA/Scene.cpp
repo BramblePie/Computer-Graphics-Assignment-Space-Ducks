@@ -15,8 +15,8 @@ void Scene::RenderLoop(const float delta)
 		// Set "camera_pos"
 		glUniform3fv(2, 1, &camera.position[0]);
 
-		// Set lights
-		//BaseMaterial
+		// Set lights for each shader
+		setLights(shader_slot.first);
 
 		// Draw each entity belonging to this shader
 		for (auto& entity : shader_slot.second)
@@ -25,5 +25,28 @@ void Scene::RenderLoop(const float delta)
 				entity->Animate(delta);
 			entity->Draw();
 		}
+	}
+}
+
+void Scene::setLights(const GLuint shader)
+{
+	if (lights.size() == 0)
+		return;
+	// Get location of lights uniform
+	GLint loc = glGetUniformLocation(shader, "lights[0].color");
+	if (loc < 0)
+		return;
+
+	int lcount = lights.size();
+	if (lcount > 8)
+	{
+		printf("[WARNING] Too many lights in scene only 8 are used\n");
+		lcount = 8;
+	}
+
+	for (size_t i = 0; i < lcount; i++)
+	{
+		glUniform3fv(loc + i, 1, &lights[i].color[0]);
+		glUniform3fv(loc + 1 + i, 1, &lights[i].position[0]);
 	}
 }
