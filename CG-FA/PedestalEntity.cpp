@@ -8,7 +8,7 @@ PedestalMaterial::PedestalMaterial()
 
 void PedestalMaterial::bind() const
 {
-	SetUniform(diffuse, TEX_DIFFUSE);
+	SetUniform(diffuse.value(), TEX_DIFFUSE);
 }
 
 PedestalEntity::PedestalEntity(const glm::vec3& position)

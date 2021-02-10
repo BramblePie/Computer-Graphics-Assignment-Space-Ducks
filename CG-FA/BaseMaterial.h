@@ -70,10 +70,9 @@ struct BaseMaterial
 	}
 
 	template<>
-	void SetUniform<std::optional<Texture>>(const std::optional<Texture>& texture, const char* name) const
+	void SetUniform<Texture>(const Texture& texture, const char* name) const
 	{
-		if (texture)
-			glUniform1i(GetUniformLocation(name), texture.value().unit);
+		glUniform1i(GetUniformLocation(name), texture.unit);
 	}
 
 #pragma endregion

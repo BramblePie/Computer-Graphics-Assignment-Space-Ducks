@@ -14,6 +14,10 @@ void Scene::RenderLoop(const float delta)
 		glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetProjection()[0][0]);
 		// Set "camera_pos"
 		glUniform3fv(2, 1, &camera.position[0]);
+
+		// Set lights
+		//BaseMaterial
+
 		// Draw each entity belonging to this shader
 		for (auto& entity : shader_slot.second)
 		{
