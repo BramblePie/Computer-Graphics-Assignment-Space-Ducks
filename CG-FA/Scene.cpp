@@ -37,7 +37,7 @@ void Scene::setLights(const GLuint shader)
 	if (loc < 0)
 		return;
 
-	int lcount = lights.size();
+	auto lcount = lights.size();
 	if (lcount > 8)
 	{
 		printf("[WARNING] Too many lights in scene only 8 are used\n");

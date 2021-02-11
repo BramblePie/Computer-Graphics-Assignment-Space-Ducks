@@ -40,6 +40,13 @@ layout(location = 2) uniform vec3 camera_pos;
 
 // Diffuse color texture
 uniform sampler2D tex_diffuse;
+uniform bool has_diffusemap;
+// Roughness map
+uniform sampler2D tex_gloss;
+uniform bool has_glossmap;
+// Normal map
+uniform sampler2D tex_normal;
+uniform bool has_normalmap;
 
 out vec4 color;
 
@@ -56,12 +63,22 @@ void main()
 	// View direction
 	vec3 view = normalize(camera_pos - f_in.position);
 
-	vec3 albedo = texture(tex_diffuse, f_in.uv).rgb;
+	vec3 albedo;
+	if (has_diffusemap)
+		albedo = texture(tex_diffuse, f_in.uv).rgb;
+	else
+		albedo = material.color;
 
 	vec3 F0 = mix(vec3(0.04), albedo, material.metallic);
 
 	// Roughness equations
-	float a = material.roughness * material.roughness;
+	float roughness;
+	if (has_glossmap)
+		roughness = texture(tex_gloss, f_in.uv).a;
+	else
+		roughness = material.roughness;
+
+	float a = roughness * roughness;
 	float k = (a + 1.0) * (a + 1.0) / 8.0;
 
 	// Total illumination 

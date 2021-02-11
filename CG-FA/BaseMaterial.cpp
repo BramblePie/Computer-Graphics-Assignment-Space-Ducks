@@ -90,3 +90,18 @@ Texture::Texture(const char* path) : unit(unit_count++)
 	// Free data from RAM
 	stbi_image_free(data);
 }
+
+void TexturedMaterial::bind() const
+{
+	if (diffuse)
+		SetUniform(diffuse.value(), TEX_DIFFUSE);
+	SetUniform(diffuse.has_value(), HAS_DIFFUSE);
+
+	if (gloss)
+		SetUniform(gloss.value(), TEX_GLOSS);
+	SetUniform(gloss.has_value(), HAS_GLOSS);
+
+	if (normal)
+		SetUniform(normal.value(), TEX_NORMAL);
+	SetUniform(normal.has_value(), HAS_NORMAL);
+}

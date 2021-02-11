@@ -52,6 +52,12 @@ struct BaseMaterial
 	}
 
 	template<>
+	void SetUniform<bool>(const bool& b, const char* name) const
+	{
+		glUniform1i(GetUniformLocation(name), b);
+	}
+
+	template<>
 	void SetUniform<glm::vec3>(const glm::vec3& v, const char* name) const
 	{
 		glUniform3fv(GetUniformLocation(name), 1, &v[0]);
@@ -95,25 +101,31 @@ private:
 	int GetUniformLocation(const char* name) const;
 };
 
-struct TexturedMaterialExtension
+struct TexturedMaterial : public BaseMaterial
 {
 	static constexpr const char* TEX_DIFFUSE = "tex_diffuse";
-	static constexpr const char* TEX_SPECULAR = "tex_specular";
+	static constexpr const char* HAS_DIFFUSE = "has_diffusemap";
+	static constexpr const char* TEX_GLOSS = "tex_gloss";
+	static constexpr const char* HAS_GLOSS = "has_glossmap";
 	static constexpr const char* TEX_NORMAL = "tex_normal";
+	static constexpr const char* HAS_NORMAL = "has_normalmap";
 
 	std::optional<Texture> diffuse;
-	std::optional<Texture> specular;
+	std::optional<Texture> gloss;
 	std::optional<Texture> normal;
 
-	TexturedMaterialExtension() = default;
+	TexturedMaterial() = default;
 
-	virtual ~TexturedMaterialExtension()
+	virtual ~TexturedMaterial()
 	{
 		if (diffuse)
 			glDeleteTextures(1, &diffuse.value().ID);
-		if (specular)
-			glDeleteTextures(1, &specular.value().ID);
+		if (gloss)
+			glDeleteTextures(1, &gloss.value().ID);
 		if (normal)
 			glDeleteTextures(1, &normal.value().ID);
 	}
+
+	// Inherited via BaseMaterial
+	virtual void bind() const override;
 };

@@ -2,7 +2,7 @@
 
 #include "BaseEntity.h"
 
-struct DuckMaterial : public BaseMaterial, TexturedMaterialExtension
+struct DuckMaterial : public TexturedMaterial
 {
 	DuckMaterial();
 

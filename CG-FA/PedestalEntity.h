@@ -2,7 +2,7 @@
 
 #include "BaseEntity.h"
 
-struct PedestalMaterial : public BaseMaterial, TexturedMaterialExtension
+struct PedestalMaterial : public TexturedMaterial
 {
 	PedestalMaterial();
 
