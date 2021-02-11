@@ -4,7 +4,7 @@
 
 DuckMaterial::DuckMaterial()
 {
-	diffuse = { R"(C:\Users\bramp\Desktop\duck\duck_diffuse.png)" };
+	diffuse = { R"(resources\duck\duck_diffuse.png)" };
 	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
 }
 
@@ -16,7 +16,7 @@ void DuckMaterial::bind() const
 }
 
 DuckEntity::DuckEntity(const glm::vec3& position)
-	: BaseEntity(R"(C:\Users\bramp\Desktop\duck\duck.obj)", init_material()), material(default_mat)
+	: BaseEntity(R"(resources\duck\duck.obj)", init_material()), material(default_mat)
 {
 	this->position = position;
 }

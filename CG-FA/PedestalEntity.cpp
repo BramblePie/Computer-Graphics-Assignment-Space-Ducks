@@ -2,7 +2,7 @@
 
 PedestalMaterial::PedestalMaterial()
 {
-	diffuse = { R"(C:\Users\bramp\Desktop\Pedestal\MarbleDiffTex2K.png)" };
+	diffuse = { R"(resources\pedestal\MarbleDiffTex2K.png)" };
 	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\BasicFragment.frag)");
 }
 
@@ -12,7 +12,7 @@ void PedestalMaterial::bind() const
 }
 
 PedestalEntity::PedestalEntity(const glm::vec3& position)
-	: BaseEntity(R"(C:\Users\bramp\Desktop\Pedestal\Pedestal.obj)", init_material()), material(default_mat)
+	: BaseEntity(R"(resources\pedestal\Pedestal.obj)", init_material()), material(default_mat)
 {
 	this->position = position;
 }
