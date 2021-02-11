@@ -36,6 +36,9 @@ void BaseMaterial::Bind() const
 	if (CURR_MAT == this)
 		return;
 	// Only bind unbound material
+	SetUniform(color, MAT_COLOR);
+	SetUniform(metallic, MAT_METALLIC);
+	SetUniform(roughness, MAT_ROUGHNESS);
 	bind();
 	CURR_MAT = this;
 }

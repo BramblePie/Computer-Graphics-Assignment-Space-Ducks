@@ -11,7 +11,7 @@ struct PedestalMaterial : public TexturedMaterial
 
 protected:
 	// Inherited via BaseMaterial
-	virtual void bind() const override;
+	//virtual void bind() const override;
 };
 
 class PedestalEntity : public BaseEntity

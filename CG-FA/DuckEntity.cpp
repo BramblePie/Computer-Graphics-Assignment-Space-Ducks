@@ -9,13 +9,6 @@ DuckMaterial::DuckMaterial()
 	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
 }
 
-void DuckMaterial::bind() const
-{
-	TexturedMaterial::bind();
-	SetUniform(metallic, MAT_METALLIC);
-	SetUniform(roughness, MAT_ROUGHNESS);
-}
-
 DuckEntity::DuckEntity(const glm::vec3& position)
 	: BaseEntity(R"(resources\duck\duck.obj)", init_material()), material(default_mat)
 {

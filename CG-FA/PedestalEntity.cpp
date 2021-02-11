@@ -6,12 +6,6 @@ PedestalMaterial::PedestalMaterial()
 	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\BasicFragment.frag)");
 }
 
-void PedestalMaterial::bind() const
-{
-	TexturedMaterial::bind();
-	//SetUniform(diffuse.value(), TEX_DIFFUSE);
-}
-
 PedestalEntity::PedestalEntity(const glm::vec3& position)
 	: BaseEntity(R"(resources\pedestal\Pedestal.obj)", init_material()), material(default_mat)
 {
