@@ -10,7 +10,7 @@ glm::mat4 Camera::GetProjection() const
 	int width, heigth;
 	glfwGetWindowSize(window, &width, &heigth);
 	if (width != _width || heigth != _heigth)
-	{	// TODO: Might need some change, no need to ask for size each frame
+	{
 		_width = width; _heigth = heigth;
 		glViewport(0, 0, width, heigth);
 	}
