@@ -5,6 +5,7 @@
 
 #include "glsl.h"
 
+#include "Keybinding.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "DuckEntity.h"
@@ -23,6 +24,7 @@ int main()
 {
 	window = CreateWindow();
 
+	Keybinding binding(window);
 	Scene* scene = LoadScene();
 
 	Camera& cam = scene->camera;
@@ -38,6 +40,8 @@ int main()
 		time = (float)glfwGetTime();
 		delta = time - lastFrame;
 		lastFrame = time;
+
+		binding.ProcessEvents(0.0f);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

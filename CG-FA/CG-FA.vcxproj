@@ -105,6 +105,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="glsl.h" />
+    <ClInclude Include="Keybinding.h" />
     <ClInclude Include="objloader.h" />
     <ClInclude Include="PedestalEntity.h" />
     <ClInclude Include="Scene.h" />

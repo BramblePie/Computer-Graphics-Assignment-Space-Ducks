@@ -86,6 +86,9 @@
     <ClInclude Include="BaseMaterial.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Keybinding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BasicFragment.frag">
