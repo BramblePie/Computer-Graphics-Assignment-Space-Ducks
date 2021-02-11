@@ -340,4 +340,4 @@ ASALocalRun/
 healthchecksdb
 
 # Exception on resource folder
-!CG-FA/resources/*.obj
+!*/resources/*.obj
