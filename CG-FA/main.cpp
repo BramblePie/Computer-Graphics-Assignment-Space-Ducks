@@ -20,11 +20,28 @@ GLFWwindow* CreateWindow();
 
 Scene* LoadScene();
 
+class Test : public IKeyObserver
+{
+public:
+
+private:
+
+	// Inherited via IKeyObserver
+	virtual void OnEvent(const int key, const float delta) override
+	{
+		std::cout << key << '\n';
+	}
+};
+
 int main()
 {
 	window = CreateWindow();
 
-	Keybinding binding(window);
+	Keybinding::SetTargetWindow(window);
+	auto& binding = Keybinding::GetInstance();
+
+	Test test;
+
 	Scene* scene = LoadScene();
 
 	Camera& cam = scene->camera;
@@ -41,7 +58,7 @@ int main()
 		delta = time - lastFrame;
 		lastFrame = time;
 
-		binding.ProcessEvents(0.0f);
+		binding.ProcessEvents(delta);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

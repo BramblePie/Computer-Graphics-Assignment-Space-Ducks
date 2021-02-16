@@ -7,63 +7,61 @@
 
 #include <GLFW/glfw3.h>
 
+class IKeyObserver;
+
 class Keybinding
 {
 public:
-	Keybinding(GLFWwindow* window)
-	{
-		// Set cursor input settings
-		// Don't show cursor in window
-		//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		// Try to enable raw mouse capture ( no acceleration )
-		if (glfwRawMouseMotionSupported())
-			glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
-
-		// Set user pointer to this instance of KeyBinding
-		glfwSetWindowUserPointer(window, this);
-
-		// Set callback functions
-		// Cast void* from user pointer to KeyBinding* at compile
-		glfwSetKeyCallback(
-			window,
-			[](GLFWwindow* window, const int key, const int scancode, const int action, const int mods) {
-				static_cast<Keybinding*>(glfwGetWindowUserPointer(window))
-					->keyCallback(window, key, scancode, action, mods);
-			});
-
-		glfwSetCursorPosCallback(
-			window,
-			[](GLFWwindow* window, const double xpos, const double ypos) {
-				static_cast<Keybinding*>(glfwGetWindowUserPointer(window))
-					->cursorCallback(window, xpos, ypos);
-			});
-		// "static_cast<Keybinding*>(glfwGetWindowUserPointer(window))" same as "this"
-	}
-
-	void ProcessEvents(const float delta)
-	{
-		for (int key : pressed_keys)
-			for (auto& e : key_subs[key])
-				e(delta);
-	}
-
-private:
 	// Event that needs processing
 	using Event = std::function<void(const float)>;
 
+	static inline void SetTargetWindow(GLFWwindow* window)
+	{
+		Keybinding::window = window;
+	}
+
+	static inline Keybinding& GetInstance()
+	{
+		static Keybinding binding;
+		return binding;
+	}
+
+	void ProcessEvents(const float delta);
+
+	void Subscribe(IKeyObserver* observer);
+
+private:
+	// Target window to listen to
+	static inline GLFWwindow* window = 0;
+
 	// All subscribed events per key (int)
 	std::unordered_map<int, std::vector<Event>> key_subs;
+	std::vector<IKeyObserver*> observers;
 	std::unordered_set<int> pressed_keys;
 
+	Keybinding();
+
+	Keybinding(const Keybinding&) = delete;	// No copies allowed
+	void operator=(const Keybinding&) = delete;
+	Keybinding(Keybinding&&) = delete;		// Nor moves
+
 	// Callback function on each keyboard action
-	void keyCallback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods)
-	{
-		if (action == GLFW_PRESS)
-			pressed_keys.insert(key);
-		else if (action == GLFW_RELEASE)
-			pressed_keys.erase(key);
-	}
+	void keyCallback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods);
 
 	// Callback function on each cursor movement
 	void cursorCallback(GLFWwindow* window, const double xpos, const double ypos) {}
+};
+
+class IKeyObserver
+{
+protected:
+
+	// Subscribe all keyobservers to keybinding in default constructor
+	IKeyObserver()
+	{
+		Keybinding::GetInstance().Subscribe(this);
+	}
+
+public:
+	virtual void OnEvent(const int key, const float delta) = 0;
 };

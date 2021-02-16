@@ -92,6 +92,7 @@
     <ClCompile Include="BaseMaterial.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DuckEntity.cpp" />
+    <ClCompile Include="Keybinding.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="PedestalEntity.cpp" />
