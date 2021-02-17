@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "BaseEntity.h"
-#include "Camera.h"
 #include "Player.h"
 
 struct Light
@@ -19,12 +18,11 @@ struct Light
 class Scene
 {
 public:
-	Camera camera;
 	Player player;
 
 	std::vector<Light> lights;
 
-	Scene(GLFWwindow* window) : camera(window)
+	Scene()
 	{
 		lights.emplace_back(glm::vec3(1.0f, 2.0f, .4f), glm::vec3(1.0f));
 	}

@@ -90,7 +90,6 @@
   <ItemGroup>
     <ClCompile Include="BaseEntity.cpp" />
     <ClCompile Include="BaseMaterial.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DuckEntity.cpp" />
     <ClCompile Include="Keybinding.cpp" />
     <ClCompile Include="main.cpp" />
@@ -104,7 +103,6 @@
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="BaseMaterial.h" />
     <ClInclude Include="DuckEntity.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="glsl.h" />
     <ClInclude Include="Keybinding.h" />

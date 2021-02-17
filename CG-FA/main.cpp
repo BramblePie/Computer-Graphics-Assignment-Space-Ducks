@@ -8,11 +8,8 @@
 #include "Keybinding.h"
 #include "Player.h"
 #include "Scene.h"
-#include "Camera.h"
 #include "DuckEntity.h"
 #include "PedestalEntity.h"
-
-constexpr int WIDTH = 1200, HEIGHT = 800;
 
 // Main window
 GLFWwindow* window = 0;
@@ -29,11 +26,7 @@ int main()
 	auto& binding = Keybinding::GetInstance();
 
 	Scene* scene = LoadScene();
-
-	Camera& cam = scene->camera;
 	Player& player = scene->player;
-	cam.position = glm::vec3(.0f, 1.8f, 1.0f);
-	cam.PointAt(glm::vec3(.0f, 1.2f, .0f));
 
 	float time = 0.0f;
 	float lastFrame = 0.0f;
@@ -85,7 +78,7 @@ GLFWwindow* CreateWindow()
 	glfwWindowHint(GLFW_SAMPLES, 8);
 
 	/* Create a windowed mode window and its OpenGL context */
-	win = glfwCreateWindow(WIDTH, HEIGHT, "Welcome to OpenGL", NULL, NULL);
+	win = glfwCreateWindow(INITIAL::WINDOW_WIDTH, INITIAL::WINDOW_HEIGHT, "Welcome to OpenGL", NULL, NULL);
 	if (!win)
 	{
 		glfwTerminate();
@@ -111,7 +104,7 @@ GLFWwindow* CreateWindow()
 
 Scene* LoadScene()
 {
-	Scene* scene = new Scene(window);
+	Scene* scene = new Scene();
 
 	auto& duck = scene->AddEntity(new DuckEntity(glm::vec3(.0f, 1.2f, .0f)));
 	duck.Animate = [&](const float d) {

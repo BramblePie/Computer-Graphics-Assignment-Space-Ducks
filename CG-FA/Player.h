@@ -6,12 +6,12 @@
 #include "Keybinding.h"
 #include "Constants.h"
 
-class Player : IKeyObserver
+class Player : IKeyObserver, IWindowObserver
 {
 public:
 	float MovementSpeed = 2.0f;
 
-	Player() {}
+	Player() = default;
 
 private:
 	glm::vec3 head{};
@@ -20,6 +20,8 @@ private:
 	glm::vec3 displacement{};
 
 	float fov = glm::radians(60.0f);
+	float window_width = INITIAL::WINDOW_WIDTH;
+	float window_height = INITIAL::WINDOW_HEIGHT;
 
 public:
 	constexpr glm::vec3 Front()	const { return orientation * WORLD::FRONT; }
@@ -36,12 +38,17 @@ public:
 		return glm::lookAt(head, head + Front(), WORLD::UP);
 	}
 
-	inline float GetFOV() const
+	inline glm::mat4 GetProjection() const
+	{
+		return glm::perspective(fov, window_width / window_height, 0.01f, 100.0f);
+	}
+
+	constexpr float GetFOV() const
 	{
 		return glm::degrees(fov);
 	}
 
-	inline void SetFOV(const float degrees)
+	constexpr void SetFOV(const float degrees)
 	{
 		fov = glm::radians(degrees);
 	}
@@ -50,4 +57,7 @@ public:
 
 	// Inherited via IKeyObserver
 	virtual void OnKeyEvent(const int key) override;
+
+	// Inherited via IWindowObserver
+	virtual void OnWindowResize(const float width, const float height) override;
 };

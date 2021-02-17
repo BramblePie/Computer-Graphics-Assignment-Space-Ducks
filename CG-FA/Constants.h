@@ -13,3 +13,9 @@ namespace WORLD
 	static constexpr const glm::vec3 LEFT = glm::vec3(1.0f, 0.0f, 0.0f);
 	static constexpr const glm::vec3 RIGHT = -WORLD::LEFT;
 }
+
+namespace INITIAL
+{
+	static constexpr const int WINDOW_WIDTH = 1200;
+	static constexpr const int WINDOW_HEIGHT = 800;
+}

@@ -11,7 +11,7 @@ void Scene::RenderLoop(const float delta)
 		// glGetUniformLocation(shader_slot.first, "u_view") = 0
 		glUniformMatrix4fv(0, 1, GL_FALSE, &player.GetView()[0][0]);
 		// glGetUniformLocation(shader_slot.first, "u_projection") = 1
-		glUniformMatrix4fv(1, 1, GL_FALSE, &camera.GetProjection()[0][0]);
+		glUniformMatrix4fv(1, 1, GL_FALSE, &player.GetProjection()[0][0]);
 		// Set "camera_pos"
 		glUniform3fv(2, 1, &player.GetPosition()[0]);
 

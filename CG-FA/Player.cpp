@@ -38,3 +38,10 @@ void Player::OnKeyEvent(const int key)
 		break;
 	}
 }
+
+void Player::OnWindowResize(const float width, const float height)
+{
+	window_width = width;
+	window_height = height;
+	glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
+}
