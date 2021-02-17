@@ -2,13 +2,13 @@
 
 #include <iostream>
 
+//#include <glm/gtx/quaternion.hpp>
+
 void Player::Update(const float delta)
 {
 	if (glm::dot(displacement, displacement) > 0.01f)
-		head += glm::normalize(displacement) * delta * MovementSpeed;
+		head.position += glm::normalize(displacement) * delta * MovementSpeed;
 	displacement = {};
-
-	printf("%f, %f, %f\n", head.x, head.y, head.z);
 }
 
 // Inherited via IKeyObserver
@@ -39,6 +39,25 @@ void Player::OnKeyEvent(const int key)
 	}
 }
 
+// Inherited via ICursorObserver
+void Player::OnCursorMovement(const float dx, const float dy)
+{
+	// Check if head is upside down, in that case flip yaw direction
+	const float isUpright = glm::dot(body.Up(), head.Up());
+	const float flip = isUpright < .0f ? -1.0f : 1.0f;
+	// Scale down sensitivity
+	const float s = -0.0001f;
+
+	// Get yaw rotation around up axis of body
+	const auto yaw = glm::rotate(glm::identity<glm::quat>(), flip * LookSensitivity * s * dx, body.Up());
+	// Get pitch rotation around left axis of body
+	const auto pitch = glm::rotate(glm::identity<glm::quat>(), LookSensitivity * s * dy, body.Left());
+	// Apply rotations to body and head
+	body.rotation = yaw * body.rotation;
+	head.rotation = yaw * pitch * head.rotation;
+}
+
+// Inherited via IWindowObserver
 void Player::OnWindowResize(const float width, const float height)
 {
 	window_width = width;

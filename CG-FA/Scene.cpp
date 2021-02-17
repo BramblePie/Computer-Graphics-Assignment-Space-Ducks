@@ -33,7 +33,7 @@ void Scene::setLights(const GLuint shader)
 	if (lights.size() == 0)
 		return;
 	// Get location of lights uniform
-	GLint loc = glGetUniformLocation(shader, "lights[0].color");
+	GLint loc = glGetUniformLocation(shader, "lights[0].color");	// TODO Very fucking expensive
 	if (loc < 0)
 		return;
 

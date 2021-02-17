@@ -12,6 +12,11 @@ void Keybinding::Subscribe(IKeyObserver* observer)
 	key_observers.emplace_back(observer);
 }
 
+void Keybinding::Subscribe(ICursorObserver* observer)
+{
+	cursor_observers.emplace_back(observer);
+}
+
 void Keybinding::Subscribe(IWindowObserver* observer)
 {
 	window_observers.emplace_back(observer);
@@ -21,7 +26,7 @@ Keybinding::Keybinding()
 {
 	// Set cursor input settings
 	// Don't show cursor in window
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(target, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	// Try to enable raw mouse capture ( no acceleration )
 	if (glfwRawMouseMotionSupported())
 		glfwSetInputMode(target, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
@@ -42,14 +47,14 @@ Keybinding::Keybinding()
 		target,
 		[](GLFWwindow* window, const double xpos, const double ypos) {
 			static_cast<Keybinding*>(glfwGetWindowUserPointer(window))
-				->cursorCallback(window, xpos, ypos);
+				->cursorCallback(window, static_cast<float>(xpos), static_cast<float>(ypos));
 		});
 
 	glfwSetWindowSizeCallback(
 		target,
 		[](GLFWwindow* window, const int width, const int height) {
 			static_cast<Keybinding*>(glfwGetWindowUserPointer(window))
-				->windowSizeCallback(window, width, height);
+				->windowSizeCallback(window, static_cast<float>(width), static_cast<float>(height));
 		});
 	// "static_cast<Keybinding*>(glfwGetWindowUserPointer(window))" same as "this"
 }
@@ -63,8 +68,18 @@ void Keybinding::keyCallback(GLFWwindow*, const int key, const int, const int ac
 		pressed_keys.erase(key);
 }
 
-void Keybinding::windowSizeCallback(GLFWwindow*, const int width, const int height)
+void Keybinding::cursorCallback(GLFWwindow*, const float xpos, const float ypos)
+{
+	static float _x = xpos, _y = ypos;
+	const float dx = xpos - _x;
+	const float dy = _y - ypos;
+	_x = xpos; _y = ypos;
+	for (auto obs : cursor_observers)
+		obs->OnCursorMovement(dx, dy);
+}
+
+void Keybinding::windowSizeCallback(GLFWwindow*, const float width, const float height)
 {
 	for (auto obs : window_observers)
-		obs->OnWindowResize(static_cast<float>(width), static_cast<float>(height));
+		obs->OnWindowResize(width, height);
 }
