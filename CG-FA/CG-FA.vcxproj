@@ -96,6 +96,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objloader.cpp" />
     <ClCompile Include="PedestalEntity.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
@@ -109,6 +110,7 @@
     <ClInclude Include="Keybinding.h" />
     <ClInclude Include="objloader.h" />
     <ClInclude Include="PedestalEntity.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="util_texture.h" />

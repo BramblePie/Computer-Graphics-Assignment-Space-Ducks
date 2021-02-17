@@ -26,7 +26,7 @@ public:
 		return binding;
 	}
 
-	void ProcessEvents(const float delta);
+	void ProcessEvents();
 
 	void Subscribe(IKeyObserver* observer);
 
@@ -36,7 +36,7 @@ private:
 
 	// All subscribed events per key (int)
 	std::unordered_map<int, std::vector<Event>> key_subs;
-	std::vector<IKeyObserver*> observers;
+	std::vector<IKeyObserver*> key_observers;
 	std::unordered_set<int> pressed_keys;
 
 	Keybinding();
@@ -63,5 +63,5 @@ protected:
 	}
 
 public:
-	virtual void OnEvent(const int key, const float delta) = 0;
+	virtual void OnKeyEvent(const int key) = 0;
 };

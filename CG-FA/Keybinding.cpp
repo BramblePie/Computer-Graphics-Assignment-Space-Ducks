@@ -1,18 +1,15 @@
 #include "Keybinding.h"
 
-void Keybinding::ProcessEvents(const float delta)
+void Keybinding::ProcessEvents()
 {
-	//for (int key : pressed_keys)
-	//	for (auto& e : key_subs[key])
-	//		e(delta);
 	for (int key : pressed_keys)
-		for (auto obs : observers)
-			obs->OnEvent(key, delta);
+		for (auto obs : key_observers)
+			obs->OnKeyEvent(key);
 }
 
 void Keybinding::Subscribe(IKeyObserver* observer)
 {
-	observers.emplace_back(observer);
+	key_observers.emplace_back(observer);
 }
 
 Keybinding::Keybinding()
@@ -46,7 +43,6 @@ Keybinding::Keybinding()
 }
 
 // Callback function on each keyboard action
-
 void Keybinding::keyCallback(GLFWwindow* window, const int key, const int scancode, const int action, const int mods)
 {
 	if (action == GLFW_PRESS)

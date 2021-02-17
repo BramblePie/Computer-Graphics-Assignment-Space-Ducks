@@ -6,6 +6,7 @@
 #include "glsl.h"
 
 #include "Keybinding.h"
+#include "Player.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "DuckEntity.h"
@@ -27,7 +28,7 @@ public:
 private:
 
 	// Inherited via IKeyObserver
-	virtual void OnEvent(const int key, const float delta) override
+	virtual void OnKeyEvent(const int key) override
 	{
 		std::cout << key << '\n';
 	}
@@ -40,7 +41,7 @@ int main()
 	Keybinding::SetTargetWindow(window);
 	auto& binding = Keybinding::GetInstance();
 
-	Test test;
+	Player player;
 
 	Scene* scene = LoadScene();
 
@@ -58,7 +59,8 @@ int main()
 		delta = time - lastFrame;
 		lastFrame = time;
 
-		binding.ProcessEvents(delta);
+		binding.ProcessEvents();
+		player.Update(delta);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
