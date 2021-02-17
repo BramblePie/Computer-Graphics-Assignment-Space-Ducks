@@ -6,6 +6,7 @@
 
 #include "BaseEntity.h"
 #include "Camera.h"
+#include "Player.h"
 
 struct Light
 {
@@ -19,6 +20,7 @@ class Scene
 {
 public:
 	Camera camera;
+	Player player;
 
 	std::vector<Light> lights;
 

@@ -21,19 +21,6 @@ GLFWwindow* CreateWindow();
 
 Scene* LoadScene();
 
-class Test : public IKeyObserver
-{
-public:
-
-private:
-
-	// Inherited via IKeyObserver
-	virtual void OnKeyEvent(const int key) override
-	{
-		std::cout << key << '\n';
-	}
-};
-
 int main()
 {
 	window = CreateWindow();
@@ -41,11 +28,10 @@ int main()
 	Keybinding::SetTargetWindow(window);
 	auto& binding = Keybinding::GetInstance();
 
-	Player player;
-
 	Scene* scene = LoadScene();
 
 	Camera& cam = scene->camera;
+	Player& player = scene->player;
 	cam.position = glm::vec3(.0f, 1.8f, 1.0f);
 	cam.PointAt(glm::vec3(.0f, 1.2f, .0f));
 

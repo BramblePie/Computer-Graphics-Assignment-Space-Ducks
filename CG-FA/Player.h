@@ -29,6 +29,8 @@ public:
 	constexpr glm::vec3 Left()	const { return orientation * WORLD::LEFT; }
 	constexpr glm::vec3 Right()	const { return orientation * WORLD::RIGHT; }
 
+	constexpr glm::vec3 GetPosition() const { return head; }
+
 	inline glm::mat4 GetView() const
 	{
 		return glm::lookAt(head, head + Front(), WORLD::UP);
