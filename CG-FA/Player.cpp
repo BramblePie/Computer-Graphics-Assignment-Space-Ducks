@@ -7,35 +7,92 @@
 void Player::Update(const float delta)
 {
 	if (glm::dot(displacement, displacement) > 0.01f)
-		head.position += glm::normalize(displacement) * delta * MovementSpeed;
+	{
+		const auto move = glm::normalize(displacement) * delta * MovementSpeed;
+		if (!isFlying)
+			body.position += move;
+		head.position += move;
+	}
 	displacement = {};
 }
 
 // Inherited via IKeyObserver
 void Player::OnKeyEvent(const int key)
 {
-	switch (key)
+	if (isFlying)
 	{
-	case GLFW_KEY_W:
-		displacement += Front();
-		break;
-	case GLFW_KEY_A:
-		displacement += Left();
-		break;
-	case GLFW_KEY_S:
-		displacement += Back();
-		break;
-	case GLFW_KEY_D:
-		displacement += Right();
-		break;
-	case GLFW_KEY_LEFT_CONTROL:
-		displacement += Down();
-		break;
-	case GLFW_KEY_SPACE:
-		displacement += Up();
-		break;
-	default:
-		break;
+		switch (key)
+		{
+		case GLFW_KEY_W:
+			displacement += head.Front();
+			break;
+		case GLFW_KEY_A:
+			displacement += head.Left();
+			break;
+		case GLFW_KEY_S:
+			displacement += head.Back();
+			break;
+		case GLFW_KEY_D:
+			displacement += head.Right();
+			break;
+		case GLFW_KEY_LEFT_CONTROL:
+			displacement += head.Down();
+			break;
+		case GLFW_KEY_SPACE:
+			displacement += head.Up();
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (key)
+		{
+		case GLFW_KEY_W:
+			displacement += body.Front();
+			break;
+		case GLFW_KEY_A:
+			displacement += body.Left();
+			break;
+		case GLFW_KEY_S:
+			displacement += body.Back();
+			break;
+		case GLFW_KEY_D:
+			displacement += body.Right();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+// Inherited via IKeyObserver
+void Player::OnKeyPress(const int key)
+{
+	if (isFlying)
+	{
+		switch (key)
+		{
+		case GLFW_KEY_C:
+			// Stop flying
+			isFlying = false;
+			head.position = body.position;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (key)
+		{
+		case GLFW_KEY_C:
+			isFlying = true;
+			break;
+		default:
+			break;
+		}
 	}
 }
 
@@ -51,10 +108,10 @@ void Player::OnCursorMovement(const float dx, const float dy)
 	// Get yaw rotation around up axis of body
 	const auto yaw = glm::rotate(glm::identity<glm::quat>(), flip * LookSensitivity * s * dx, body.Up());
 	// Get pitch rotation around left axis of body
-	const auto pitch = glm::rotate(glm::identity<glm::quat>(), LookSensitivity * s * dy, body.Left());
+	const auto pitchyaw = glm::rotate(yaw, LookSensitivity * s * dy, body.Left());
 	// Apply rotations to body and head
-	body.rotation = yaw * body.rotation;
-	head.rotation = yaw * pitch * head.rotation;
+	body.rotation = glm::normalize(yaw * body.rotation);
+	head.rotation = glm::normalize(pitchyaw * head.rotation);
 }
 
 // Inherited via IWindowObserver

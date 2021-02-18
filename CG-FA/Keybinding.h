@@ -71,7 +71,10 @@ protected:
 	}
 
 public:
+	// Called every frame while a key is pressed
 	virtual void OnKeyEvent(const int key) = 0;
+	// Called once on key press
+	virtual void OnKeyPress(const int key) = 0;
 };
 
 class ICursorObserver

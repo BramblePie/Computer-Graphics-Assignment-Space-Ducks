@@ -63,7 +63,11 @@ Keybinding::Keybinding()
 void Keybinding::keyCallback(GLFWwindow*, const int key, const int, const int action, const int)
 {
 	if (action == GLFW_PRESS)
+	{
+		for (auto obs : key_observers)
+			obs->OnKeyPress(key);
 		pressed_keys.insert(key);
+	}
 	else if (action == GLFW_RELEASE)
 		pressed_keys.erase(key);
 }
