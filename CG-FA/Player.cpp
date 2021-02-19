@@ -6,60 +6,66 @@
 
 void Player::Update(const float delta)
 {
-	if (glm::dot(displacement, displacement) > 0.01f)
+	// If there is a direction to move to
+	if (glm::dot(direction, direction) > 0.01f)
 	{
-		const auto move = glm::normalize(displacement) * delta * MovementSpeed;
+		// Normalize direction and move in that direction at movement speed ( with delta )
+		const auto move = glm::normalize(direction) * delta * MovementSpeed;
+		// If the player isn;t flying also move the body
 		if (!isFlying)
 			body.position += move;
+		// Always move the head
 		head.position += move;
 	}
-	displacement = {};
+	// Clear direction
+	direction = {};
 }
 
 // Inherited via IKeyObserver
 void Player::OnKeyEvent(const int key)
 {
+	// Controls if player is flying
 	if (isFlying)
 	{
 		switch (key)
 		{
 		case GLFW_KEY_W:
-			displacement += head.Front();
+			direction += head.Front();
 			break;
 		case GLFW_KEY_A:
-			displacement += head.Left();
+			direction += head.Left();
 			break;
 		case GLFW_KEY_S:
-			displacement += head.Back();
+			direction += head.Back();
 			break;
 		case GLFW_KEY_D:
-			displacement += head.Right();
+			direction += head.Right();
 			break;
 		case GLFW_KEY_LEFT_CONTROL:
-			displacement += head.Down();
+			direction += head.Down();
 			break;
 		case GLFW_KEY_SPACE:
-			displacement += head.Up();
+			direction += head.Up();
 			break;
 		default:
 			break;
 		}
 	}
 	else
-	{
+	{	// Controls if player is walking
 		switch (key)
 		{
 		case GLFW_KEY_W:
-			displacement += body.Front();
+			direction += body.Front();
 			break;
 		case GLFW_KEY_A:
-			displacement += body.Left();
+			direction += body.Left();
 			break;
 		case GLFW_KEY_S:
-			displacement += body.Back();
+			direction += body.Back();
 			break;
 		case GLFW_KEY_D:
-			displacement += body.Right();
+			direction += body.Right();
 			break;
 		default:
 			break;
@@ -117,7 +123,9 @@ void Player::OnCursorMovement(const float dx, const float dy)
 // Inherited via IWindowObserver
 void Player::OnWindowResize(const float width, const float height)
 {
+	// Change width and height
 	window_width = width;
 	window_height = height;
+	// Update opengl viewport
 	glViewport(0, 0, static_cast<GLsizei>(width), static_cast<GLsizei>(height));
 }

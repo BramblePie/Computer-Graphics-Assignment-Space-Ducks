@@ -2,6 +2,9 @@
 
 void Scene::RenderLoop(const float delta)
 {
+	// Update player for next frame
+	player.Update(delta);
+
 	// Draw all entities per shader
 	for (auto& shader_slot : entities)
 	{

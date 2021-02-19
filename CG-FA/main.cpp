@@ -22,11 +22,12 @@ int main()
 {
 	window = CreateWindow();
 
+	// Setup keybindings on glfw window
 	Keybinding::SetTargetWindow(window);
 	auto& binding = Keybinding::GetInstance();
 
+	// Load scene with all assets
 	Scene* scene = LoadScene();
-	Player& player = scene->player;
 
 	float time = 0.0f;
 	float lastFrame = 0.0f;
@@ -39,7 +40,6 @@ int main()
 		lastFrame = time;
 
 		binding.ProcessEvents();
-		player.Update(delta);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -104,7 +104,13 @@ GLFWwindow* CreateWindow()
 
 Scene* LoadScene()
 {
+	// Create new scene
 	Scene* scene = new Scene();
+
+	// Add lights to scene
+	scene->lights.emplace_back(glm::vec3(1.0f, 2.0f, .4f), glm::vec3(1.0f));
+
+	// Add entities to scene
 
 	auto& duck = scene->AddEntity(new DuckEntity(glm::vec3(.0f, 1.2f, .0f)));
 	duck.Animate = [&](const float d) {

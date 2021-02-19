@@ -9,12 +9,15 @@
 class Player : IKeyObserver, ICursorObserver, IWindowObserver
 {
 public:
+	// Movement speed of player
 	float MovementSpeed = 2.0f;
+	// Look sensitivity for mouse control
 	float LookSensitivity = 6.0f;
 
 	Player() = default;
 
 private:
+	// Orientations of both head and body separately
 	struct Orientation
 	{
 		glm::vec3 position = glm::vec3(.0f, 1.8f, -1.0f);
@@ -28,41 +31,53 @@ private:
 		constexpr glm::vec3 Right()	const { return rotation * WORLD::RIGHT; }
 	} head, body;
 
+	// Is the player flying?
 	bool isFlying = false;
 
-	glm::vec3 displacement{};
+	// The direction the player is to move to
+	glm::vec3 direction{};
 
+	// Field of view in radians
 	float fov = glm::radians(60.0f);
+
+	// Width of window
 	float window_width = INITIAL::WINDOW_WIDTH;
+	// Height of window
 	float window_height = INITIAL::WINDOW_HEIGHT;
 
 public:
 
+	// Gets current position of player
 	constexpr glm::vec3 GetPosition() const
 	{
 		return isFlying ? head.position : body.position;
 	}
 
+	// Gets view from player
 	inline glm::mat4 GetView() const
 	{
 		return glm::lookAt(GetPosition(), GetPosition() + head.Front(), head.Up());
 	}
 
+	// Gets projection
 	inline glm::mat4 GetProjection() const
 	{
 		return glm::perspective(fov, window_width / window_height, 0.01f, 100.0f);
 	}
 
+	// Gets field of view of player in degrees
 	constexpr float GetFOV() const
 	{
 		return glm::degrees(fov);
 	}
 
+	// Sets field of view of player in degrees
 	constexpr void SetFOV(const float degrees)
 	{
 		fov = glm::radians(degrees);
 	}
 
+	// Update player movement
 	void Update(const float delta);
 
 	// Inherited via IKeyObserver
