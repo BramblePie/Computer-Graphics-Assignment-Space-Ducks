@@ -9,12 +9,12 @@ in Vertex
 	vec2 uv;
 	vec3 normal;
 	
-	// // Tangent space transform
-	// mat3 TBN;
+	// Tangent space transform
+	mat3 TBN;
 	
-	vec3 tan_pos;
-	vec3 tan_camera;
-	vec3 tan_light;
+	// vec3 tan_pos;
+	// vec3 tan_camera;
+	// vec3 tan_light;
 } f_in;
 
 struct Material
@@ -59,7 +59,12 @@ vec3 FresnelSchlick(float HV, vec3 F0);
 void main()
 {
 	// Interpolated normal vector from vertex shader
-	vec3 normal = normalize(f_in.normal);
+	vec3 normal;
+	if(has_normalmap)
+		normal = normalize(f_in.TBN * (texture(tex_normal, f_in.uv).rgb * 2.0 - 1.0));
+	else
+		normal = normalize(f_in.normal);
+	
 	// View direction
 	vec3 view = normalize(camera_pos - f_in.position);
 

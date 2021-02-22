@@ -10,8 +10,6 @@ struct DuckMaterial : public TexturedMaterial
 	virtual const char* GetShaderName() const override { return "duck"; }
 
 protected:
-	// Inherited via BaseMaterial
-	//virtual void bind() const override;
 };
 
 class DuckEntity : public BaseEntity

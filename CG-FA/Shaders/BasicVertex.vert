@@ -21,10 +21,13 @@ out Vertex
 	vec3 position;
 	vec2 uv;
 	vec3 normal;
+	
+	// Tangent space transform
+	mat3 TBN;
 
-	vec3 tan_pos;
-	vec3 tan_camera;
-	vec3 tan_light;
+	// vec3 tan_pos;
+	// vec3 tan_camera;
+	// vec3 tan_light;
 } v_out;
 
 void main()
@@ -35,16 +38,16 @@ void main()
 	v_out.uv = v_uv;
 
 	// Inverse model for normal and tangent transform
-	mat3 inv_model = transpose(inverse(mat3(u_model)));
-	vec3 T = normalize(inv_model * v_tangent);
-	vec3 N = normalize(inv_model * v_normal);
+	// mat3 inv_model = transpose(inverse(mat3(u_model)));
+	vec3 T = normalize(vec3(u_model * vec4(v_tangent, 0.0)));
+	vec3 N = normalize(vec3(u_model * vec4(v_normal, 0.0)));
 	T = normalize(T - dot(T, N) * N);
 	vec3 B = cross(N, T);
 	// Make TNB matrix to transform vectors to tangent space
-	mat3 TBN = transpose(mat3(T, B, N));
-	v_out.tan_light = TBN * light_pos;
-	v_out.tan_camera = TBN * camera_pos;
-	v_out.tan_pos = TBN * v_out.position;
+	v_out.TBN = mat3(T, B, N);
+	// v_out.tan_pos = TBN * v_out.position;
+	// v_out.tan_camera = TBN * camera_pos;
+	// v_out.tan_light = TBN * light_pos;
 	v_out.normal = mat3(transpose(inverse(u_model))) * v_normal;
 
 	gl_Position = u_projection * u_view * pos;

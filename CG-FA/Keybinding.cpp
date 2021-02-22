@@ -62,7 +62,7 @@ Keybinding::Keybinding()
 	// Clean up the glfw window user pointer
 	// All callback functions need to be called once to initialize the local static variable,
 	// that is filled with the window user pointer
-	keycb(target, -1, -1, -1, -1);
+	keycb(target, 0, 0, -1, 0);
 	curcb(target, INITIAL::WINDOW_WIDTH / 2, INITIAL::WINDOW_HEIGHT / 2);
 	wincb(target, INITIAL::WINDOW_WIDTH, INITIAL::WINDOW_HEIGHT);
 	glfwSetWindowUserPointer(target, 0);

@@ -8,8 +8,7 @@
 #include "Keybinding.h"
 #include "Player.h"
 #include "Scene.h"
-#include "DuckEntity.h"
-#include "PedestalEntity.h"
+#include "Entities.h"
 
 // Main window
 GLFWwindow* window = 0;
@@ -75,7 +74,7 @@ GLFWwindow* CreateWindow()
 	if (!glfwInit())
 		return 0;
 
-	glfwWindowHint(GLFW_SAMPLES, 8);
+	glfwWindowHint(GLFW_SAMPLES, 16);
 
 	/* Create a windowed mode window and its OpenGL context */
 	win = glfwCreateWindow(INITIAL::WINDOW_WIDTH, INITIAL::WINDOW_HEIGHT, "Welcome to OpenGL", NULL, NULL);
@@ -119,7 +118,8 @@ Scene* LoadScene()
 
 	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, 1.2f, .0f)));
 
-	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
+	//auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
+	scene->AddEntity(new TileEntity(glm::vec3(.0f, 1.6f, .0f)));
 
 	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
 	right_duck.material->roughness = 0.1f;

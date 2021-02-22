@@ -98,12 +98,14 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="TileEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseEntity.h" />
     <ClInclude Include="BaseMaterial.h" />
     <ClInclude Include="DuckEntity.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Entities.h" />
     <ClInclude Include="glsl.h" />
     <ClInclude Include="Keybinding.h" />
     <ClInclude Include="objloader.h" />
@@ -111,6 +113,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="TileEntity.h" />
     <ClInclude Include="util_texture.h" />
   </ItemGroup>
   <ItemGroup>
