@@ -107,7 +107,7 @@ Scene* LoadScene()
 	Scene* scene = new Scene();
 
 	// Add lights to scene
-	scene->lights.emplace_back(glm::vec3(1.0f, 2.0f, .4f), glm::vec3(1.0f));
+	scene->lights.emplace_back(glm::vec3(2.0f, 3.0f, 1.0f), glm::vec3(3.0f));
 
 	// Add entities to scene
 
@@ -119,7 +119,13 @@ Scene* LoadScene()
 	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, 1.2f, .0f)));
 
 	//auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
-	scene->AddEntity(new TileEntity(glm::vec3(.0f, 1.6f, .0f)));
+
+	const size_t w = 6, l = 10;
+	for (size_t i = 0; i < w; i++)
+		for (size_t j = 0; j < l; j++)
+			scene->AddEntity(new TileEntity(glm::vec3(i * 1.0f - w / 2.0f + .5f,
+													  0.0f,
+													  j * 1.0f - l / 2.0f + .5f)));
 
 	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
 	right_duck.material->roughness = 0.1f;

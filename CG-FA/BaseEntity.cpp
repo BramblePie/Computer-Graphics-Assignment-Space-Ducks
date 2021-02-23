@@ -48,7 +48,7 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		if (attribLoc > -1)
 		{
 			glEnableVertexAttribArray(attribLoc);
-			glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_TRUE, 0, 0);
+			glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		}
 
 		// Bind uv buffer

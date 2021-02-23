@@ -10,7 +10,7 @@ class Player : IKeyObserver, ICursorObserver, IWindowObserver
 {
 public:
 	// Movement speed of player
-	float MovementSpeed = 1.0f;
+	float MovementSpeed = 2.0f;
 	// Look sensitivity for mouse control
 	float LookSensitivity = 6.0f;
 
