@@ -6,9 +6,8 @@ in Vertex
 	vec2 uv;
 	vec3 normal;
 
-	vec3 tan_pos;
-	vec3 tan_camera;
-	vec3 tan_light;
+	// Tangent space transform
+	mat3 TBN;
 } f_in;
 
 uniform vec3 u_color;

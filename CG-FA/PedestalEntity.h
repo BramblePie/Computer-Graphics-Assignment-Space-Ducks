@@ -10,8 +10,6 @@ struct PedestalMaterial : public TexturedMaterial
 	virtual const char* GetShaderName() const override { return "pedestal"; }
 
 protected:
-	// Inherited via BaseMaterial
-	//virtual void bind() const override;
 };
 
 class PedestalEntity : public BaseEntity

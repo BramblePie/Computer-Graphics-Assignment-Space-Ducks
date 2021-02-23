@@ -3,7 +3,8 @@
 PedestalMaterial::PedestalMaterial()
 {
 	diffuse = { R"(resources\pedestal\MarbleDiffTex2K.png)" };
-	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\BasicFragment.frag)");
+	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
+	this->roughness = .16f;
 }
 
 PedestalEntity::PedestalEntity(const glm::vec3& position)

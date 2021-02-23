@@ -118,7 +118,7 @@ Scene* LoadScene()
 
 	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, 1.2f, .0f)));
 
-	//auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
+	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
 
 	const size_t w = 6, l = 10;
 	for (size_t i = 0; i < w; i++)
