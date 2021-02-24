@@ -107,30 +107,39 @@ Scene* LoadScene()
 	Scene* scene = new Scene();
 
 	// Add lights to scene
-	scene->lights.emplace_back(glm::vec3(2.0f, 3.0f, 1.0f), glm::vec3(3.0f));
+	scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(8.0f, .0f, .0f));
+	scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, 3.0f), glm::vec3(.0f, 8.0f, .0f));
+	scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, -3.0f), glm::vec3(.0f, .0f, 8.0f));
 
-	// Add entities to scene
+	// Save duck refs to change materials
+	std::vector<DuckEntity*> ducks;
 
-	auto& duck = scene->AddEntity(new DuckEntity(glm::vec3(.0f, 1.2f, .0f)));
-	duck.Animate = [&](const float d) {
-		duck.orientation = glm::rotate(duck.orientation, d * 1.0f, WORLD::UP);
+	// Place duck statues
+	auto setStatue = [scene, &ducks](const float& x, const float& y, const float& z) {
+		ducks.push_back(&scene->AddEntity(new DuckEntity({ x, y + 1.2f, z })));
+		scene->AddEntity(new PedestalEntity({ x, y, z }));
 	};
+	// 10 of them
+	for (size_t i = 0; i < 5; i++)
+	{
+		setStatue(2.0f, .0f, (i - 2.0f) * 2.0f);
+		setStatue(-2.0f, .0f, (i - 2.0f) * 2.0f);
+	}
 
-	auto& right_duck = scene->AddEntity(new DuckEntity(glm::vec3(-.3f, 1.2f, .0f)));
+	// Change material of ducks
+	DuckMaterial* mat = new DuckMaterial(true);
+	mat->roughness = .1f;
+	mat->metallic = 1.0f;
+	mat->color = { 245 / 255.0f, 215 / 255.0f, 121 / 255.0f };
+	ducks[6]->material = std::make_shared<DuckMaterial>(*mat);
 
-	auto& ped = scene->AddEntity(new PedestalEntity(glm::vec3(.0f, .0f, .0f)));
-
+	// Add tiles to floor
 	const size_t w = 6, l = 10;
 	for (size_t i = 0; i < w; i++)
 		for (size_t j = 0; j < l; j++)
 			scene->AddEntity(new TileEntity(glm::vec3(i * 1.0f - w / 2.0f + .5f,
 													  0.0f,
 													  j * 1.0f - l / 2.0f + .5f)));
-
-	right_duck.material = std::make_shared<DuckMaterial>(*duck.material);
-	right_duck.material->roughness = 0.1f;
-	duck.material->metallic = 0.0f;
-	//duck.material->roughness = 0.3f;
 
 	return scene;
 }

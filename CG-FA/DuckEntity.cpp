@@ -9,6 +9,14 @@ DuckMaterial::DuckMaterial()
 	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
 }
 
+DuckMaterial::DuckMaterial(const bool noTexture)
+{
+	if (noTexture)
+		InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
+	else
+		DuckMaterial();
+}
+
 DuckEntity::DuckEntity(const glm::vec3& position)
 	: BaseEntity(R"(resources\duck\duck.obj)", init_material()), material(default_mat)
 {

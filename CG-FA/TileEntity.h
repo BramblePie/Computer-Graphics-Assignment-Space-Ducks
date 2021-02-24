@@ -6,9 +6,6 @@ struct TileMaterial : public TexturedMaterial
 {
 	TileMaterial();
 
-	// Inherited via TexturedMaterial
-	virtual const char* GetShaderName() const override { return "tile"; }
-
 private:
 };
 

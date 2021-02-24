@@ -5,9 +5,7 @@
 struct DuckMaterial : public TexturedMaterial
 {
 	DuckMaterial();
-
-	// Inherited via BaseMaterial
-	virtual const char* GetShaderName() const override { return "duck"; }
+	DuckMaterial(const bool noTexture);
 
 protected:
 };

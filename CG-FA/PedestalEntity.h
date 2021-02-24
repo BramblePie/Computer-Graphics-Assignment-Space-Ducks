@@ -6,9 +6,6 @@ struct PedestalMaterial : public TexturedMaterial
 {
 	PedestalMaterial();
 
-	// Inherited via BaseMaterial
-	virtual const char* GetShaderName() const override { return "pedestal"; }
-
 protected:
 };
 
