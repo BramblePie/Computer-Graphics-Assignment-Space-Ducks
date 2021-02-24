@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <cstdio>
+
 void Scene::RenderLoop(const float delta)
 {
 	// Update player for next frame
@@ -31,25 +33,42 @@ void Scene::RenderLoop(const float delta)
 	}
 }
 
+int Scene::GetLightLocation(const GLuint shader, const char* name) const
+{
+	auto p = std::pair(shader, std::string(name));
+	auto itr = light_cache.find(p);
+	int i;
+	if (itr == std::end(light_cache))
+	{
+		i = glGetUniformLocation(shader, name);
+		light_cache[p] = i;
+		if (i < 0)
+			printf("[WARNING] Light attribute %s not found in shader %i\n", name, shader);
+	}
+	else
+		i = itr->second;
+
+	return i;
+}
+
 void Scene::setLights(const GLuint shader)
 {
 	if (lights.size() == 0)
 		return;
-	// Get location of lights uniform
-	GLint loc = glGetUniformLocation(shader, "lights[0].color");	// TODO Very fucking expensive
-	if (loc < 0)
-		return;
 
-	auto lcount = lights.size();
-	if (lcount > 8)
+	auto count = lights.size();
+	if (count > 8)
 	{
 		printf("[WARNING] Too many lights in scene only 8 are used\n");
-		lcount = 8;
+		count = 8;
 	}
 
-	for (size_t i = 0; i < lcount; i++)
+	char var[26];
+	for (size_t i = 0; i < count; i++)
 	{
-		glUniform3fv(loc + i, 1, &lights[i].color[0]);
-		glUniform3fv(loc + 1 + i, 1, &lights[i].position[0]);
+		std::snprintf(var, sizeof(var), "lights[%.1u].color", i);
+		glUniform3fv(GetLightLocation(shader, var), 1, &lights[i].color[0]);
+		std::snprintf(var, sizeof(var), "lights[%.1u].position", i);
+		glUniform3fv(GetLightLocation(shader, var), 1, &lights[i].position[0]);
 	}
 }

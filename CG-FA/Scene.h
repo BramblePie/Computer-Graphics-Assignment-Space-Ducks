@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <map>
 #include <memory>
 
 #include "BaseEntity.h"
@@ -44,8 +45,16 @@ public:
 private:
 	// Map with shader id as key, to a list of all entities that use that shader
 	using ShaderEntityMap = std::unordered_map<GLuint, std::vector<std::unique_ptr<BaseEntity>>>;
+
+	// Map of all the shader locations of stored lights
+	using ShaderLightsMap = std::map<std::pair<GLuint, std::string>, GLint>;
+
 	// All entities present in scene sorted per shader
 	ShaderEntityMap entities;
+
+	mutable ShaderLightsMap light_cache;
+
+	int GetLightLocation(const GLuint shader, const char* name) const;
 
 	void setLights(const GLuint shader);
 };
