@@ -1,8 +1,8 @@
-#version 330 core
+#version 430 core
 
 in vec3 texCoords;
 
-uniform samplerCube skybox;
+layout (location = 3) uniform samplerCube skybox;
 
 out vec4 FragColor;
 

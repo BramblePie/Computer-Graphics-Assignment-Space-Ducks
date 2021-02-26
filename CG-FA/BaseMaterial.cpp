@@ -61,7 +61,7 @@ int BaseMaterial::GetUniformLocation(const char* name) const
 	return loc;
 }
 
-Texture::Texture(const char* path) : unit(unit_count++)
+Texture::Texture(const char* path, bool isColor) : unit(unit_count++)
 {
 	// Generate and bind new texture
 	glGenTextures(1, &ID);
@@ -75,9 +75,19 @@ Texture::Texture(const char* path) : unit(unit_count++)
 	{
 		// Load image data to gpu with virtual parameters
 		if (nrChannels == 4)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		{
+			if (isColor)
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			else
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		}
 		else if (nrChannels == 3)
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		{
+			if (isColor)
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+			else
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		}
 
 		printf("[INFO] Texture %s loaded on unit %d\n", path, unit);
 

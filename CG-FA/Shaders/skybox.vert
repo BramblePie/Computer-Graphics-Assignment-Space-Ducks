@@ -1,4 +1,4 @@
-# version 330 core
+# version 430 core
 
 in vec3 pos;
 
@@ -9,6 +9,6 @@ out vec3 texCoords;
 
 void main()
 {
-    texCoords = pos;
+    texCoords = -pos;
     gl_Position = u_projection * u_view * vec4(pos, 1.0);
 }

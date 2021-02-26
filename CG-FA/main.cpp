@@ -96,6 +96,7 @@ GLFWwindow* CreateWindow()
 		return 0;
 	}
 
+	glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -109,9 +110,10 @@ Scene* LoadScene()
 	Scene* scene = new Scene();
 
 	// Add lights to scene
-	scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(8.0f, .0f, .0f));
-	scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, 3.0f), glm::vec3(.0f, 8.0f, .0f));
-	scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, -3.0f), glm::vec3(.0f, .0f, 8.0f));
+	//scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(8.0f, .0f, .0f));
+	//scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, 3.0f), glm::vec3(.0f, 8.0f, .0f));
+	//scene->lights.emplace_back(glm::vec3(0.0f, 1.0f, -3.0f), glm::vec3(.0f, .0f, 8.0f));
+	scene->lights.emplace_back(glm::vec3(.0f, 1.0f, .0f), glm::vec3(1.0f));
 
 	// Save duck refs to change materials
 	std::vector<DuckEntity*> ducks;

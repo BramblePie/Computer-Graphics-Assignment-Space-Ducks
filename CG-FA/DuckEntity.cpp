@@ -5,7 +5,7 @@
 DuckMaterial::DuckMaterial()
 {
 	diffuse = { R"(resources\duck\duck_diffuse.png)" };
-	gloss = { R"(resources\duck\duck_gloss.png)" };
+	gloss = { R"(resources\duck\duck_gloss.png)", false };
 	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 }
 
@@ -16,7 +16,7 @@ DuckMaterial::DuckMaterial(const bool noTexture)
 	else
 	{
 		diffuse = { R"(resources\duck\duck_diffuse.png)" };
-		gloss = { R"(resources\duck\duck_gloss.png)" };
+		gloss = { R"(resources\duck\duck_gloss.png)", false };
 		InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 	}
 }

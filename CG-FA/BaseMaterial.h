@@ -12,7 +12,7 @@ struct Texture
 	GLenum unit;
 
 	Texture() = default;
-	Texture(const char* path);
+	Texture(const char* path, bool isColor = true);
 	Texture(GLuint id) : ID(id), unit(unit_count++) {}
 
 private:

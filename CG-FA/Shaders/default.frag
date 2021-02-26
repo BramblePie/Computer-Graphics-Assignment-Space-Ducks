@@ -48,6 +48,9 @@ uniform bool has_glossmap;
 uniform sampler2D tex_normal;
 uniform bool has_normalmap;
 
+// Skybox
+layout (location = 3) uniform samplerCube skybox;
+
 out vec4 color;
 
 float ThrowbridgeReitzGGX(vec3 N, vec3 H, float a);
@@ -73,6 +76,9 @@ void main()
 		albedo = texture(tex_diffuse, f_in.uv).rgb;
 	else
 		albedo = material.color;
+
+	vec3 R = reflect(-view, normal);
+	vec3 sky = texture(skybox, -R).rgb;
 
 	vec3 F0 = mix(vec3(0.04), albedo, material.metallic);
 
@@ -122,8 +128,24 @@ void main()
 		lum += (kD * albedo / PI + CT) * attenuation * lights[i].color * NL;
 	}
 
-	// Adding ambient light
-	color.rgb = vec3(0.005) * albedo + lum;
+	// Skybox as a light source
+	{
+		vec3 halfway = normalize(view + R);
+        float D = ThrowbridgeReitzGGX(normal, halfway, a); 
+        float G = GeometrySmith(normal, view, R, k);   
+        vec3 F = FresnelSchlick(clamp(dot(halfway, view), 0.0, 1.0), F0);
+
+        float denominator = 4 * max(dot(normal, view), 0.0) * max(dot(normal, R), 0.0);
+        vec3 CT = D * F * G / max(denominator, 0.001);
+
+		vec3 kD = vec3(1.0) - F;
+        kD *= 1.0 - material.metallic;
+		float NL = max(dot(normal, R), 0.0); 
+		sky = (kD * albedo / PI + CT) * sky * NL / 10000.0;
+	}
+
+	// Adding ambient light from skybox
+	color.rgb = sky * albedo + lum ;
 	color.a = 1.0;
 
 	// Tone mapping and gamma

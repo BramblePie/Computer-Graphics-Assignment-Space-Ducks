@@ -5,7 +5,7 @@
 TileMaterial::TileMaterial()
 {
 	diffuse = { R"(resources\tile\tile_diffuse.png)" };
-	normal = { R"(resources\tile\tile_normal.png)" };
+	normal = { R"(resources\tile\tile_normal.png)", false };
 	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 }
 

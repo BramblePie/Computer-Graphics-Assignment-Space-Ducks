@@ -14,7 +14,6 @@ SpaceBox::SpaceBox()
 	shader = glsl::makeShaderProgram(
 		glsl::makeVertexShader(vertexshader),
 		glsl::makeFragmentShader(fragshader));
-	glUseProgram(shader);
 
 	v_pos = glGetAttribLocation(shader, "pos");
 	u_skybox = glGetUniformLocation(shader, "skybox");
@@ -40,7 +39,7 @@ SpaceBox::SpaceBox()
 		unsigned char* data = stbi_load(sides[i], &width, &height, &nrChannels, 0);
 		if (data)
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-						 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+						 0, GL_SRGB_ALPHA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		else
 			printf("[ERROR] Failed to load cubemap, side: %s\n", sides[i]);
 
