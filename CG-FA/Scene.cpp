@@ -7,18 +7,24 @@ void Scene::RenderLoop(const float delta)
 	// Update player for next frame
 	player.Update(delta);
 
+	const auto view = player.GetView();
+	const auto projection = player.GetProjection();
+	const auto player_pos = player.GetPosition();
+
+	skybox.DrawSky(view, projection);
+
 	// Draw all entities per shader
 	for (auto& shader_slot : entities)
 	{
 		// Ativate shader
 		glUseProgram(shader_slot.first);
 		// Set view and projection matrices
-		// glGetUniformLocation(shader_slot.first, "u_view") = 0
-		glUniformMatrix4fv(0, 1, GL_FALSE, &player.GetView()[0][0]);
-		// glGetUniformLocation(shader_slot.first, "u_projection") = 1
-		glUniformMatrix4fv(1, 1, GL_FALSE, &player.GetProjection()[0][0]);
 		// Set "camera_pos"
-		glUniform3fv(2, 1, &player.GetPosition()[0]);
+		glUniform3fv(2, 1, &player_pos[0]);
+		// glGetUniformLocation(shader_slot.first, "u_view") = 0
+		glUniformMatrix4fv(0, 1, GL_FALSE, &view[0][0]);
+		// glGetUniformLocation(shader_slot.first, "u_projection") = 1
+		glUniformMatrix4fv(1, 1, GL_FALSE, &projection[0][0]);
 
 		// Set lights for each shader
 		setLights(shader_slot.first);

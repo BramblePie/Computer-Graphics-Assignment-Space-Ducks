@@ -60,6 +60,9 @@
     <ClCompile Include="TileEntity.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Spacebox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -104,6 +107,9 @@
     <ClInclude Include="Entities.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="SpaceBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\BasicFragment.frag">
@@ -113,6 +119,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Shaders\PBRFragment.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\skybox.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\skybox.frag">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

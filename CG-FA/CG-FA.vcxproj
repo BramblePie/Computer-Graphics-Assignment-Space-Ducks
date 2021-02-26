@@ -99,6 +99,7 @@
     <ClCompile Include="PedestalEntity.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Spacebox.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="TileEntity.cpp" />
   </ItemGroup>
@@ -114,6 +115,7 @@
     <ClInclude Include="PedestalEntity.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SpaceBox.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TileEntity.h" />
     <ClInclude Include="util_texture.h" />
@@ -122,6 +124,8 @@
     <None Include="Shaders\PBRFragment.frag" />
     <None Include="Shaders\BasicFragment.frag" />
     <None Include="Shaders\BasicVertex.vert" />
+    <None Include="Shaders\skybox.frag" />
+    <None Include="Shaders\skybox.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

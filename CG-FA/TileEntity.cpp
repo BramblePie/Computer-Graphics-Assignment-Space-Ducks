@@ -6,7 +6,7 @@ TileMaterial::TileMaterial()
 {
 	diffuse = { R"(resources\tile\tile_diffuse.png)" };
 	normal = { R"(resources\tile\tile_normal.png)" };
-	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
+	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 }
 
 TileEntity::TileEntity(const glm::vec3& position)

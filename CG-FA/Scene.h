@@ -7,6 +7,7 @@
 
 #include "BaseEntity.h"
 #include "Player.h"
+#include "SpaceBox.h"
 
 // Light object
 struct Light
@@ -24,6 +25,9 @@ class Scene
 public:
 	// Player in scene
 	Player player;
+
+	// Skybox
+	SpaceBox skybox;
 
 	// All lights in scene
 	std::vector<Light> lights;

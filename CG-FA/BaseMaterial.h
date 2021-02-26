@@ -13,9 +13,10 @@ struct Texture
 
 	Texture() = default;
 	Texture(const char* path);
+	Texture(GLuint id) : ID(id), unit(unit_count++) {}
 
 private:
-	static inline GLenum unit_count = 0;
+	static inline GLenum unit_count = 1;
 };
 
 struct BaseMaterial

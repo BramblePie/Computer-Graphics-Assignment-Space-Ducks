@@ -3,7 +3,7 @@
 PedestalMaterial::PedestalMaterial()
 {
 	diffuse = { R"(resources\pedestal\MarbleDiffTex2K.png)" };
-	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
+	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 	this->roughness = .16f;
 }
 

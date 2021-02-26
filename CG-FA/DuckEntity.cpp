@@ -6,15 +6,19 @@ DuckMaterial::DuckMaterial()
 {
 	diffuse = { R"(resources\duck\duck_diffuse.png)" };
 	gloss = { R"(resources\duck\duck_gloss.png)" };
-	InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
+	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 }
 
 DuckMaterial::DuckMaterial(const bool noTexture)
 {
 	if (noTexture)
-		InitShaderProgram(R"(Shaders\BasicVertex.vert)", R"(Shaders\PBRFragment.frag)");
+		InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
 	else
-		DuckMaterial();
+	{
+		diffuse = { R"(resources\duck\duck_diffuse.png)" };
+		gloss = { R"(resources\duck\duck_gloss.png)" };
+		InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
+	}
 }
 
 DuckEntity::DuckEntity(const glm::vec3& position)
