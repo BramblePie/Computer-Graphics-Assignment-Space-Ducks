@@ -21,7 +21,6 @@ private:
 	struct Orientation
 	{
 		glm::vec3 position = glm::vec3(.0f, 1.8f, -1.0f);
-		//glm::vec3 position = glm::vec3(.0f);
 		glm::quat rotation = glm::identity<glm::quat>();
 
 		constexpr glm::vec3 Front()	const { return rotation * WORLD::FRONT; }

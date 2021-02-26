@@ -21,6 +21,15 @@ SpaceBox::SpaceBox()
 	u_view = glGetUniformLocation(shader, "u_view");
 	u_projection = glGetUniformLocation(shader, "u_projection");
 
+	// Generate buffers
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices[0], GL_STATIC_DRAW);
+	glVertexAttribPointer(v_pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(v_pos);
+
 	// Load skybox texture
 	glGenTextures(1, &cube.ID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cube.ID);
@@ -31,9 +40,9 @@ SpaceBox::SpaceBox()
 		unsigned char* data = stbi_load(sides[i], &width, &height, &nrChannels, 0);
 		if (data)
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-						 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+						 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		else
-			printf("[ERROR] Failed to load cubemap, side: %s", sides[i]);
+			printf("[ERROR] Failed to load cubemap, side: %s\n", sides[i]);
 
 		stbi_image_free(data);
 	}
@@ -42,14 +51,6 @@ SpaceBox::SpaceBox()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	// Generate buffers
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices[0], GL_STATIC_DRAW);
-	glVertexAttribPointer(v_pos, 3, GL_FLOAT, GL_FALSE, 0, 0);
 }
 
 SpaceBox::~SpaceBox()
@@ -67,6 +68,7 @@ void SpaceBox::DrawSky(const glm::mat4& view, const glm::mat4& projection)
 	glUniformMatrix4fv(u_view, 1, GL_FALSE, &boxview[0][0]);
 	glUniformMatrix4fv(u_projection, 1, GL_FALSE, &projection[0][0]);
 	glBindVertexArray(vao);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cube.ID);
 	glUniform1i(u_skybox, cube.unit);
 	// Don't write to depth buffer, skybox always in the back
 	glDepthMask(GL_FALSE);

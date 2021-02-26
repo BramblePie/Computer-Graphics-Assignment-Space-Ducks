@@ -28,6 +28,8 @@ int main()
 	// Load scene with all assets
 	Scene* scene = LoadScene();
 
+	printf("[INFO] Loading done\n");
+
 	float time = 0.0f;
 	float lastFrame = 0.0f;
 	float delta = 0.0f;
@@ -119,7 +121,7 @@ Scene* LoadScene()
 		ducks.push_back(&scene->AddEntity(new DuckEntity({ x, y + 1.2f, z })));
 		scene->AddEntity(new PedestalEntity({ x, y, z }));
 	};
-	// 10 of them
+	// 10 of them total
 	for (size_t i = 0; i < 5; i++)
 	{
 		setStatue(2.0f, .0f, (i - 2.0f) * 2.0f);
