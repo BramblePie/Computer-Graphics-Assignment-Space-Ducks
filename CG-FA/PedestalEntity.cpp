@@ -18,11 +18,10 @@ const BaseMaterial* PedestalEntity::GetMaterial() const
 	return material.get();
 }
 
-const BaseMaterial* PedestalEntity::init_material()
+const BaseMaterial& PedestalEntity::init_material()
 {
 	if (default_mat == 0)
 		default_mat = std::make_shared<PedestalMaterial>();
-	material = default_mat;
 
-	return material.get();
+	return *default_mat.get();
 }

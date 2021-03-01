@@ -9,7 +9,7 @@
 void calcTangents(std::vector<glm::vec2>& uvs, std::vector<glm::vec3>& pos,
 				  std::vector<glm::vec3>& tangents, std::vector<glm::vec3>& bitangents);
 
-BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
+BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial& material)
 	: unique_key(uniqueStr)
 {
 	if (BUFFER_CACHE[unique_key] == 0)
@@ -33,7 +33,7 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.position);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
 		// Set vertex attribute for position
-		attribLoc = glGetAttribLocation(material->shader, POS_ATTRIB_NAME);
+		attribLoc = glGetAttribLocation(material.shader, POS_ATTRIB_NAME);
 		if (attribLoc > -1)
 		{
 			glEnableVertexAttribArray(attribLoc);
@@ -44,7 +44,7 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.normal);
 		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 		// Set vertex attribute for normal
-		attribLoc = glGetAttribLocation(material->shader, NORMAL_ATTRIB_NAME);
+		attribLoc = glGetAttribLocation(material.shader, NORMAL_ATTRIB_NAME);
 		if (attribLoc > -1)
 		{
 			glEnableVertexAttribArray(attribLoc);
@@ -55,7 +55,7 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.uv);
 		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 		// Set vertex attribe for uv
-		attribLoc = glGetAttribLocation(material->shader, UV_ATTRIB_NAME);
+		attribLoc = glGetAttribLocation(material.shader, UV_ATTRIB_NAME);
 		if (attribLoc > -1)
 		{
 			glEnableVertexAttribArray(attribLoc);
@@ -72,7 +72,7 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial* material)
 		glBufferData(GL_ARRAY_BUFFER, tangents.size() * sizeof(glm::vec3), &tangents[0], GL_STATIC_DRAW);
 
 		// Set vertex attribe for tangent
-		attribLoc = glGetAttribLocation(material->shader, TANG_ATTRIB_NAME);
+		attribLoc = glGetAttribLocation(material.shader, TANG_ATTRIB_NAME);
 		if (attribLoc > -1)
 		{
 			glEnableVertexAttribArray(attribLoc);

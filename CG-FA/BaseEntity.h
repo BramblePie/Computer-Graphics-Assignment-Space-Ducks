@@ -52,7 +52,7 @@ public:
 	/// Base constructor for an Entity object
 	/// </summary>
 	/// <param name="uniqueStr">Either file path to 3D model or a unique name</param>
-	BaseEntity(const char* uniqueStr, const BaseMaterial* material);
+	BaseEntity(const char* uniqueStr, const BaseMaterial& material);
 
 	virtual ~BaseEntity();
 
@@ -81,5 +81,5 @@ protected:
 	virtual void draw() = 0;
 
 	// Specialised method to initialize entity material
-	virtual const BaseMaterial* init_material() = 0;
+	virtual const BaseMaterial& init_material() = 0;
 };

@@ -27,5 +27,5 @@ private:
 
 	// Inherited via BaseEntity
 	virtual void draw() override {};
-	virtual const BaseMaterial* init_material() override;
+	virtual const BaseMaterial& init_material() override;
 };

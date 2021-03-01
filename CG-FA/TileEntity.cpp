@@ -36,11 +36,10 @@ const BaseMaterial* TileEntity::GetMaterial() const
 	return material.get();
 }
 
-const BaseMaterial* TileEntity::init_material()
+const BaseMaterial& TileEntity::init_material()
 {
 	if (default_mat == 0)
 		default_mat = std::make_shared<TileMaterial>();
-	material = default_mat;
 
-	return material.get();
+	return *default_mat.get();
 }

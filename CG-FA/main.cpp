@@ -131,11 +131,11 @@ Scene* LoadScene()
 	}
 
 	// Change material of ducks
-	DuckMaterial* mat = new DuckMaterial(true);
-	mat->roughness = .1f;
-	mat->metallic = 1.0f;
-	mat->color = { 245 / 255.0f, 215 / 255.0f, 121 / 255.0f };
-	ducks[6]->material = std::make_shared<DuckMaterial>(*mat);
+	DuckMaterial* gold = new DuckMaterial(true);
+	gold->roughness = .1f;
+	gold->metallic = 1.0f;
+	gold->color = { 245 / 255.0f, 215 / 255.0f, 121 / 255.0f };
+	ducks[6]->material = std::make_shared<DuckMaterial>(*gold);
 
 	// Add tiles to floor
 	const size_t w = 6, l = 10;
