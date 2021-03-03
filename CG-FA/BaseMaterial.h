@@ -129,5 +129,5 @@ struct TexturedMaterial : public BaseMaterial
 
 	// Inherited via BaseMaterial
 	virtual void bind() const override;
-	virtual const char* GetShaderName() const override { return "texmat"; }
+	virtual inline const char* GetShaderName() const override { return "texmat"; }
 };

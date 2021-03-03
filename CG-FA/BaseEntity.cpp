@@ -79,17 +79,6 @@ BaseEntity::BaseEntity(const char* uniqueStr, const BaseMaterial& material)
 			glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		}
 
-		//// Bind bitangent buffer
-		//glBindBuffer(GL_ARRAY_BUFFER, vao->buffers.bitangent);
-		//glBufferData(GL_ARRAY_BUFFER, bitangents.size() * sizeof(glm::vec3), &bitangents[0], GL_STATIC_DRAW);
-		//// Set vertex attribe for tangent
-		//attribLoc = glGetAttribLocation(material->shader, BITANG_ATTRIB_NAME);
-		//if (attribLoc > -1)
-		//{
-		//	glEnableVertexAttribArray(attribLoc);
-		//	glVertexAttribPointer(attribLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		//}
-
 		BUFFER_CACHE[unique_key] = vao;
 	}
 	else

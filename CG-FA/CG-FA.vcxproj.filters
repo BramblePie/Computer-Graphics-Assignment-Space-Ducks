@@ -63,6 +63,9 @@
     <ClCompile Include="Spacebox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StarEntity.cpp">
+      <Filter>Source Files\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scene.h">
@@ -110,21 +113,27 @@
     <ClInclude Include="SpaceBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StarEntity.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\BasicFragment.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Shaders\BasicVertex.vert">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Shaders\PBRFragment.frag">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Shaders\skybox.vert">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Shaders\skybox.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\starshader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\starshader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\default.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\default.vert">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

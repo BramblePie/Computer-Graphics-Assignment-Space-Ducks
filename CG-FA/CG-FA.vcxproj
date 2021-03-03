@@ -100,6 +100,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Spacebox.cpp" />
+    <ClCompile Include="StarEntity.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="TileEntity.cpp" />
   </ItemGroup>
@@ -116,16 +117,18 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SpaceBox.h" />
+    <ClInclude Include="StarEntity.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="TileEntity.h" />
     <ClInclude Include="util_texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\PBRFragment.frag" />
-    <None Include="Shaders\BasicFragment.frag" />
-    <None Include="Shaders\BasicVertex.vert" />
+    <None Include="Shaders\default.frag" />
+    <None Include="Shaders\default.vert" />
     <None Include="Shaders\skybox.frag" />
     <None Include="Shaders\skybox.vert" />
+    <None Include="Shaders\starshader.frag" />
+    <None Include="Shaders\starshader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

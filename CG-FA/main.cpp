@@ -47,12 +47,12 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		scene->RenderLoop(delta);
 
-		GLenum err;
-		while ((err = glGetError()) != GL_NO_ERROR)
-		{
-			std::cout << (void*)err << std::endl;
-			//throw err;
-		}
+		//GLenum err;
+		//while ((err = glGetError()) != GL_NO_ERROR)
+		//{
+		//	std::cout << (void*)err << std::endl;
+		//	//throw err;
+		//}
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
@@ -98,6 +98,8 @@ GLFWwindow* CreateWindow()
 	}
 
 	glEnable(GL_FRAMEBUFFER_SRGB);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
@@ -118,6 +120,22 @@ Scene* LoadScene()
 	auto& blink_light = scene->lights[0];
 	auto& red_light = scene->lights[1];
 	auto& green_light = scene->lights[2];
+
+	StarEntity& star = scene->AddEntity(new StarEntity(blink_light.position));
+	star.material->color = glm::vec3(.0f, .0f, 1.0f);
+	star.Animate = [&star](const float delta) {
+		static const auto off = star.position;
+		static float t = .0f;
+		// Frequency ( 1/sec )
+		const float w = 16.0f;
+		// Amplitude ( radius )
+		const float a = .05f;
+		star.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
+		star.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
+		t += delta;
+		if (t > 1.0f / w)
+			t = .0f;
+	};
 
 	// Animate lighting
 	blink_light.Move = [&blink_light](const float delta) {

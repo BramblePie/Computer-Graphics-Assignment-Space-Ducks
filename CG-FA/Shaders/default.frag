@@ -11,10 +11,6 @@ in Vertex
 	
 	// Tangent space transform
 	mat3 TBN;
-	
-	// vec3 tan_pos;
-	// vec3 tan_camera;
-	// vec3 tan_light;
 } f_in;
 
 struct Material

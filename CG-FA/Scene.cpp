@@ -13,6 +13,11 @@ void Scene::RenderLoop(const float delta)
 
 	skybox.DrawSky(view, projection);
 
+	// Move lights
+	for (auto& l : lights)
+		if (l.Move)
+			l.Move(delta);
+
 	// Draw all entities per shader
 	for (auto& shader_slot : entities)
 	{
@@ -25,11 +30,6 @@ void Scene::RenderLoop(const float delta)
 		glUniformMatrix4fv(0, 1, GL_FALSE, &view[0][0]);
 		// glGetUniformLocation(shader_slot.first, "u_projection") = 1
 		glUniformMatrix4fv(1, 1, GL_FALSE, &projection[0][0]);
-
-		// Move lights
-		for (auto& l : lights)
-			if (l.Move)
-				l.Move(delta);
 		// Set lights for each shader
 		setLights(shader_slot.first);
 
@@ -77,8 +77,12 @@ void Scene::setLights(const GLuint shader)
 	for (size_t i = 0; i < count; i++)
 	{
 		std::snprintf(var, sizeof(var), "lights[%.1u].color", i);
-		glUniform3fv(GetLightLocation(shader, var), 1, &lights[i].color[0]);
+		int loc = GetLightLocation(shader, var);
+		if (loc >= 0)
+			glUniform3fv(loc, 1, &lights[i].color[0]);
 		std::snprintf(var, sizeof(var), "lights[%.1u].position", i);
-		glUniform3fv(GetLightLocation(shader, var), 1, &lights[i].position[0]);
+		loc = GetLightLocation(shader, var);
+		if (loc >= 0)
+			glUniform3fv(GetLightLocation(shader, var), 1, &lights[i].position[0]);
 	}
 }
