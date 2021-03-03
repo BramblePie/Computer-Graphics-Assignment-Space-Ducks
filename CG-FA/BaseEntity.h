@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+#include "Constants.h"
 #include "BaseMaterial.h"
 
 struct VertexBuffers
@@ -45,6 +46,7 @@ public:
 	glm::vec3 position = glm::vec3(0.0f);
 	glm::quat orientation = glm::identity<glm::quat>();
 	glm::vec3 scale = glm::vec3(1.0f);
+	glm::vec3 direction = Front();
 
 	//----------------------------------
 
@@ -67,6 +69,13 @@ public:
 
 	// Start drawing this entity
 	void Draw();
+
+	constexpr glm::vec3 Front()	const { return orientation * WORLD::FRONT; }
+	constexpr glm::vec3 Back()	const { return orientation * WORLD::BACK; }
+	constexpr glm::vec3 Up()	const { return orientation * WORLD::UP; }
+	constexpr glm::vec3 Down()	const { return orientation * WORLD::DOWN; }
+	constexpr glm::vec3 Left()	const { return orientation * WORLD::LEFT; }
+	constexpr glm::vec3 Right()	const { return orientation * WORLD::RIGHT; }
 
 protected:
 	using BufferMap = std::unordered_map<std::string, std::shared_ptr<VertexArray>>;

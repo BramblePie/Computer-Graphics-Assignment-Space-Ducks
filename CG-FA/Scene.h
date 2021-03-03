@@ -17,6 +17,8 @@ struct Light
 	// Position of light
 	glm::vec3 position;
 
+	std::function<void(const float)> Move;
+
 	Light(const glm::vec3& position, const glm::vec3& color) : position(position), color(color) {}
 };
 

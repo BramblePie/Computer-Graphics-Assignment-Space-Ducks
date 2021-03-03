@@ -26,6 +26,10 @@ void Scene::RenderLoop(const float delta)
 		// glGetUniformLocation(shader_slot.first, "u_projection") = 1
 		glUniformMatrix4fv(1, 1, GL_FALSE, &projection[0][0]);
 
+		// Move lights
+		for (auto& l : lights)
+			if (l.Move)
+				l.Move(delta);
 		// Set lights for each shader
 		setLights(shader_slot.first);
 
