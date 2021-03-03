@@ -10,10 +10,9 @@ void StarMaterial::bind() const
 }
 
 StarEntity::StarEntity(const glm::vec3& position)
-	: BaseEntity(R"(resources\sphere.obj)", init_material()), material(default_mat)
+	: BaseEntity(R"(resources\sphere.obj)", init_material()), material(std::make_shared<StarMaterial>())
 {
 	this->position = position;
-	this->scale = glm::vec3(.6f, .8f, .6f);
 }
 
 const BaseMaterial* StarEntity::GetMaterial() const

@@ -112,45 +112,50 @@ Scene* LoadScene()
 	// Create new scene
 	Scene* scene = new Scene();
 
-	// Add lights to scene
-	scene->lights.emplace_back(glm::vec3(.0f, 12.0f, -32.0f), 800.0f * glm::vec3(.4, .4f, 1.2f));
-	scene->lights.emplace_back(glm::vec3(.0, 1.6f, .0f), glm::vec3(.5f, .1f, .1f));
-	scene->lights.emplace_back(glm::vec3(.0f, 1.6f, .0f), glm::vec3(.1f, .5f, .1f));
+	const auto blue = glm::vec3(.4, .4f, 1.0f);
+	const auto red = glm::vec3(.5f, .1f, .1f);
+	const auto green = glm::vec3(.1f, .5f, .1f);
 
-	auto& blink_light = scene->lights[0];
+	// Add lights to scene
+	scene->lights.emplace_back(glm::vec3(.0f, 6.0f, 20.0f), 400.0f * blue);
+	scene->lights.emplace_back(glm::vec3(.0, 1.6f, .0f), red);
+	scene->lights.emplace_back(glm::vec3(.0f, 1.6f, .0f), green);
+
+	auto& blue_light = scene->lights[0];
 	auto& red_light = scene->lights[1];
 	auto& green_light = scene->lights[2];
 
-	StarEntity& star = scene->AddEntity(new StarEntity(blink_light.position));
-	star.material->color = glm::vec3(.0f, .0f, 1.0f);
-	star.Animate = [&star](const float delta) {
-		static const auto off = star.position;
-		static float t = .0f;
-		// Frequency ( 1/sec )
-		const float w = 16.0f;
-		// Amplitude ( radius )
-		const float a = .05f;
-		star.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
-		star.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
-		t += delta;
-		if (t > 1.0f / w)
-			t = .0f;
-	};
-
 	// Animate lighting
-	blink_light.Move = [&blink_light](const float delta) {
-		static const auto off = blink_light.position;
+	blue_light.Move = [&blue_light](const float delta) {
+		static const auto off = blue_light.position;
 		static float t = .0f;
 		// Frequency ( 1/sec )
 		const float w = 16.0f;
 		// Amplitude ( radius )
 		const float a = .2f;
-		blink_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
-		blink_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
+		blue_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
+		blue_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
 		t += delta;
 		if (t > 1.0f / w)
 			t = .0f;
 	};
+	StarEntity& star_blue = scene->AddEntity(new StarEntity(blue_light.position));
+	star_blue.material->color = blue;
+	star_blue.scale *= 4.0f;
+	star_blue.Animate = [&star_blue](const float delta) {
+		static const auto off = star_blue.position;
+		static float t = .0f;
+		// Frequency ( 1/sec )
+		const float w = 16.0f;
+		// Amplitude ( radius )
+		const float a = .05f;
+		star_blue.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
+		star_blue.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
+		t += delta;
+		if (t > 1.0f / w)
+			t = .0f;
+	};
+
 	red_light.Move = [&red_light](const float delta) {
 		static float t = .0f;
 		// Frequency ( 1/sec )
@@ -163,6 +168,13 @@ Scene* LoadScene()
 		if (t > 1.0f / w)
 			t = .0f;
 	};
+	StarEntity& star_red = scene->AddEntity(new StarEntity(red_light.position));
+	star_red.material->color = red;
+	star_red.scale *= 0.8f;
+	star_red.Animate = [&star_red, &red_light](const float) {
+		star_red.position = red_light.position;
+	};
+
 	green_light.Move = [&green_light](const float delta) {
 		static float t = .0f;
 		// Frequency ( 1/sec )
@@ -174,6 +186,11 @@ Scene* LoadScene()
 		t += delta;
 		if (t > 1.0f / w)
 			t = .0f;
+	};
+	StarEntity& star_green = scene->AddEntity(new StarEntity(green_light.position));
+	star_green.material->color = green;
+	star_green.Animate = [&star_green, &green_light](const float) {
+		star_green.position = green_light.position;
 	};
 
 	// Save duck refs to change materials
@@ -211,12 +228,12 @@ Scene* LoadScene()
 	ducks[7]->material = std::shared_ptr<DuckMaterial>(silver);
 	ducks[5]->material = std::shared_ptr<DuckMaterial>(brons);
 
-	DuckMaterial* red = new DuckMaterial({ 2.0f, .0f, .0f });
-	DuckMaterial* green = new DuckMaterial({ .0f, 1.0f, .0f });
-	DuckMaterial* blue = new DuckMaterial({ .0f, .0f, 2.0f });
-	ducks[8]->material = std::shared_ptr<DuckMaterial>(red);
-	ducks[6]->material = std::shared_ptr<DuckMaterial>(green);
-	ducks[4]->material = std::shared_ptr<DuckMaterial>(blue);
+	DuckMaterial* red_mat = new DuckMaterial({ 2.0f, .0f, .0f });
+	DuckMaterial* green_mat = new DuckMaterial({ .0f, 1.0f, .0f });
+	DuckMaterial* blue_mat = new DuckMaterial({ .0f, .0f, 2.0f });
+	ducks[8]->material = std::shared_ptr<DuckMaterial>(red_mat);
+	ducks[6]->material = std::shared_ptr<DuckMaterial>(green_mat);
+	ducks[4]->material = std::shared_ptr<DuckMaterial>(blue_mat);
 
 	DuckMaterial* yellow = new DuckMaterial({ 1.0f, 1.0f, .0f }, .1f, .0f);
 	DuckMaterial* purple = new DuckMaterial({ 1.0f, .0f, 1.0f }, .15f, .0f);

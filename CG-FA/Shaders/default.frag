@@ -74,7 +74,7 @@ void main()
 		albedo = material.color;
 
 	vec3 R = reflect(-view, normal);
-	vec3 sky = texture(skybox, -R).rgb;
+	vec3 sky = texture(skybox, R).rgb;
 
 	vec3 F0 = mix(vec3(0.04), albedo, material.metallic);
 
