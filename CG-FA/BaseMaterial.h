@@ -8,7 +8,9 @@
 
 struct Texture
 {
+	// Texture id on gpu
 	GLuint ID;
+	// Texture slot used
 	GLenum unit;
 
 	Texture() = default;
@@ -16,6 +18,7 @@ struct Texture
 	Texture(GLuint id) : ID(id), unit(unit_count++) {}
 
 private:
+	// Number of texture slots used
 	static inline GLenum unit_count = 1;
 };
 

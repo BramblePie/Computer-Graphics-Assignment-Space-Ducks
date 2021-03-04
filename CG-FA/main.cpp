@@ -47,13 +47,6 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		scene->RenderLoop(delta);
 
-		//GLenum err;
-		//while ((err = glGetError()) != GL_NO_ERROR)
-		//{
-		//	std::cout << (void*)err << std::endl;
-		//	//throw err;
-		//}
-
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 
@@ -65,7 +58,7 @@ int main()
 	glfwTerminate();
 
 	// Wait before exiting
-	//system("pause");
+	system("pause");
 	return 0;
 }
 
@@ -120,11 +113,13 @@ Scene* LoadScene()
 		ducks.push_back(&scene->AddEntity(new DuckEntity({ x, y + 1.2f, z }, rot)));
 		scene->AddEntity(new PedestalEntity({ x, y, z }));
 	};
-	// 10 of them total
+	// 10 ducks total
+	const auto r1 = glm::rotate(glm::identity<glm::quat>(), glm::radians(-90.0f), WORLD::UP);
+	const auto r2 = glm::rotate(glm::identity<glm::quat>(), glm::radians(90.0f), WORLD::UP);
 	for (size_t i = 0; i < 5; i++)
 	{
-		setStatue(2.0f, .0f, (i - 2.0f) * 2.0f, glm::rotate(glm::identity<glm::quat>(), glm::radians(-90.0f), WORLD::UP));
-		setStatue(-2.0f, .0f, (i - 2.0f) * 2.0f, glm::rotate(glm::identity<glm::quat>(), glm::radians(90.0f), WORLD::UP));
+		setStatue(2.0f, .0f, (i - 2.0f) * 2.0f, r1);
+		setStatue(-2.0f, .0f, (i - 2.0f) * 2.0f, r2);
 	}
 
 	// Add tiles to floor
@@ -139,29 +134,30 @@ Scene* LoadScene()
 	DuckMaterial* gold = new DuckMaterial({ 249 / 255.0f, 166 / 255.0f, 2 / 255.0f },
 										  .1f, 1.0f);
 	DuckMaterial* silver = new DuckMaterial({ 190 / 255.0f, 194 / 255.0f, 203 / 255.0f },
-											.06f, 1.0f);
+											.08f, 1.0f);
 	DuckMaterial* brons = new DuckMaterial({ 119 / 255.0f, 79 / 255.0f, 46 / 255.0f },
 										   .16f, 1.0f);
-
+	// 3 metalic ducks
 	ducks[9]->material = std::shared_ptr<DuckMaterial>(gold);
 	ducks[7]->material = std::shared_ptr<DuckMaterial>(silver);
 	ducks[5]->material = std::shared_ptr<DuckMaterial>(brons);
-
-	DuckMaterial* red_mat = new DuckMaterial({ 2.0f, .0f, .0f });
+	// 3 plastic ducks
+	DuckMaterial* red_mat = new DuckMaterial({ 1.0f, .0f, .0f });
 	DuckMaterial* green_mat = new DuckMaterial({ .0f, 1.0f, .0f });
-	DuckMaterial* blue_mat = new DuckMaterial({ .0f, .0f, 2.0f });
+	DuckMaterial* blue_mat = new DuckMaterial({ .0f, .0f, 1.0f });
 	ducks[8]->material = std::shared_ptr<DuckMaterial>(red_mat);
 	ducks[6]->material = std::shared_ptr<DuckMaterial>(green_mat);
 	ducks[4]->material = std::shared_ptr<DuckMaterial>(blue_mat);
-
+	// 2 shiny platics ducks
 	DuckMaterial* yellow = new DuckMaterial({ 1.0f, 1.0f, .0f }, .1f, .0f);
 	DuckMaterial* purple = new DuckMaterial({ 1.0f, .0f, 1.0f }, .15f, .0f);
 	ducks[3]->material = std::shared_ptr<DuckMaterial>(yellow);
-	ducks[3]->scale = glm::vec3(.3f);
+	ducks[3]->scale = glm::vec3(.3f);	// Altered scale
 	ducks[2]->material = std::shared_ptr<DuckMaterial>(purple);
 	ducks[2]->scale = glm::vec3(2.0f);
 
 	// Animate some ducks
+	// This is Greg
 	ducks[0]->Animate = [&greg = *ducks[0]](const float delta) {
 		static float t = .0f;
 		static const auto init = greg.position;
@@ -187,6 +183,7 @@ Scene* LoadScene()
 
 	// Start in up direction
 	ducks[1]->direction = ducks[1]->Up();
+	// And this is Mark
 	ducks[1]->Animate = [&mark = *ducks[1]](const float delta){
 		static float t = .0f;
 		static const auto init = mark.position;
@@ -213,51 +210,62 @@ Scene* LoadScene()
 		t += delta;
 	};
 
+	// Some different color vectors
 	const auto blue = glm::vec3(.4, .4f, 1.0f);
 	const auto red = glm::vec3(.5f, .1f, .1f);
 	const auto green = glm::vec3(.1f, .5f, .1f);
 
-	// Add lights to scene
+	// Add lights to scene at location with color ( blue is extra bright )
 	scene->lights.emplace_back(glm::vec3(.0f, 4.0f, 20.0f), 200.0f * blue);
 	scene->lights.emplace_back(glm::vec3(.0, 1.6f, .0f), red);
 	scene->lights.emplace_back(glm::vec3(.0f, 1.6f, .0f), green);
-
+	// Get references to lights in scene after adding all of them
+	// std::vector might resize otherwise
 	auto& blue_light = scene->lights[0];
 	auto& red_light = scene->lights[1];
 	auto& green_light = scene->lights[2];
 
 	// Animate lighting
+	// Move the blue light very quickly in a small circle
 	blue_light.Move = [&blue_light](const float delta) {
+		// Initial position offset
 		static const auto off = blue_light.position;
+		// Time into animation
 		static float t = .0f;
 		// Frequency ( 1/sec )
 		const float w = 16.0f;
 		// Amplitude ( radius )
 		const float a = .2f;
+		// Calculate rotations
 		blue_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
 		blue_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
+		// Move time forward
 		t += delta;
-		if (t > 1.0f / w)
+		if (t > 1.0f / w)	// At the end of a full rotation; reset the time
 			t = .0f;
 	};
+	// Create a star at the position of the blue light
 	StarEntity& star_blue = scene->AddEntity(new StarEntity(blue_light.position));
-	star_blue.material->color = blue;
+	star_blue.material->color = blue;	// Make the star blue and a bit bigger
 	star_blue.scale *= 4.0f;
 	star_blue.Animate = [&star_blue](const float delta) {
+		// Initial position offset
 		static const auto off = star_blue.position;
+		// Time into animation
 		static float t = .0f;
 		// Frequency ( 1/sec )
 		const float w = 16.0f;
 		// Amplitude ( radius )
-		const float a = .05f;
+		const float a = .05f;	// Slightly smaller than the light, looks better
 		star_blue.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
 		star_blue.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
 		t += delta;
 		if (t > 1.0f / w)
 			t = .0f;
 	};
-
+	// The red and green lights and stars are much the same, only no initial position
 	red_light.Move = [&red_light](const float delta) {
+		// Time into animation
 		static float t = .0f;
 		// Frequency ( 1/sec )
 		const float w = .2f;
@@ -277,6 +285,7 @@ Scene* LoadScene()
 	};
 
 	green_light.Move = [&green_light](const float delta) {
+		// Time into animation
 		static float t = .0f;
 		// Frequency ( 1/sec )
 		const float w = .1f;

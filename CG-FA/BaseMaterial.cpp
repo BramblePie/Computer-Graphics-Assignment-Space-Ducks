@@ -7,7 +7,6 @@
 #include "glsl.h"
 
 // Needs to be called inside material constuctor to initialize and set shader
-
 void BaseMaterial::InitShaderProgram(const char* vertexFile, const char* fragmentFile)
 {
 	const char* const name = GetShaderName();
@@ -63,7 +62,7 @@ int BaseMaterial::GetUniformLocation(const char* name) const
 
 Texture::Texture(const char* path, bool isColor) : unit(unit_count++)
 {
-	// Generate and bind new texture
+	// Generate, bind and activate new texture
 	glGenTextures(1, &ID);
 	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(GL_TEXTURE_2D, ID);
@@ -91,6 +90,7 @@ Texture::Texture(const char* path, bool isColor) : unit(unit_count++)
 
 		printf("[INFO] Texture %s loaded on unit %d\n", path, unit);
 
+		// Set texture parameters and generate mipmap for minifying textures
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -106,6 +106,7 @@ Texture::Texture(const char* path, bool isColor) : unit(unit_count++)
 
 void TexturedMaterial::bind() const
 {
+	// Only bind the textures that are used
 	if (diffuse)
 		SetUniform(diffuse.value(), TEX_DIFFUSE);
 	SetUniform(diffuse.has_value(), HAS_DIFFUSE);

@@ -5,10 +5,6 @@ StarMaterial::StarMaterial()
 	InitShaderProgram(R"(Shaders\starshader.vert)", R"(Shaders\starshader.frag)");
 }
 
-void StarMaterial::bind() const
-{
-}
-
 StarEntity::StarEntity(const glm::vec3& position)
 	: BaseEntity(R"(resources\sphere.obj)", init_material()), material(std::make_shared<StarMaterial>())
 {

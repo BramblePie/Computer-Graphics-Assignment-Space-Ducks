@@ -2,8 +2,10 @@
 
 PedestalMaterial::PedestalMaterial()
 {
+	// A pedestal only has a diffuse texture
 	diffuse = { R"(resources\pedestal\MarbleDiffTex2K.png)" };
 	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
+	// Matble is quite shiny
 	this->roughness = .15f;
 }
 

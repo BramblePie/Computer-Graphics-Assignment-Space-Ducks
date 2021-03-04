@@ -2,11 +2,13 @@
 
 #include "BaseEntity.h"
 
+/*	All entities are mustly the same, only different types
+*	DuckEntity.h has more explanation
+*/
+
 struct TileMaterial : public TexturedMaterial
 {
 	TileMaterial();
-
-private:
 };
 
 class TileEntity : public BaseEntity
@@ -23,6 +25,5 @@ private:
 	static inline std::shared_ptr<TileMaterial> default_mat;
 
 	// Inherited via BaseEntity
-	virtual void draw() override {};
 	virtual const BaseMaterial& init_material() override;
 };

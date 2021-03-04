@@ -9,6 +9,7 @@
 class SpaceBox
 {
 public:
+	// Create a skybox for space
 	SpaceBox();
 	~SpaceBox();
 

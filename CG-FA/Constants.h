@@ -23,10 +23,10 @@ namespace WORLD
 namespace CONSTS
 {
 	template<class T>
-	static constexpr const T SQRT_2 = 1.4142135623730950488016887242;
+	static constexpr const T SQRT2 = 1.4142135623730950488016887242;
 
 	template<class T>
-	static constexpr const T INVSQRT_2 = 0.7071067811865475244008443621;
+	static constexpr const T INVSQRT2 = 0.7071067811865475244008443621;
 }
 
 namespace INITIAL

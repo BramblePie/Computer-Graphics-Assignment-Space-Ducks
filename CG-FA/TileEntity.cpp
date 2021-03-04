@@ -14,16 +14,17 @@ TileEntity::TileEntity(const glm::vec3& position)
 {
 	this->position = position;
 	const size_t r = reinterpret_cast<size_t>(this) / 8 % 4;
+	// Give the tile a very simple random orietation
 	switch (r)
 	{
 	case 1:
-		this->orientation = glm::quat(CONSTS::INVSQRT_2<float>, .0f, CONSTS::INVSQRT_2<float>, .0f);
+		this->orientation = glm::quat(CONSTS::INVSQRT2<float>, .0f, CONSTS::INVSQRT2<float>, .0f);
 		break;
 	case 2:
 		this->orientation = glm::quat(.0f, .0f, 1.0f, .0f);
 		break;
 	case 3:
-		this->orientation = glm::quat(CONSTS::INVSQRT_2<float>, .0f, -CONSTS::INVSQRT_2<float>, .0f);
+		this->orientation = glm::quat(CONSTS::INVSQRT2<float>, .0f, -CONSTS::INVSQRT2<float>, .0f);
 		break;
 	default:
 		// Default orientation

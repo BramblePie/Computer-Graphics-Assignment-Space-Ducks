@@ -14,12 +14,14 @@ struct VertexBuffers
 	unsigned int position, uv, normal, tangent, bitangent;
 };
 
+// Wrapper for vertex and its buffers
 struct VertexArray
 {
 	// Vertex array object ID
 	unsigned int ID = 0;
 
 	// All vertex buffer objects in this VAO
+	// Nameless union to name the different buffer IDs
 	union
 	{
 		VertexBuffers buffers;
@@ -85,9 +87,6 @@ protected:
 	// A unique string to identify VAOs by entity, e.g. file path
 	const std::string unique_key;
 	std::shared_ptr<VertexArray> vao;
-
-	// Additional specialised draw method
-	virtual void draw() = 0;
 
 	// Specialised method to initialize entity material
 	virtual const BaseMaterial& init_material() = 0;

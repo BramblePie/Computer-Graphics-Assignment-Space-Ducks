@@ -4,6 +4,7 @@
 
 DuckMaterial::DuckMaterial()
 {
+	// The default duck material has 2 textures
 	diffuse = { R"(resources\duck\duck_diffuse.png)" };
 	gloss = { R"(resources\duck\duck_gloss.png)", false };
 	InitShaderProgram(R"(Shaders\default.vert)", R"(Shaders\default.frag)");
@@ -39,6 +40,7 @@ const BaseMaterial* DuckEntity::GetMaterial() const
 
 const BaseMaterial& DuckEntity::init_material()
 {
+	// Initialize the default duck material when it is needed
 	if (default_mat == 0)
 		default_mat = std::make_shared<DuckMaterial>();
 
