@@ -2,43 +2,22 @@
 
 #include "BaseEntity.h"
 
-struct DuckMaterial : public BaseMaterial
+// Material type that is used for all ducks
+struct DuckMaterial : public TexturedMaterial
 {
-	static constexpr const char* MAT_COLOR = "u_color";
-	static constexpr const char* TEX_DIFFUSE = "tex_diffuse";
-
-	glm::vec3 color{};
-	Texture diffuse;
-
-	DuckMaterial() : diffuse(R"(C:\Users\bramp\Desktop\duck\duck_diffuse.png)")
-	{
-		if (shader = BaseMaterial::SHADER_CACHE["duck"];
-			shader == 0)
-		{	// Create debug shader if needed
-			char* vertexshader = glsl::readFile(R"(Shaders\BasicVertex.shader)");
-			char* fragshader = glsl::readFile(R"(Shaders\BasicFragment.shader)");
-
-			shader = glsl::makeShaderProgram(
-				glsl::makeVertexShader(vertexshader),
-				glsl::makeFragmentShader(fragshader));
-
-			// Cache new debug shader
-			BaseMaterial::SHADER_CACHE["duck"] = shader;
-		}
-	}
-protected:
-	// Inherited via BaseMaterial
-	virtual void bind() const override
-	{
-		glUniform3fv(glGetUniformLocation(shader, MAT_COLOR), 1, &color[0]);
-		glUniform1i(glGetUniformLocation(shader, TEX_DIFFUSE), diffuse.unit);
-	}
+	// Create a duck material with both a diffuse map and a gloss map
+	DuckMaterial();
+	// Create a duck material of a specified color and metalness, and with the gloss map
+	DuckMaterial(const glm::vec3& color, const float metallic = .0f);
+	// Create a duck material of a specified color, roughness and metalness
+	DuckMaterial(const glm::vec3& color, const float roughness, const float metallic);
 };
 
 class DuckEntity : public BaseEntity
 {
 public:
-	DuckEntity();
+	// Create a duck at a location with an orientation
+	DuckEntity(const glm::vec3& position, const glm::quat& orientation);
 
 	std::shared_ptr<DuckMaterial> material;
 
@@ -46,10 +25,10 @@ public:
 	virtual const BaseMaterial* GetMaterial() const override;
 
 private:
+	// All entities must have a material with a shader when created
+	// This is that material
 	static inline std::shared_ptr<DuckMaterial> default_mat;
 
-	const BaseMaterial* init_material();
-
 	// Inherited via BaseEntity
-	virtual void draw() override {};
+	virtual const BaseMaterial& init_material() override;
 };
