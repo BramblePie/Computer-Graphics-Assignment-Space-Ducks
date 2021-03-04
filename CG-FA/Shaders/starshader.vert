@@ -17,6 +17,8 @@ out Vertex
 {
 	vec3 position;
 	vec3 normal;
+	vec3 up;
+	vec3 right;
 } v_out;
 
 void main()
@@ -25,6 +27,8 @@ void main()
 	// Set vertex position and uv for fragment shader
 	v_out.position = pos.xyz;
 	v_out.normal = normalize(mat3(transpose(inverse(u_model))) * v_normal);
+	v_out.up = vec3(u_view[0][0], u_view[1][0], u_view[2][0]);
+	v_out.right = vec3(u_view[0][1], u_view[1][1], u_view[2][1]);
 
 	gl_Position = u_projection * u_view * pos;
 }

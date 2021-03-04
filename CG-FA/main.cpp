@@ -112,87 +112,6 @@ Scene* LoadScene()
 	// Create new scene
 	Scene* scene = new Scene();
 
-	const auto blue = glm::vec3(.4, .4f, 1.0f);
-	const auto red = glm::vec3(.5f, .1f, .1f);
-	const auto green = glm::vec3(.1f, .5f, .1f);
-
-	// Add lights to scene
-	scene->lights.emplace_back(glm::vec3(.0f, 6.0f, 20.0f), 400.0f * blue);
-	scene->lights.emplace_back(glm::vec3(.0, 1.6f, .0f), red);
-	scene->lights.emplace_back(glm::vec3(.0f, 1.6f, .0f), green);
-
-	auto& blue_light = scene->lights[0];
-	auto& red_light = scene->lights[1];
-	auto& green_light = scene->lights[2];
-
-	// Animate lighting
-	blue_light.Move = [&blue_light](const float delta) {
-		static const auto off = blue_light.position;
-		static float t = .0f;
-		// Frequency ( 1/sec )
-		const float w = 16.0f;
-		// Amplitude ( radius )
-		const float a = .2f;
-		blue_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
-		blue_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
-		t += delta;
-		if (t > 1.0f / w)
-			t = .0f;
-	};
-	StarEntity& star_blue = scene->AddEntity(new StarEntity(blue_light.position));
-	star_blue.material->color = blue;
-	star_blue.scale *= 4.0f;
-	star_blue.Animate = [&star_blue](const float delta) {
-		static const auto off = star_blue.position;
-		static float t = .0f;
-		// Frequency ( 1/sec )
-		const float w = 16.0f;
-		// Amplitude ( radius )
-		const float a = .05f;
-		star_blue.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
-		star_blue.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
-		t += delta;
-		if (t > 1.0f / w)
-			t = .0f;
-	};
-
-	red_light.Move = [&red_light](const float delta) {
-		static float t = .0f;
-		// Frequency ( 1/sec )
-		const float w = .4f;
-		// Amplitude ( radius )
-		const float a = 10.0f;
-		red_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t);
-		red_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t);
-		t += delta;
-		if (t > 1.0f / w)
-			t = .0f;
-	};
-	StarEntity& star_red = scene->AddEntity(new StarEntity(red_light.position));
-	star_red.material->color = red;
-	star_red.scale *= 0.8f;
-	star_red.Animate = [&star_red, &red_light](const float) {
-		star_red.position = red_light.position;
-	};
-
-	green_light.Move = [&green_light](const float delta) {
-		static float t = .0f;
-		// Frequency ( 1/sec )
-		const float w = .1f;
-		// Amplitude ( radius )
-		const float a = 30.0f;
-		green_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t);
-		green_light.position.z = a * glm::sin(w * glm::radians(360.0f) * t);
-		t += delta;
-		if (t > 1.0f / w)
-			t = .0f;
-	};
-	StarEntity& star_green = scene->AddEntity(new StarEntity(green_light.position));
-	star_green.material->color = green;
-	star_green.Animate = [&star_green, &green_light](const float) {
-		star_green.position = green_light.position;
-	};
-
 	// Save duck refs to change materials
 	std::vector<DuckEntity*> ducks;
 
@@ -292,6 +211,87 @@ Scene* LoadScene()
 			}
 		}
 		t += delta;
+	};
+
+	const auto blue = glm::vec3(.4, .4f, 1.0f);
+	const auto red = glm::vec3(.5f, .1f, .1f);
+	const auto green = glm::vec3(.1f, .5f, .1f);
+
+	// Add lights to scene
+	scene->lights.emplace_back(glm::vec3(.0f, 4.0f, 20.0f), 200.0f * blue);
+	scene->lights.emplace_back(glm::vec3(.0, 1.6f, .0f), red);
+	scene->lights.emplace_back(glm::vec3(.0f, 1.6f, .0f), green);
+
+	auto& blue_light = scene->lights[0];
+	auto& red_light = scene->lights[1];
+	auto& green_light = scene->lights[2];
+
+	// Animate lighting
+	blue_light.Move = [&blue_light](const float delta) {
+		static const auto off = blue_light.position;
+		static float t = .0f;
+		// Frequency ( 1/sec )
+		const float w = 16.0f;
+		// Amplitude ( radius )
+		const float a = .2f;
+		blue_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
+		blue_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
+		t += delta;
+		if (t > 1.0f / w)
+			t = .0f;
+	};
+	StarEntity& star_blue = scene->AddEntity(new StarEntity(blue_light.position));
+	star_blue.material->color = blue;
+	star_blue.scale *= 4.0f;
+	star_blue.Animate = [&star_blue](const float delta) {
+		static const auto off = star_blue.position;
+		static float t = .0f;
+		// Frequency ( 1/sec )
+		const float w = 16.0f;
+		// Amplitude ( radius )
+		const float a = .05f;
+		star_blue.position.x = a * glm::cos(w * glm::radians(360.0f) * t) + off.x;
+		star_blue.position.z = -a * glm::sin(w * glm::radians(360.0f) * t) + off.z;
+		t += delta;
+		if (t > 1.0f / w)
+			t = .0f;
+	};
+
+	red_light.Move = [&red_light](const float delta) {
+		static float t = .0f;
+		// Frequency ( 1/sec )
+		const float w = .2f;
+		// Amplitude ( radius )
+		const float a = 10.0f;
+		red_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t);
+		red_light.position.z = -a * glm::sin(w * glm::radians(360.0f) * t);
+		t += delta;
+		if (t > 1.0f / w)
+			t = .0f;
+	};
+	StarEntity& star_red = scene->AddEntity(new StarEntity(red_light.position));
+	star_red.material->color = red;
+	star_red.scale *= 0.8f;
+	star_red.Animate = [&star_red, &red_light](const float) {
+		star_red.position = red_light.position;
+	};
+
+	green_light.Move = [&green_light](const float delta) {
+		static float t = .0f;
+		// Frequency ( 1/sec )
+		const float w = .1f;
+		// Amplitude ( radius )
+		const float a = 30.0f;
+		green_light.position.x = a * glm::cos(w * glm::radians(360.0f) * t);
+		green_light.position.z = a * glm::sin(w * glm::radians(360.0f) * t);
+		t += delta;
+		if (t > 1.0f / w)
+			t = .0f;
+	};
+	StarEntity& star_green = scene->AddEntity(new StarEntity(green_light.position));
+	star_green.material->color = green;
+	star_green.Animate = [&star_green, &green_light](const float) {
+		star_green.position = green_light.position;
 	};
 
 	return scene;
