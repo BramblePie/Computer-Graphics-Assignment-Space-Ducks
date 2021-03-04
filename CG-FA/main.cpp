@@ -70,6 +70,7 @@ GLFWwindow* CreateWindow()
 	if (!glfwInit())
 		return 0;
 
+	// For preformance lower the number of samples ( 16 has no artifacts )
 	glfwWindowHint(GLFW_SAMPLES, 16);
 
 	/* Create a windowed mode window and its OpenGL context */
