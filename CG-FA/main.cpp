@@ -11,6 +11,10 @@
 #include "Scene.h"
 #include "Entities.h"
 
+// VVVVVVVVVVVVVVVV		REDUCE FOR BETTER PREFOMANCE	VVVVVVVVVVVVVVVV
+// Best results at around 16, at 8 the light sources get some artifacts
+#define MSAA 8
+
 // Main window
 GLFWwindow* window = 0;
 
@@ -58,7 +62,7 @@ int main()
 	glfwTerminate();
 
 	// Wait before exiting
-	system("pause");
+	//system("pause");
 	return 0;
 }
 
@@ -71,10 +75,10 @@ GLFWwindow* CreateWindow()
 		return 0;
 
 	// For preformance lower the number of samples ( 16 has no artifacts )
-	glfwWindowHint(GLFW_SAMPLES, 16);
+	glfwWindowHint(GLFW_SAMPLES, MSAA);
 
 	/* Create a windowed mode window and its OpenGL context */
-	win = glfwCreateWindow(INITIAL::WINDOW_WIDTH, INITIAL::WINDOW_HEIGHT, "Welcome to OpenGL", NULL, NULL);
+	win = glfwCreateWindow(INITIAL::WINDOW_WIDTH, INITIAL::WINDOW_HEIGHT, "Ducks In Space", NULL, NULL);
 	if (!win)
 	{
 		glfwTerminate();

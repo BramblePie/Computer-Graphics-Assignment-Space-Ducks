@@ -34,4 +34,7 @@ void main()
     color.rgb = mix(material.color, vec3(1.2), pow(a, 32));
 	const float d = pow(a, 16);
     color.a = d * (d + f * (1.0 - d));
+	// Cutoff
+	if(color.a < 0.0001)
+		color = vec4(0.0);
 }
